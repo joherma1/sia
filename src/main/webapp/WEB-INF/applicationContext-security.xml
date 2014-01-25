@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bean:beans xmlns:bean="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/security
+       http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <http auto-config="true" use-expressions="true">
+        <intercept-url pattern="/login" access="permitAll" />
+        <intercept-url pattern="/logout" access="permitAll" />
+        <intercept-url pattern="/accessdenied" access="permitAll" />
+        <intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
+        <form-login login-page="/login"  default-target-url="/towns" authentication-failure-url="/accessdenied"/>
+        <logout logout-success-url="/logout" />
+        <remember-me key="siaKey" token-validity-seconds="1800" />
+    </http>
+
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider>
+            <!-- In memory authentication -->
+            <!--<user-service>-->
+                <!--<user name="sia_app" password="agricultura.1" authorities="ROLE_USER"/>-->
+            <!--</user-service>-->
+            <!-- JDBC authentication -->
+            <jdbc-user-service id="userService" data-source-ref="dataSource"
+                    users-by-username-query="SELECT username, password, active FROM USERS WHERE username=?"
+                    authorities-by-username-query="SELECT u.username, a.name FROM USERS u, AUTHORITIES a WHERE u.username=? AND u.authority_id=a.id"
+                    />
+            <password-encoder hash="md5"></password-encoder>
+        </authentication-provider>
+    </authentication-manager>
+
+</bean:beans>
