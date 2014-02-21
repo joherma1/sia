@@ -7,12 +7,15 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.DigestUtils;
 import org.sysreg.sia.model.dao.AuthorityDAO;
 import org.sysreg.sia.model.dao.UserDAO;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
 /**
@@ -48,8 +51,8 @@ public class AuthorityTest {
 
     @Test
     public void testSelect(){
-        String defaultRole = ("ROLE_USER");
-        String defaultUsername = ("sia");
+        String defaultRole = "ROLE_USER";
+        String defaultUsername = "sia";
 
         Authority defaultAuth = AuthorityDAO.findByName(defaultRole);
         assertNotNull(defaultAuth);
@@ -59,5 +62,18 @@ public class AuthorityTest {
 
         Authority authDefaultUser = AuthorityDAO.findByUser(defaultUser);
         assertNotNull(authDefaultUser);
+    }
+
+    @Test
+    public void testPasswordMD5(){
+        String defaultUsername = "sia";
+        String password="agricultura.1";
+
+        User defaultUser = UserDAO.findByUsername(defaultUsername);
+        assertNotNull(defaultUser);
+
+        assertNotEquals(password,defaultUser.getPassword());
+
+        assertEquals(DigestUtils.md5DigestAsHex(password.getBytes()),defaultUser.getPassword());
     }
 }

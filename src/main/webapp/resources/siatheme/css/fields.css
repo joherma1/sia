@@ -1,0 +1,30 @@
+nav {
+	text-align:right;
+}
+nav li:first-child{
+	border-left: none;
+}
+nav ul{
+    padding-left: 0px;
+}
+nav ul li{
+	display:inline ;
+	padding-left: 10px;
+	border-left: 1px solid #ccc;
+	margin-left: 10px;
+}
+div.fieldContainer{
+    width: 960px;
+}
+div.fieldList{
+    float: left;
+    width: 400px;
+    border: 1px solid black;
+}
+div.fieldDetail{
+    float: left;
+    border: 1px solid black;
+}
+footer{
+    clear: both;
+}

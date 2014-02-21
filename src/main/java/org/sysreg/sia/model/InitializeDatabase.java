@@ -6,25 +6,26 @@ import javax.persistence.Query;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.sysreg.sia.model.dao.AuthorityDAO;
-import org.sysreg.sia.model.dao.TownDAO;
-import org.sysreg.sia.model.dao.UserDAO;
+import org.springframework.util.DigestUtils;
+import org.sysreg.sia.model.dao.*;
 
-public class PopulateDatabase {
+public class InitializeDatabase {
 
     private ApplicationContext context;
 
     public static void main(String[] args) {
         System.out.println("Initializing population");
-        PopulateDatabase populate = new PopulateDatabase();
+        InitializeDatabase populate = new InitializeDatabase();
         populate.loadTowns();
         System.out.println("Populating users and authorities");
         populate.loadUsersAndAuthorities();
+        System.out.println("Populating data for tests");
+        populate.loadTestData();
         System.out.println("Finished");
 
     }
 
-    public PopulateDatabase() {
+    public InitializeDatabase() {
         //Load context
         context = new ClassPathXmlApplicationContext(
                 "file:src/main/webapp/WEB-INF/applicationContext.xml");
@@ -637,9 +638,9 @@ public class PopulateDatabase {
 
     public void loadUsersAndAuthorities(){
         //Wire beans
-        UserDAO UserDAO = context.getBean(UserDAO.class);
-        TownDAO TownDAO = context.getBean(TownDAO.class);
-        AuthorityDAO AuthorityDAO = context.getBean(AuthorityDAO.class);
+        UserDAO userDAO = context.getBean(UserDAO.class);
+        TownDAO townDAO = context.getBean(TownDAO.class);
+        AuthorityDAO authorityDAO = context.getBean(AuthorityDAO.class);
 
         // Open a transaction
         EntityManagerFactory factory = (EntityManagerFactory) context.getBean("entityManagerFactory");
@@ -648,20 +649,72 @@ public class PopulateDatabase {
 
         Authority userAuthority = new Authority();
         userAuthority.setName("ROLE_USER");
-        AuthorityDAO.persist(userAuthority);
+        authorityDAO.persist(userAuthority);
 
         User defaultUser = new User();
         defaultUser.setName("SIA");
         defaultUser.setSurname("Default User");
         defaultUser.setDni("12345678A");
         defaultUser.setUsername("sia");
-        defaultUser.setPassword("agricultura.1");
+        //Password in MD5
+        String password  = "agricultura.1";
+        defaultUser.setPassword(DigestUtils.md5DigestAsHex(password.getBytes()));
         defaultUser.setActive(true);
-        defaultUser.setTown(TownDAO.findByName("Alcàsser"));
+        defaultUser.setTown(townDAO.findByName("Alcàsser"));
         defaultUser.setAuthority(userAuthority);
-        UserDAO.persist(defaultUser);
+        userDAO.persist(defaultUser);
 
         entityManager.getTransaction().commit();
         entityManager.close();
+    }
+
+    void loadTestData(){
+        //Wire beans
+        UserDAO userDAO = context.getBean(UserDAO.class);
+        TownDAO townDAO = context.getBean(TownDAO.class);
+        FieldDAO fieldDAO = context.getBean(FieldDAO.class);
+        ParcelDAO parcelDAO = context.getBean(ParcelDAO.class);
+        EnclosureDAO enclosureDAO = context.getBean(EnclosureDAO.class);
+
+        // Open a transaction
+        EntityManagerFactory factory = (EntityManagerFactory) context.getBean("entityManagerFactory");
+        EntityManager entityManager = factory.createEntityManager();
+        entityManager.getTransaction().begin();
+
+        User defaultUser = userDAO.findByUsername("sia");
+        //Fields
+        Field f1 = new Field();
+        f1.setName("Field #1");
+        //Parcel
+        Parcel p1 = new Parcel();
+        p1.setParcel(1);
+        p1.setPolygon(1);
+        p1.setAggregate(1);
+        p1.setZone(1);
+        p1.setTown(townDAO.findByName("Picassent"));
+        p1.setArea(25F);
+        Coordinates cP1 = new Coordinates();
+        cP1.setX(36D);
+        cP1.setY(45D);
+        cP1.setDatum("DATUM1");
+        cP1.setSpindle(29);
+        p1.setCoordinates(cP1);
+        //Enclosure
+        Enclosure e1 = new Enclosure();
+        e1.setEnclosure(1);
+        e1.setCoordinates(cP1);
+        e1.setArea(25F);
+        e1.setIrrigationCoef(100);
+        e1.setSlope(0F);
+        //Set relations
+        e1.setParcel(p1);
+        p1.setField(f1);
+        f1.setUser(defaultUser);
+
+        fieldDAO.persist(f1);
+        parcelDAO.persist(p1);
+        enclosureDAO.persist(e1);
+
+
     }
 }
