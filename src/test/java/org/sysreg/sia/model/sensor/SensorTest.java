@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:src/main/webapp/WEB-INF/applicationContext.xml")
-@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = false)
+@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 @Transactional
 public class SensorTest {
     @Autowired
@@ -69,6 +69,28 @@ public class SensorTest {
         sensor.setDescription("Soil Humidity sensor");
         sensors.add(sensor);
 
+        //Generic Temperature
+        sensor = new Temperature("p2r1", "Generic");
+        sensor.setDescription("Generic Temperature sensor");
+        sensors.add(sensor);
+
+        //Generic Pressure
+        sensor = new Pressure("p2r2", "Generic");
+        sensor.setDescription("Generic Pressure sensor");
+        sensors.add(sensor);
+
+        //Generic Humidity
+        sensor = new Humidity("p2r3", "Generic");
+        sensor.setDescription("Generic Humidity sensor");
+        sensors.add(sensor);
+
+        //Generic Sensor
+        sensor = new Sensor();
+        sensor.setId("p2r4");
+        sensor.setCode("Generic");
+        sensor.setDescription("Generic sensor");
+        sensors.add(sensor);
+
         for(Sensor i: sensors)
             sensorDao.persist(i);
 
@@ -81,6 +103,14 @@ public class SensorTest {
         assertEquals(sensor, sensors.get(2));
         sensor = sensorDao.findById("p1r3");
         assertEquals(sensor, sensors.get(3));
+        sensor = sensorDao.findById("p2r1");
+        assertEquals(sensor, sensors.get(4));
+        sensor = sensorDao.findById("p2r2");
+        assertEquals(sensor, sensors.get(5));
+        sensor = sensorDao.findById("p2r3");
+        assertEquals(sensor, sensors.get(6));
+        sensor = sensorDao.findById("p2r4");
+        assertEquals(sensor, sensors.get(7));
 
     }
 }

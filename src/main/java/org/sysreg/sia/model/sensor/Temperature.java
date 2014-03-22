@@ -8,19 +8,14 @@ import javax.persistence.*;
  */
 @Entity
 @DiscriminatorValue("TEMPERATURE")
-@AttributeOverrides({
-        @AttributeOverride(name="units", column = @Column(name="TEMPERATURE_UNITS"))
-})
 public class Temperature extends Sensor{
 
-    private enum Units{CELSIUS, FAHRENHEIT, KELVIN};
-    @Enumerated(EnumType.STRING)
-    private Units units = Units.CELSIUS;
-
     public Temperature() {
+        this.setUnits(Units.CELSIUS);
     }
 
     public Temperature(String id, String code){
+        this.setUnits(Units.CELSIUS);
         this.setId(id);
         this.setCode(code);
     }

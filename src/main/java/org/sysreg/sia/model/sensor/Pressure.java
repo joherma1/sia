@@ -7,32 +7,26 @@ import javax.persistence.*;
  */
 @Entity
 @DiscriminatorValue("PRESSURE")
-@AttributeOverrides({
-        @AttributeOverride(name="units", column = @Column(name="PRESSURE_UNITS"))
-})
 public class Pressure extends Sensor {
-
-    private enum Units {PASCAL};
-    @Enumerated(EnumType.STRING)
-    private Units units = Units.PASCAL;
 
     @Column(name = "PRESSURE_TEMPERATURE")
     private double temperature;
 
-    private enum UnitsTemperature {CELSIUS, FAHRENHEIT, KELVIN};
     @Column(name = "PRESSURE_TEMPERATURE_UNITS")
     @Enumerated(EnumType.STRING)
-    private UnitsTemperature unitsTemperature = UnitsTemperature.CELSIUS;
+    private Units unitsTemperature = Units.CELSIUS;
 
     private enum Forecast {SUNNY, CLOUDY, RAIN};
     @Column
-    private Forecast forecast;
+    @Enumerated(EnumType.STRING)
+    private Forecast forecast = Forecast.SUNNY;
 
     public Pressure() {
-
+        this.setUnits(Units.PASCAL);
     }
 
     public Pressure(String id, String code){
+        this.setUnits(Units.PASCAL);
         this.setId(id);
         this.setCode(code);
     }
@@ -43,14 +37,6 @@ public class Pressure extends Sensor {
 
     public void setTemperature(double temperature) {
         this.temperature = temperature;
-    }
-
-    public UnitsTemperature getUnitsTemperature() {
-        return unitsTemperature;
-    }
-
-    public void setUnitsTemperature(UnitsTemperature unitsTemperature) {
-        this.unitsTemperature = unitsTemperature;
     }
 
     public Forecast getForecast() {

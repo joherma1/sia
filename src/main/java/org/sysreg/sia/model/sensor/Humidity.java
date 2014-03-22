@@ -7,20 +7,14 @@ import javax.persistence.*;
  */
 @Entity
 @DiscriminatorValue("HUMIDITY")
-@AttributeOverrides({
-    @AttributeOverride(name="units", column = @Column(name="HUMIDITY_UNITS"))
-})
 public class Humidity extends Sensor {
 
-    private enum Units {PERCENT};
-    @Enumerated(EnumType.STRING)
-    private Units units = Units.PERCENT;
-
     public Humidity(){
-
+        this.setUnits(Units.PERCENT);
     }
 
     public Humidity(String id, String code){
+        this.setUnits(Units.PERCENT);
         this.setId(id);
         this.setCode(code);
     }
