@@ -16,6 +16,7 @@
 			<!-- this tell Hibernate to update the DDL when it starts, very useful 
 				for development, dangerous in production -->
 			<!--<property name="hibernate.hbm2ddl.auto" value="create-drop"/>-->
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
             <!--<property name="hibernate.hbm2ddl.auto" value="update"/>-->
 		</properties>
 	</persistence-unit>

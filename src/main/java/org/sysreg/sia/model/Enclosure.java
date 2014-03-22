@@ -1,16 +1,11 @@
 package org.sysreg.sia.model;
 
-import java.io.Serializable;
+import org.sysreg.sia.model.sensor.Sensor;
 
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "ENCLOSURES")
@@ -38,9 +33,13 @@ public class Enclosure implements Serializable {
 	private float irrigationCoef;
 	@Embedded
 	private Coordinates coordinates;
+
 	@ManyToOne
 	@JoinColumn(name = "USE_ID")
 	private Use use;
+
+    @OneToMany(mappedBy = "enclosure")
+    private Set<Sensor> sensors =  new HashSet<Sensor>();
 
 	public Parcel getParcel() {
 		return parcel;
@@ -98,7 +97,15 @@ public class Enclosure implements Serializable {
 		this.use = use;
 	}
 
-	public String toString() {
+    public Set<Sensor> getSensors() {
+        return sensors;
+    }
+
+    public void setSensors(Set<Sensor> sensors) {
+        this.sensors = sensors;
+    }
+
+    public String toString() {
 		return "Recinto [id=" + getEnclosure() + ", superficie=" + area
 				+ ", pendiente=" + slope + ", coefRegadio=" + irrigationCoef
 				+ ", coordinates=" + coordinates.toString() + ", use="

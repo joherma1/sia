@@ -1,23 +1,46 @@
 package org.sysreg.sia.model.sensor;
 
+import org.sysreg.sia.model.Enclosure;
+
+import javax.persistence.*;
+import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 /**
  * Created by jose on 08/02/14.
  */
-public abstract class Sensor {
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "SENSOR_TYPE")
+@Table(name = "SENSORS")
+public class Sensor implements Serializable{
+    private static final long serialVersionUID = 1L;
 
+    @Id
     private String id;
+
+    @Column
     private String code;
+    @Column
     private double value;
 
-    private enum Units {}
-
-    ;
+    private enum Units {};
+    @Column
+    @Enumerated(EnumType.STRING)
     private Units units;
+    @Column
     private String description;
+
+    @ManyToOne
+    @JoinColumns({
+            @JoinColumn(name = "TOWN_ID", referencedColumnName = "TOWN_ID"),
+            @JoinColumn(name = "AGGREGATE", referencedColumnName = "AGGREGATE"),
+            @JoinColumn(name = "ZONE", referencedColumnName = "ZONE"),
+            @JoinColumn(name = "POLYGON", referencedColumnName = "POLYGON"),
+            @JoinColumn(name = "PARCEL", referencedColumnName = "PARCEL"),
+            @JoinColumn(name = "ENCLOSURE", referencedColumnName = "ENCLOSURE"),
+    })
+    private Enclosure enclosure;
 
     public String getId() {
         return id;
@@ -57,6 +80,14 @@ public abstract class Sensor {
 
     public void setUnits(Units units) {
         this.units = units;
+    }
+
+    public Enclosure getEnclosure() {
+        return enclosure;
+    }
+
+    public void setEnclosure(Enclosure enclosure) {
+        this.enclosure = enclosure;
     }
 
     public String toString() {

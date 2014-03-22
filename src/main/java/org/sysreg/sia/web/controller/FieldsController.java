@@ -21,6 +21,7 @@ public class FieldsController {
 
     @RequestMapping(value="/fields", method = RequestMethod.GET)
     public String towns(ModelMap models, Principal principal){
+        //User has lazy initialization
         models.put("fields", fieldDao.findByUser(userDao.findByUsername(principal.getName())));
         return "fields";
     }
