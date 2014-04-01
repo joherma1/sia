@@ -10,9 +10,10 @@ import java.lang.reflect.Field;
  * Created by jose on 08/02/14.
  */
 @Entity
+@Table(name = "SENSORS")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "SENSOR_TYPE")
-@Table(name = "SENSORS")
+@DiscriminatorValue("SENSOR")
 public class Sensor implements Serializable{
     private static final long serialVersionUID = 1L;
 
