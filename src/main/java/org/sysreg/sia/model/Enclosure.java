@@ -1,5 +1,6 @@
 package org.sysreg.sia.model;
 
+import org.sysreg.sia.model.actuator.Actuator;
 import org.sysreg.sia.model.sensor.Sensor;
 
 import javax.persistence.*;
@@ -13,7 +14,7 @@ import java.util.Set;
 public class Enclosure implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	// @Id Evitamos asi que se inerte la parcel de nuevo
+	// @Id
 	@ManyToOne
 	@JoinColumns({
 			@JoinColumn(name = "TOWN_ID", referencedColumnName = "TOWN_ID"),
@@ -40,6 +41,9 @@ public class Enclosure implements Serializable {
 
     @OneToMany(mappedBy = "enclosure")
     private Set<Sensor> sensors =  new HashSet<Sensor>();
+
+    @OneToMany(mappedBy = "enclosure")
+    private Set<Actuator> actuators = new HashSet<Actuator>();
 
 	public Parcel getParcel() {
 		return parcel;
@@ -103,6 +107,14 @@ public class Enclosure implements Serializable {
 
     public void setSensors(Set<Sensor> sensors) {
         this.sensors = sensors;
+    }
+
+    public Set<Actuator> getActuators() {
+        return actuators;
+    }
+
+    public void setActuators(Set<Actuator> actuators) {
+        this.actuators = actuators;
     }
 
     public String toString() {
