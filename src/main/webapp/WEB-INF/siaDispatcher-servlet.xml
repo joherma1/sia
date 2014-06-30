@@ -12,6 +12,7 @@
         http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
+    <!-- Detect @Component, @Controller and register them as a bean-->
     <context:component-scan base-package="org.sysreg.sia.web" />
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -19,8 +20,11 @@
         <property name="suffix" value=".jsp" />
     </bean>
 
+    <!-- Static content dispatcher, redirected to siatheme -->
     <mvc:resources mapping="/resources/**" location="/resources/siatheme/" />
 
+    <!-- Implementation of allocating managers, how we resolve which controller take the request
+    Search for controller with annotation @RequestMapping-->
     <mvc:annotation-driven />
 
 </beans>
