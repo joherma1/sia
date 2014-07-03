@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.ui.ModelMap;
 import org.sysreg.sia.model.Field;
 import org.sysreg.sia.model.User;
@@ -17,9 +16,8 @@ import java.util.List;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
  * Created by jose on 30/06/14.
@@ -37,10 +35,9 @@ public class FieldsControllerTest {
     private FieldDAO fieldDAO;
 
     @Before
-    public void initMocks() {
-        MockitoAnnotations.initMocks(this);
+    public void setUp() {
+        initMocks(this);
     }
-
 
     @Test
     public void showFields() {
