@@ -21,8 +21,12 @@
         <property name="suffix" value=".jsp" />
     </bean>
 
+    <mvc:resources mapping="/favicon.ico" location="/resources/" />
+    <mvc:resources mapping="/robots.txt" location="/resources/" />
+
     <!-- Static content dispatcher, redirected to siatheme -->
     <mvc:resources mapping="/resources/**" location="/resources/siatheme/" />
+
 
     <!-- Implementation of allocating managers, how we resolve which controller take the request
     Search for controller with annotation @RequestMapping-->

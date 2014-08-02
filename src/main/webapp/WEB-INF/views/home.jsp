@@ -1,21 +1,105 @@
-<%@ page import="java.util.Date" %>
-<html>
-<head><title>SIA Home</title></head>
+<%@ page import="org.sysreg.sia.model.Field" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+
+    <title>Homepage</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/home.css">
+</head>
+
 <body>
-Welcome to SIA <%= new Date()%> <br>
-Java Version <%= System.getProperty("java.version")%> <br>
-<br>
-<%
-    // This scriptlet declares and initializes "date"
-    System.out.println( "Evaluating date now" );
-    java.util.Date date = new java.util.Date();
-%>
-Hello!  The time is now
-<%
-    // This scriptlet generates HTML output
-    out.println( String.valueOf( date ));
-    out.println( "<BR>Your machine's address is " );
-    out.println( request.getRemoteHost());
-%>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">SIA</a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/sensors">Sensors</a></li>
+                <li><a href="/actuators">Actuators</a></li>
+                <li><a href="/alarms">Alarms</a></li>
+                <li><a href="/issues">Issues</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><p class="navbar-text"><sec:authentication property="principal.username" /></p></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings<span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Account</a></li>
+                        <li><a href="#">Fields</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li class="divider"></li>
+                        <li class="dropdown-header">Nav header</li>
+                        <li><a href="#">Separated link</a></li>
+                        <li><a href="#">One more separated link</a></li>
+                    </ul>
+                </li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <ol class="breadcrumb">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Library</a></li>
+        <li class="active">Data</li>
+    </ol>
+</div>
+
+<div class="container">
+    <div class="list-group">
+        <c:forEach items="${fields}" var="field">
+            <a href="#" class="list-group-item">
+                ${field.name}:
+                <%
+                Field field= (Field) pageContext.getAttribute("field");
+                out.print(field.toString());
+                %>
+            </a>
+        </c:forEach>
+    </div>
+
+    <div class="starter-template">
+        <h1>Bootstrap starter template</h1>
+        <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
+    </div>
+
+</div><!-- /.container -->
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<!-- Jquery CDN google -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 </body>
 </html>
