@@ -20,7 +20,7 @@ import javax.persistence.Table;
 public class Parcel implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	// @Id Evitamos asi que inserte el town de nuevo
+	// @Id Commented o avoid town insertion again
 	@ManyToOne
 	@JoinColumn(name = "TOWN_ID")
 	private Town town;
