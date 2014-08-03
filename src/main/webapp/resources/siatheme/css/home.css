@@ -5,3 +5,8 @@ body {
     padding: 40px 15px;
     text-align: center;
 }
+.navbar .nav-user-pic{
+    width: 20px;
+    margin-right: 10px;
+    display:inline-block;
+}

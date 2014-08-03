@@ -46,20 +46,25 @@
                 <li><a href="/issues">Issues</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><p class="navbar-text"><sec:authentication property="principal.username" /></p></li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings<span class="caret"></span></a>
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <img src="resources/images/user01.jpg" alt="" class="nav-user-pic img-responsive">
+                            <%--<sec:authentication property="principal.username" />--%>
+                            ${user.name}
+                        <b class="caret"></b>
+                    </a>
+                    <!-- Dropdown menu -->
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="#">Account</a></li>
-                        <li><a href="#">Fields</a></li>
-                        <li><a href="#">Something else here</a></li>
                         <li class="divider"></li>
-                        <li class="dropdown-header">Nav header</li>
-                        <li><a href="#">Separated link</a></li>
-                        <li><a href="#">One more separated link</a></li>
+                        <li class="dropdown-header">Settings</li>
+                        <li><a href="#">Fields</a></li>
+                        <li><a href="#">Other</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/logout">Logout</a></li>
+
                     </ul>
                 </li>
-                <li><a href="/logout">Logout</a></li>
             </ul>
         </div>
     </div>

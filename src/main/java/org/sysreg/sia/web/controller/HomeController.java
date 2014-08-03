@@ -21,6 +21,7 @@ public class HomeController {
     public String showHomepage(ModelMap models, Principal principal) {
         //User has lazy initialization
         models.put("fields", fieldDao.findByUser(userDao.findByUsername(principal.getName())));
+        models.put("user", userDao.findByUsername(principal.getName()));
         return "home";
     }
 
