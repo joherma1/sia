@@ -1,4 +1,5 @@
 <%@ page import="org.sysreg.sia.model.Field" %>
+<%@ page import="org.sysreg.sia.model.Enclosure" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -78,16 +79,37 @@
 </div>
 
 <div class="container">
-    <div class="list-group">
-        <c:forEach items="${fields}" var="field">
-            <a href="#" class="list-group-item">
-                ${field.name}:
-                <%
-                Field field= (Field) pageContext.getAttribute("field");
-                out.print(field.toString());
-                %>
-            </a>
-        </c:forEach>
+    <div class="tree-group">
+        <ul class="nav nav-list">
+            <c:forEach items="${fields}" var="field">
+                <li><label class="tree-toggler nav-header">
+                        ${field.name}
+                    </label>
+                    <!-- Parcels for each field -->
+                    <ul class="nav nav-list tree">
+                        <c:forEach items="${field.parcels}" var="parcel">
+                            <li>
+                                <label class="tree-toggler nav-header">
+                                    Parcela: ${parcel.town.name} - ${parcel.aggregate} - ${parcel.zone}
+                                </label>
+                                <ul class="nav nav-list tree">
+                                    <c:forEach items="${parcel.enclosures}" var="enclosure">
+                                        <li>
+                                            <a href="#">
+                                                <%
+                                                    Enclosure enclosure = (Enclosure) pageContext.getAttribute("enclosure");
+                                                    out.print(enclosure.toString());
+                                                %>
+                                            </a>
+                                        </li>
+                                    </c:forEach>
+                                </ul>
+                            </li>
+                        </c:forEach>
+                    </ul>
+                <li class="divider"></li>
+            </c:forEach>
+        </ul>
     </div>
 
     <div class="starter-template">
@@ -106,5 +128,8 @@
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+<!-- Sia javascripts for home -->
+<script src="${pageContext.request.contextPath}/resources/js/home.js"></script>
 </body>
 </html>

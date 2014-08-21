@@ -1,13 +1,13 @@
 package org.sysreg.sia.model;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
-
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.util.DigestUtils;
 import org.sysreg.sia.model.dao.*;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 
 public class InitializeDatabase {
 
@@ -19,6 +19,8 @@ public class InitializeDatabase {
         populate.loadTowns();
         System.out.println("Populating users and authorities");
         populate.loadUsersAndAuthorities();
+        System.out.println("Populating SIGPAC uses");
+        populate.loadUses();
         System.out.println("Populating data for tests");
         populate.loadTestData();
         System.out.println("Finished");
@@ -635,7 +637,6 @@ public class InitializeDatabase {
         entityManager.close();
     }
 
-
     public void loadUsersAndAuthorities(){
         //Wire beans
         UserDAO userDAO = context.getBean(UserDAO.class);
@@ -668,6 +669,48 @@ public class InitializeDatabase {
         entityManager.close();
     }
 
+    public void loadUses(){
+        // Open a transaction
+        EntityManagerFactory factory = (EntityManagerFactory) context.getBean("entityManagerFactory");
+        EntityManager entityManager = factory.createEntityManager();
+        entityManager.getTransaction().begin();
+
+        Query queryUses = entityManager
+                .createNativeQuery("INSERT INTO \"public\".\"uses\" VALUES ('CF', 'Asociación Cítricos - Frutales');" +
+                                "INSERT INTO \"public\".\"uses\" VALUES ('CS', 'Asociación Cítricos - Frutales de Cáscara');" +
+                                "INSERT INTO \"public\".\"uses\" VALUES ('CV', 'Asociación Cítricos - Viñedo');" +
+                                "INSERT INTO \"public\".\"uses\" VALUES ('FF', 'Asociación Frutales - Frutales De Cáscara');" +
+                                "INSERT INTO \"public\".\"uses\" VALUES ('OC', 'Asociación Olivar - Cítricos');" +
+                                "INSERT INTO \"public\".\"uses\" VALUES ('CI', 'Cítricos');" +
+                                "INSERT INTO \"public\".\"uses\" VALUES ('AG', 'Corrientes y Superficies de Agua');" +
+                                "INSERT INTO \"public\".\"uses\" VALUES ('ED', 'Edificaciones');" +
+                                "INSERT INTO \"public\".\"uses\" VALUES ('FO', 'Forestal');" +
+                                "INSERT INTO \"public\".\"uses\" VALUES ('FY', 'Frutales');" +
+                                "INSERT INTO \"public\".\"uses\" VALUES ('FS', 'Frutos Secos');" +
+                                "INSERT INTO \"public\".\"uses\" VALUES ('FL', 'Frutos Secos y Olivar');" +
+                                "INSERT INTO \"public\".\"uses\" VALUES ('FV', 'Frutos Secos y Viñedo');" +
+                                "INSERT INTO \"public\".\"uses\" VALUES ('TH', 'Huerta');" +
+                                "INSERT INTO \"public\".\"uses\" VALUES ('IM', 'Improductivos');" +
+                                "INSERT INTO \"public\".\"uses\" VALUES ('IV', 'Invernaderos y cultivos bajo plastico');" +
+                                "INSERT INTO \"public\".\"uses\" VALUES ('OV', 'Olivar');" +
+                                "INSERT INTO \"public\".\"uses\" VALUES ('OF', 'Olivar - Frutal');" +
+                                "INSERT INTO \"public\".\"uses\" VALUES ('PS', 'Pastizal');" +
+                                "INSERT INTO \"public\".\"uses\" VALUES ('PR', 'Pasto Arbustivo');" +
+                                "INSERT INTO \"public\".\"uses\" VALUES ('PA', 'Pasto con Arbolado');" +
+                                "INSERT INTO \"public\".\"uses\" VALUES ('TA', 'Tierras Arables');" +
+                                "INSERT INTO \"public\".\"uses\" VALUES ('CA', 'Viales');" +
+                                "INSERT INTO \"public\".\"uses\" VALUES ('VI', 'Viñedo');" +
+                                "INSERT INTO \"public\".\"uses\" VALUES ('VF', 'Viñedo - Frutal');" +
+                                "INSERT INTO \"public\".\"uses\" VALUES ('VO', 'Viñedo - Olivar');" +
+                                "INSERT INTO \"public\".\"uses\" VALUES ('ZV', 'Zona Censurada');" +
+                                "INSERT INTO \"public\".\"uses\" VALUES ('ZF', 'Zona Concentrada no incluida en la Ortofoto');" +
+                                "INSERT INTO \"public\".\"uses\" VALUES ('ZI', 'Zona Urbana');");
+        queryUses.executeUpdate();
+
+        entityManager.getTransaction().commit();
+        entityManager.close();
+    }
+
     void loadTestData(){
         //Wire beans
         UserDAO userDAO = context.getBean(UserDAO.class);
@@ -675,6 +718,7 @@ public class InitializeDatabase {
         FieldDAO fieldDAO = context.getBean(FieldDAO.class);
         ParcelDAO parcelDAO = context.getBean(ParcelDAO.class);
         EnclosureDAO enclosureDAO = context.getBean(EnclosureDAO.class);
+        UseDAO useDAO = context.getBean(UseDAO.class);
 
         // Open a transaction
         EntityManagerFactory factory = (EntityManagerFactory) context.getBean("entityManagerFactory");
@@ -707,13 +751,15 @@ public class InitializeDatabase {
         e1.setArea(20F);
         e1.setIrrigationCoef(100);
         e1.setSlope(0F);
+        e1.setUse(useDAO.findById("CI"));
         //#2
         Enclosure e2 = new Enclosure();
         e2.setEnclosure(2);
-        e2.setCoordinates(new Coordinates(37D,45.5D,"DATUM1",29));
+        e2.setCoordinates(new Coordinates(37D, 45.5D, "DATUM1", 29));
         e2.setArea(5F);
         e2.setIrrigationCoef(100);
         e2.setSlope(0F);
+        e2.setUse(useDAO.findById("CI"));
         //Set relations
         e1.setParcel(p1);
         e2.setParcel(p1);
@@ -741,10 +787,11 @@ public class InitializeDatabase {
         //Enclosure
         Enclosure e2_1 = new Enclosure();
         e2_1.setEnclosure(1);
-        e2_1.setCoordinates(new Coordinates(32D,40D,"DATUM1",29));
+        e2_1.setCoordinates(new Coordinates(32D, 40D, "DATUM1", 29));
         e2_1.setArea(2F);
         e2_1.setIrrigationCoef(100);
         e2_1.setSlope(0F);
+        e2_1.setUse(useDAO.findById("IM"));
 
         //Parcel #2
         Parcel p2_2 = new Parcel();
@@ -759,10 +806,11 @@ public class InitializeDatabase {
         //#1
         Enclosure e2_2 = new Enclosure();
         e2_2.setEnclosure(1);
-        e2_2.setCoordinates(new Coordinates(33.4D,40D,"DATUM1",29));
+        e2_2.setCoordinates(new Coordinates(33.4D, 40D, "DATUM1", 29));
         e2_2.setArea(10F);
         e2_2.setIrrigationCoef(100);
         e2_2.setSlope(0F);
+        e2_2.setUse(useDAO.findById("CI"));
         //#2
         Enclosure e2_3 = new Enclosure();
         e2_3.setEnclosure(2);
@@ -770,6 +818,7 @@ public class InitializeDatabase {
         e2_3.setArea(2F);
         e2_3.setIrrigationCoef(90);
         e2_3.setSlope(0F);
+        e2_3.setUse(useDAO.findById("ED"));
 
         //Set relations
         e2_1.setParcel(p2_1);

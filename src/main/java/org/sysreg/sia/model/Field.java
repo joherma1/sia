@@ -23,7 +23,7 @@ public class Field implements Serializable {
 	@JoinColumn(name = "USER_ID")
 	private User user;
 
-	@OneToMany(mappedBy = "field")
+	@OneToMany(mappedBy = "field", fetch = FetchType.EAGER)
 	private Set<Parcel> parcels = new HashSet<Parcel>();
 
 	public int getId() {
