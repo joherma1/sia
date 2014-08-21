@@ -16,6 +16,13 @@
         <property name="dataSource" ref="dataSource"/>
         <!-- JPA implementation -->
         <property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>
+        <!-- Hibernate specific properties -->
+        <!-- <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.hbm2ddl.auto">create-drop</prop>
+            </props>
+        </property>
+        -->
         <!-- Package where search the entities (@Entities). It allows to remove persistence.xml-->
         <property name="packagesToScan" value="org.sysreg.sia.model"/>
     </bean>

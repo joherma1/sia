@@ -14,7 +14,8 @@ public class Authority implements Serializable{
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue
+    @TableGenerator(name = "sequenceStore", table = "SEQUENCE_STORE", pkColumnName = "SEQUENCE_NAME", pkColumnValue = "AUTHORITIES_PK", valueColumnName = "SEQUENCE_VALUE", initialValue = 1, allocationSize = 1 )
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "sequenceStore")
     private int id;
 
     @Column (unique = true, nullable = false)

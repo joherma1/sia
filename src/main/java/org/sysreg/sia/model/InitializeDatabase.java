@@ -682,7 +682,7 @@ public class InitializeDatabase {
         entityManager.getTransaction().begin();
 
         User defaultUser = userDAO.findByUsername("sia");
-        //Fields
+        //Field #1
         Field f1 = new Field();
         f1.setName("Field #1");
         //Parcel
@@ -700,21 +700,91 @@ public class InitializeDatabase {
         cP1.setSpindle(29);
         p1.setCoordinates(cP1);
         //Enclosure
+        //#1
         Enclosure e1 = new Enclosure();
         e1.setEnclosure(1);
         e1.setCoordinates(cP1);
-        e1.setArea(25F);
+        e1.setArea(20F);
         e1.setIrrigationCoef(100);
         e1.setSlope(0F);
+        //#2
+        Enclosure e2 = new Enclosure();
+        e2.setEnclosure(2);
+        e2.setCoordinates(new Coordinates(37D,45.5D,"DATUM1",29));
+        e2.setArea(5F);
+        e2.setIrrigationCoef(100);
+        e2.setSlope(0F);
         //Set relations
         e1.setParcel(p1);
+        e2.setParcel(p1);
         p1.setField(f1);
         f1.setUser(defaultUser);
 
         fieldDAO.persist(f1);
         parcelDAO.persist(p1);
         enclosureDAO.persist(e1);
+        enclosureDAO.persist(e2);
 
+
+        //Field #2
+        Field f2 = new Field();
+        f2.setName("Field #2");
+        //Parcel #1
+        Parcel p2_1 = new Parcel();
+        p2_1.setParcel(2);
+        p2_1.setPolygon(1);
+        p2_1.setAggregate(4);
+        p2_1.setZone(4);
+        p2_1.setTown(townDAO.findByName("Alcàsser"));
+        p2_1.setArea(2F);
+        p2_1.setCoordinates(new Coordinates(32D,40D,"DATUM1",29));
+        //Enclosure
+        Enclosure e2_1 = new Enclosure();
+        e2_1.setEnclosure(1);
+        e2_1.setCoordinates(new Coordinates(32D,40D,"DATUM1",29));
+        e2_1.setArea(2F);
+        e2_1.setIrrigationCoef(100);
+        e2_1.setSlope(0F);
+
+        //Parcel #2
+        Parcel p2_2 = new Parcel();
+        p2_2.setParcel(3);
+        p2_2.setPolygon(1);
+        p2_2.setAggregate(4);
+        p2_2.setZone(4);
+        p2_2.setTown(townDAO.findByName("Alcàsser"));
+        p2_2.setArea(12F);
+        p2_2.setCoordinates(new Coordinates(33.4D,40D,"DATUM1",29));
+        //Enclosure
+        //#1
+        Enclosure e2_2 = new Enclosure();
+        e2_2.setEnclosure(1);
+        e2_2.setCoordinates(new Coordinates(33.4D,40D,"DATUM1",29));
+        e2_2.setArea(10F);
+        e2_2.setIrrigationCoef(100);
+        e2_2.setSlope(0F);
+        //#2
+        Enclosure e2_3 = new Enclosure();
+        e2_3.setEnclosure(2);
+        e2_3.setCoordinates(new Coordinates(33.4D, 40D, "DATUM1", 29));
+        e2_3.setArea(2F);
+        e2_3.setIrrigationCoef(90);
+        e2_3.setSlope(0F);
+
+        //Set relations
+        e2_1.setParcel(p2_1);
+        p2_1.setField(f2);
+        e2_2.setParcel(p2_2);
+        e2_3.setParcel(p2_2);
+        p2_2.setField(f2);
+        f2.setUser(defaultUser);
+
+        fieldDAO.persist(f2);
+        parcelDAO.persist(p2_1);
+        parcelDAO.persist(p2_2);
+        enclosureDAO.persist(e2_1);
+        enclosureDAO.persist(e2_2);
+        enclosureDAO.persist(e2_3);
 
     }
 }
