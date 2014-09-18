@@ -124,4 +124,11 @@ public class Enclosure implements Serializable {
 				+ use.getDescription() + "]";
 	}
 
+    public String getId(){
+        String id = String.format("%05d", getParcel().getTown().getId());
+        id += String.format("%03d",getParcel().getAggregate()) + String.format("%03d",getParcel().getZone()) + String.format("%03d",getParcel().getPolygon()) + String.format("%03d",getParcel().getParcel());
+        id += String.format("%03d",getEnclosure());
+        return id;
+    }
+
 }

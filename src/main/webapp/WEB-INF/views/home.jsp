@@ -2,6 +2,7 @@
 <%@ page import="org.sysreg.sia.model.Enclosure" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -62,7 +63,7 @@
                         <li><a href="#">Fields</a></li>
                         <li><a href="#">Other</a></li>
                         <li class="divider"></li>
-                        <li><a href="/logout">Logout</a></li>
+                        <li><a href="<c:url value="j_spring_security_logout" />" > Logout</a></li>
 
                     </ul>
                 </li>
@@ -95,9 +96,9 @@
                                 <ul class="nav nav-list tree">
                                     <c:forEach items="${parcel.enclosures}" var="enclosure">
                                         <li>
-                                            <a href="#">
+                                            <%Enclosure enclosure = (Enclosure) pageContext.getAttribute("enclosure"); %>
+                                            <a href=<%out.print("/dashboard?enclosureId="+enclosure.getId()); %>>
                                                 <%
-                                                    Enclosure enclosure = (Enclosure) pageContext.getAttribute("enclosure");
                                                     out.print(enclosure.toString());
                                                 %>
                                             </a>

@@ -45,6 +45,9 @@
     <div id="map">
         <img src="${pageContext.request.contextPath}/resources/images/Field_1.png">
     </div>
+    <div id="enclosure" >
+        <h1> ${enclosure.use.description}</h1>
+    </div>
     <div id="hardware">
         <div id="sensors">
             <%@include file="sensors.jsp"%>
