@@ -1,33 +1,59 @@
-div#mainContainer{
-    border-style: none;
+body {
+    padding-top: 50px;
 }
-
-#userInfo ul {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-    text-align: right;
-}
-
-#userInfo ul li {
-    display: inline;
-}
-
-div#menu {
+.starter-template {
+    padding: 40px 15px;
     text-align: center;
 }
-
-li.menuList {
-    display: inline;
-    list-style-type: none;
-    padding-right: 20px;
+.navbar .nav-user-pic{
+    width: 20px;
+    margin-right: 10px;
+    display:inline-block;
 }
 
-a.menuItem {
-    color: black;
-    text-decoration: none;
+.tree-group {
+    width: 600px;
+    padding: 8px 0px;
+    min-height: 20px;
+    padding: 19px;
+    margin-bottom: 20px;
+    background-color: #F5F5F5;
+    border: 1px solid #E3E3E3;
+    border-radius: 4px;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05) inset;
 }
 
-div#mainContainer{
-    display: inline-flex;
+.nav-list {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-bottom: 0;
 }
+
+.nav-list>li>a, .nav-list .nav-header {
+    margin-right: -15px;
+    margin-left: -15px;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+}
+.nav-header {
+    display: block;
+    padding: 3px 15px;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 20px;
+    color: #999;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+    text-transform: uppercase;
+}
+
+.divider {
+    height: 1px;
+    margin: 9px 1px;
+    overflow: hidden;
+    background-color: #E5E5E5;
+    border-bottom: 1px solid #E5E5E5;
+}
+
+label, select, button, input[type="button"], input[type="reset"], input[type="submit"], input[type="radio"], input[type="checkbox"] {
+    cursor: pointer;
+}
+
