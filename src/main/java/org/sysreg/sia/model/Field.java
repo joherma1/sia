@@ -57,4 +57,8 @@ public class Field implements Serializable {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+    public String toString(){
+        return this.name;
+    }
 }

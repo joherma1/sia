@@ -105,4 +105,8 @@ public class Parcel implements Serializable {
 	public void setField(Field field) {
 		this.field = field;
 	}
+
+    public String toString(){
+        return getTown().getName() + ": " + getAggregate() + " - " + getZone();
+    }
 }

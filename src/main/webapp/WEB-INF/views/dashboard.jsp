@@ -1,5 +1,6 @@
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%--@elvariable id="enclosure" type="org.sysreg.sia.model.Enclosure"--%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,51 +30,7 @@
 </head>
 
 <body role="document">
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">SIA</a>
-        </div>
-        <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="/dashboard">Dashboard</a></li>
-                <li><a href="/sensors">Sensors</a></li>
-                <li><a href="/actuators">Actuators</a></li>
-                <li><a href="/alarms">Alarms</a></li>
-                <li><a href="/issues">Issues</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                        <img src="resources/images/user01.jpg" alt="" class="nav-user-pic img-responsive">
-                        <%--<sec:authentication property="principal.username" />--%>
-                        ${user.name}
-                        <b class="caret"></b>
-                    </a>
-                    <!-- Dropdown menu -->
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Account</a></li>
-                        <li class="divider"></li>
-                        <li class="dropdown-header">Settings</li>
-                        <li><a href="#">Fields</a></li>
-                        <li><a href="#">Other</a></li>
-                        <li class="divider"></li>
-                        <li><a href="<c:url value="j_spring_security_logout" />"> Logout</a></li>
-
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
-
+<jsp:include page="navbar.jsp"/>
 <div class="container">
     <ol class="breadcrumb">
         <li><a href="#">Home</a></li>
@@ -187,56 +144,57 @@
                     <tbody>
                     <tr>
                         <td><b>Town</b></td>
-                        <td><c:out value="${enclosure.parcel.town.name}" /></td>
+                        <td>
+                            <c:out value="${enclosure.parcel.town.name}"/></td>
                     </tr>
                     <tr>
                         <td><b>Region</b></td>
-                        <td><c:out value="${enclosure.parcel.town.region.name}" /></td>
+                        <td><c:out value="${enclosure.parcel.town.region.name}"/></td>
                     </tr>
                     <tr>
                         <td><b>Province</b></td>
-                        <td><c:out value="${enclosure.parcel.town.region.province.name}" /></td>
+                        <td><c:out value="${enclosure.parcel.town.region.province.name}"/></td>
                     </tr>
                     <tr>
                         <td><b>Aggregate</b></td>
-                        <td><c:out value="${enclosure.parcel.aggregate}" /></td>
+                        <td><c:out value="${enclosure.parcel.aggregate}"/></td>
                     </tr>
                     <tr>
                         <td><b>Zone</b></td>
-                        <td><c:out value="${enclosure.parcel.zone}" /></td>
+                        <td><c:out value="${enclosure.parcel.zone}"/></td>
                     </tr>
                     <tr>
                         <td><b>Polygon</b></td>
-                        <td><c:out value="${enclosure.parcel.polygon}" /></td>
+                        <td><c:out value="${enclosure.parcel.polygon}"/></td>
                     </tr>
                     <tr>
                         <td><b>Parcel</b></td>
-                        <td><c:out value="${enclosure.parcel.parcel}" /></td>
+                        <td><c:out value="${enclosure.parcel.parcel}"/></td>
                     </tr>
                     <tr>
                         <td><b>Enclosure</b></td>
-                        <td><c:out value="${enclosure.enclosure}" /></td>
+                        <td><c:out value="${enclosure.enclosure}"/></td>
                     </tr>
                     <tr>
                         <td><b>Area</b></td>
-                        <td><c:out value="${enclosure.area}" /></td>
+                        <td><c:out value="${enclosure.area}"/></td>
                     </tr>
                     <tr>
                         <td><b>Slope</b></td>
-                        <td><c:out value="${enclosure.slope}" /></td>
+                        <td><c:out value="${enclosure.slope}"/></td>
                     </tr>
                     <tr>
                         <td><b>Irrigation Coef</b></td>
-                        <td><c:out value="${enclosure.irrigationCoef}" /></td>
+                        <td><c:out value="${enclosure.irrigationCoef}"/></td>
                     </tr>
                     <tr>
                         <td><b>Coordinates</b></td>
-                        <td><c:out value="${enclosure.coordinates.x}" />:<c:out value="${enclosure.coordinates.y}" />:<c:out value="${enclosure.coordinates.datum}" />:<c:out value="${enclosure.coordinates.spindle}" />
+                        <td><c:out value="${enclosure.coordinates}"/>
                         </td>
                     </tr>
                     <tr>
                         <td><b>Use</b></td>
-                        <td><c:out value="${enclosure.use.description}" /></td>
+                        <td><c:out value="${enclosure.use.description}"/></td>
                     </tr>
                     </tbody>
                 </table>

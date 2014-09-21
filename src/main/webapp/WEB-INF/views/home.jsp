@@ -1,8 +1,4 @@
-<%@ page import="org.sysreg.sia.model.Field" %>
-<%@ page import="org.sysreg.sia.model.Enclosure" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -27,50 +23,7 @@
 </head>
 
 <body>
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">SIA</a>
-        </div>
-        <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="/dashboard">Dashboard</a></li>
-                <li><a href="/sensors">Sensors</a></li>
-                <li><a href="/actuators">Actuators</a></li>
-                <li><a href="/alarms">Alarms</a></li>
-                <li><a href="/issues">Issues</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                        <img src="resources/images/user01.jpg" alt="" class="nav-user-pic img-responsive">
-                            <%--<sec:authentication property="principal.username" />--%>
-                            ${user.name}
-                        <b class="caret"></b>
-                    </a>
-                    <!-- Dropdown menu -->
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Account</a></li>
-                        <li class="divider"></li>
-                        <li class="dropdown-header">Settings</li>
-                        <li><a href="#">Fields</a></li>
-                        <li><a href="#">Other</a></li>
-                        <li class="divider"></li>
-                        <li><a href="<c:url value="j_spring_security_logout" />" > Logout</a></li>
-
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
+<jsp:include page="navbar.jsp"/>
 <div class="container">
     <ol class="breadcrumb">
         <li><a href="#">Home</a></li>
@@ -84,23 +37,20 @@
         <ul class="nav nav-list">
             <c:forEach items="${fields}" var="field">
                 <li><label class="tree-toggler nav-header">
-                        ${field.name}
+                        <c:out value="${field}"/>
                     </label>
                     <!-- Parcels for each field -->
                     <ul class="nav nav-list tree">
                         <c:forEach items="${field.parcels}" var="parcel">
                             <li>
                                 <label class="tree-toggler nav-header">
-                                    Parcela: ${parcel.town.name} - ${parcel.aggregate} - ${parcel.zone}
+                                    Parcela: <c:out value="${parcel}"/>
                                 </label>
                                 <ul class="nav nav-list tree">
                                     <c:forEach items="${parcel.enclosures}" var="enclosure">
                                         <li>
-                                            <%Enclosure enclosure = (Enclosure) pageContext.getAttribute("enclosure"); %>
-                                            <a href=<%out.print("/dashboard?enclosureId="+enclosure.getId()); %>>
-                                                <%
-                                                    out.print(enclosure.toString());
-                                                %>
+                                            <a href="<c:url value="/dashboard?enclosureId=${enclosure.id}" />">
+                                                <c:out value="${enclosure}" />
                                             </a>
                                         </li>
                                     </c:forEach>
@@ -112,12 +62,6 @@
             </c:forEach>
         </ul>
     </div>
-
-    <div class="starter-template">
-        <h1>Bootstrap starter template</h1>
-        <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
-    </div>
-
 </div><!-- /.container -->
 
 
