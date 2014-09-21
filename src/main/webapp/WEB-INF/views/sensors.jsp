@@ -1,16 +1,28 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: jose
-  Date: 22/06/14
-  Time: 18:34
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Sensors here</title>
+    <TITLE>Ajax Test</TITLE>
 </head>
+
 <body>
-<h1>sensores aqui</h1>
+<div>
+    <br> <br> ${message} <br> <br>
+    <b id="sensorId">01231412</b>
+    <label>Response</label>
+    <div id="result"></div>
+    <br>
+    <p>
+    </p>
+</div>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<!-- Jquery CDN google -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+<!-- Sia javascripts for sensors -->
+<script src="${pageContext.request.contextPath}/resources/js/sensors.js"></script>
 </body>
 </html>
