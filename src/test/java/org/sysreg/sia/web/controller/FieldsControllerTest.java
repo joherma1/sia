@@ -2,8 +2,9 @@ package org.sysreg.sia.web.controller;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.ui.ModelMap;
 import org.sysreg.sia.model.Field;
 import org.sysreg.sia.model.User;
@@ -17,16 +18,14 @@ import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.*;
-import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
  * Created by jose on 30/06/14.
  */
+@RunWith(MockitoJUnitRunner.class)
 public class FieldsControllerTest {
 
-    //Class with autowired objects
-    @InjectMocks
-    private FieldsController fieldsController = new FieldsController();
+    private FieldsController fieldsController;
 
     //Services mocked
     @Mock
@@ -36,7 +35,8 @@ public class FieldsControllerTest {
 
     @Before
     public void setUp() {
-        initMocks(this);
+        //Inject the mocks to the Controller
+        this.fieldsController = new FieldsController(userDAO, fieldDAO);
     }
 
     @Test

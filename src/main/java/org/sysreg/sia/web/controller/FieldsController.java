@@ -12,10 +12,15 @@ import java.security.Principal;
 
 @Controller
 public class FieldsController {
+
+    private final FieldDAO fieldDao;
+    private final UserDAO userDao;
+
     @Autowired
-    FieldDAO fieldDao;
-    @Autowired
-    UserDAO userDao;
+    public FieldsController(UserDAO userDao,FieldDAO fieldDao){
+        this.userDao = userDao;
+        this.fieldDao = fieldDao;
+    }
 
     @RequestMapping(value="/fields", method = RequestMethod.GET)
     public String showFieldsPage(ModelMap models, Principal principal){

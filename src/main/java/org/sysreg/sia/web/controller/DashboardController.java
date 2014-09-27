@@ -15,8 +15,13 @@ import java.security.Principal;
  */
 @Controller
 public class DashboardController {
+
+    private final EnclosureDAO enclosureDAO;
+
     @Autowired
-    EnclosureDAO enclosureDAO;
+    public DashboardController(EnclosureDAO enclosureDAO){
+        this.enclosureDAO = enclosureDAO;
+    }
 
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
     public String dashboard(@RequestParam("enclosureId") String enclosureId, ModelMap model, Principal principal) {
