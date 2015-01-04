@@ -3,11 +3,16 @@ package org.sysreg.sia.model;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.util.DigestUtils;
+import org.sysreg.sia.model.actuator.Actuator;
+import org.sysreg.sia.model.actuator.BasicActuator;
 import org.sysreg.sia.model.dao.*;
+import org.sysreg.sia.model.sensor.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class InitializeDatabase {
 
@@ -677,34 +682,34 @@ public class InitializeDatabase {
 
         Query queryUses = entityManager
                 .createNativeQuery("INSERT INTO \"public\".\"uses\" VALUES ('CF', 'Asociación Cítricos - Frutales');" +
-                                "INSERT INTO \"public\".\"uses\" VALUES ('CS', 'Asociación Cítricos - Frutales de Cáscara');" +
-                                "INSERT INTO \"public\".\"uses\" VALUES ('CV', 'Asociación Cítricos - Viñedo');" +
-                                "INSERT INTO \"public\".\"uses\" VALUES ('FF', 'Asociación Frutales - Frutales De Cáscara');" +
-                                "INSERT INTO \"public\".\"uses\" VALUES ('OC', 'Asociación Olivar - Cítricos');" +
-                                "INSERT INTO \"public\".\"uses\" VALUES ('CI', 'Cítricos');" +
-                                "INSERT INTO \"public\".\"uses\" VALUES ('AG', 'Corrientes y Superficies de Agua');" +
-                                "INSERT INTO \"public\".\"uses\" VALUES ('ED', 'Edificaciones');" +
-                                "INSERT INTO \"public\".\"uses\" VALUES ('FO', 'Forestal');" +
-                                "INSERT INTO \"public\".\"uses\" VALUES ('FY', 'Frutales');" +
-                                "INSERT INTO \"public\".\"uses\" VALUES ('FS', 'Frutos Secos');" +
-                                "INSERT INTO \"public\".\"uses\" VALUES ('FL', 'Frutos Secos y Olivar');" +
-                                "INSERT INTO \"public\".\"uses\" VALUES ('FV', 'Frutos Secos y Viñedo');" +
-                                "INSERT INTO \"public\".\"uses\" VALUES ('TH', 'Huerta');" +
-                                "INSERT INTO \"public\".\"uses\" VALUES ('IM', 'Improductivos');" +
-                                "INSERT INTO \"public\".\"uses\" VALUES ('IV', 'Invernaderos y cultivos bajo plastico');" +
-                                "INSERT INTO \"public\".\"uses\" VALUES ('OV', 'Olivar');" +
-                                "INSERT INTO \"public\".\"uses\" VALUES ('OF', 'Olivar - Frutal');" +
-                                "INSERT INTO \"public\".\"uses\" VALUES ('PS', 'Pastizal');" +
-                                "INSERT INTO \"public\".\"uses\" VALUES ('PR', 'Pasto Arbustivo');" +
-                                "INSERT INTO \"public\".\"uses\" VALUES ('PA', 'Pasto con Arbolado');" +
-                                "INSERT INTO \"public\".\"uses\" VALUES ('TA', 'Tierras Arables');" +
-                                "INSERT INTO \"public\".\"uses\" VALUES ('CA', 'Viales');" +
-                                "INSERT INTO \"public\".\"uses\" VALUES ('VI', 'Viñedo');" +
-                                "INSERT INTO \"public\".\"uses\" VALUES ('VF', 'Viñedo - Frutal');" +
-                                "INSERT INTO \"public\".\"uses\" VALUES ('VO', 'Viñedo - Olivar');" +
-                                "INSERT INTO \"public\".\"uses\" VALUES ('ZV', 'Zona Censurada');" +
-                                "INSERT INTO \"public\".\"uses\" VALUES ('ZF', 'Zona Concentrada no incluida en la Ortofoto');" +
-                                "INSERT INTO \"public\".\"uses\" VALUES ('ZI', 'Zona Urbana');");
+                        "INSERT INTO \"public\".\"uses\" VALUES ('CS', 'Asociación Cítricos - Frutales de Cáscara');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('CV', 'Asociación Cítricos - Viñedo');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('FF', 'Asociación Frutales - Frutales De Cáscara');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('OC', 'Asociación Olivar - Cítricos');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('CI', 'Cítricos');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('AG', 'Corrientes y Superficies de Agua');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('ED', 'Edificaciones');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('FO', 'Forestal');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('FY', 'Frutales');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('FS', 'Frutos Secos');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('FL', 'Frutos Secos y Olivar');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('FV', 'Frutos Secos y Viñedo');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('TH', 'Huerta');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('IM', 'Improductivos');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('IV', 'Invernaderos y cultivos bajo plastico');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('OV', 'Olivar');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('OF', 'Olivar - Frutal');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('PS', 'Pastizal');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('PR', 'Pasto Arbustivo');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('PA', 'Pasto con Arbolado');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('TA', 'Tierras Arables');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('CA', 'Viales');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('VI', 'Viñedo');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('VF', 'Viñedo - Frutal');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('VO', 'Viñedo - Olivar');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('ZV', 'Zona Censurada');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('ZF', 'Zona Concentrada no incluida en la Ortofoto');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('ZI', 'Zona Urbana');");
         queryUses.executeUpdate();
 
         entityManager.getTransaction().commit();
@@ -719,6 +724,8 @@ public class InitializeDatabase {
         ParcelDAO parcelDAO = context.getBean(ParcelDAO.class);
         EnclosureDAO enclosureDAO = context.getBean(EnclosureDAO.class);
         UseDAO useDAO = context.getBean(UseDAO.class);
+        SensorDAO sensorDAO = context.getBean(SensorDAO.class);
+        ActuatorDAO actuatorDAO = context.getBean(ActuatorDAO.class);
 
         // Open a transaction
         EntityManagerFactory factory = (EntityManagerFactory) context.getBean("entityManagerFactory");
@@ -752,6 +759,36 @@ public class InitializeDatabase {
         e1.setIrrigationCoef(100);
         e1.setSlope(0F);
         e1.setUse(useDAO.findById("CI"));
+        //Sensors 0001
+        ArrayList<Sensor> sensors = new ArrayList<>();
+
+        //Temperature
+        sensors.add(new DS18B20("28f5e9af020000d2"));
+        sensors.add(new DS18B20("282ddbaf020000b0"));
+        sensors.add(new Temperature("T_01", "Temperature"));
+
+        //Pressure
+        sensors.add(new BMP085("bmp085_01"));
+
+        //Humidity
+        sensors.add(new HH10D("HH10D_01"));
+        sensors.add(new SoilMoisture("M_01"));
+
+        //Actuators 0001
+        ArrayList<Actuator> actuators = new ArrayList<>();
+        Actuator actuator;
+        //Actuator
+        actuator = new Actuator("1");
+        actuator.setDescription("Test actuator #1");
+        actuator.setEnabled(true);
+        actuators.add(actuator);
+
+        //Basic Actuator
+        actuator = new BasicActuator("2");
+        actuator.setDescription("Test actuator #2");
+        actuator.setEnabled(false);
+        actuators.add(actuator);
+
         //#2
         Enclosure e2 = new Enclosure();
         e2.setEnclosure(2);
@@ -770,8 +807,16 @@ public class InitializeDatabase {
         parcelDAO.persist(p1);
         enclosureDAO.persist(e1);
         enclosureDAO.persist(e2);
-
-
+        for(Sensor i: sensors) {
+            Random rm = new Random();
+            i.setValue(rm.nextDouble()*100);
+            i.setEnclosure(e1);
+            sensorDAO.persist(i);
+        }
+        for(Actuator i: actuators) {
+            i.setEnclosure(e1);
+            actuatorDAO.persist(i);
+        }
         //Field #2
         Field f2 = new Field();
         f2.setName("Field #2");

@@ -6,6 +6,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.sysreg.sia.model.Enclosure;
 import org.sysreg.sia.model.dao.EnclosureDAO;
 
 import java.security.Principal;
@@ -25,7 +26,8 @@ public class DashboardController {
 
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
     public String dashboard(@RequestParam("enclosureId") String enclosureId, ModelMap model, Principal principal) {
-        model.put("enclosure", enclosureDAO.findById(enclosureId));
+        Enclosure enclosure = enclosureDAO.findById(enclosureId);
+        model.put("enclosure", enclosure);
         return "dashboard";
     }
 }

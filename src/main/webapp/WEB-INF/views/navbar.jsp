@@ -1,5 +1,6 @@
 <%--@elvariable id="user" type="org.sysreg.sia.model.User"--%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
@@ -25,8 +26,8 @@
                 <li class="dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                         <img src="resources/images/user01.jpg" alt="" class="nav-user-pic img-responsive">
-                        <%--<sec:authentication property="principal.username" />--%>
-                        ${user.name}
+                        <sec:authentication property="principal.username" />
+                        <!--${user.name}-->
                         <b class="caret"></b>
                     </a>
                     <!-- Dropdown menu -->

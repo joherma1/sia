@@ -30,6 +30,7 @@ public class Parcel implements Serializable {
 	@JoinColumn(name = "FIELD_ID")
 	private Field field;
 	@OneToMany(mappedBy = "parcel", fetch = FetchType.EAGER)
+	@OrderBy("enclosure ASC")
 	private Set<Enclosure> enclosures = new HashSet<Enclosure>();
 	@Embedded
 	private Coordinates coordinates;

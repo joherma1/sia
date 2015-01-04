@@ -39,10 +39,12 @@ public class Enclosure implements Serializable {
 	@JoinColumn(name = "USE_ID")
 	private Use use;
 
-    @OneToMany(mappedBy = "enclosure")
+    @OneToMany(mappedBy = "enclosure", fetch = FetchType.EAGER)
+	@OrderBy("code ASC")
     private Set<Sensor> sensors =  new HashSet<Sensor>();
 
-    @OneToMany(mappedBy = "enclosure")
+    @OneToMany(mappedBy = "enclosure", fetch = FetchType.EAGER)
+	@OrderBy("id ASC")
     private Set<Actuator> actuators = new HashSet<Actuator>();
 
 	public Parcel getParcel() {

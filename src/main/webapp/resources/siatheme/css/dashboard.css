@@ -57,3 +57,6 @@ label, select, button, input[type="button"], input[type="reset"], input[type="su
     cursor: pointer;
 }
 
+.sensor-table, .actuator-table{
+    margin-bottom: 0px;
+}
