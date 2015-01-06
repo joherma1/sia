@@ -9,7 +9,7 @@
         <Logger name="org.sysreg.sia.model.dao.FieldDAO" level="debug" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
-        <Root level="error">
+        <Root level="debug">
             <AppenderRef ref="Console"/>
         </Root>
     </Loggers>

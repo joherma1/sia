@@ -66,31 +66,35 @@
                                         <c:forEach items="${enclosure.sensors}" var="sensor">
                                             <tr>
                                                 <td><c:out value="${sensor.id}"/></td>
-                                                <td><fmt:formatNumber type="number"
-                                                                      maxFractionDigits="2" value="${sensor.value}" />
-                                                    <c:choose>
-                                                        <c:when test="${sensor.units.name() == 'CELSIUS'}">
-                                                            &degC
-                                                        </c:when>
-                                                        <c:when test="${sensor.units.name() == 'FAHRENHEIT'}">
-                                                            &degF
-                                                        </c:when>
-                                                        <c:when test="${sensor.units.name() == 'KELVIN'}">
-                                                            &degK
-                                                        </c:when>
-                                                        <c:when test="${sensor.units.name() == 'PASCAL'}">
-                                                            Pa
-                                                        </c:when>
-                                                        <c:when test="${sensor.units.name() == 'PERCENT'}">
-                                                            %
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <c:out value="${sensor.units.name()}"/>
-                                                        </c:otherwise>
-                                                    </c:choose>
+                                                <td>
+                                                    <span id="${sensor.id}-value">
+                                                        <fmt:formatNumber type="number" maxFractionDigits="2" value="${sensor.value}" />
+                                                    </span>
+                                                    <span>
+                                                        <c:choose>
+                                                            <c:when test="${sensor.units.name() == 'CELSIUS'}">
+                                                                &degC
+                                                            </c:when>
+                                                            <c:when test="${sensor.units.name() == 'FAHRENHEIT'}">
+                                                                &degF
+                                                            </c:when>
+                                                            <c:when test="${sensor.units.name() == 'KELVIN'}">
+                                                                &degK
+                                                            </c:when>
+                                                            <c:when test="${sensor.units.name() == 'PASCAL'}">
+                                                                Pa
+                                                            </c:when>
+                                                            <c:when test="${sensor.units.name() == 'PERCENT'}">
+                                                                %
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <c:out value="${sensor.units.name()}"/>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </span>
                                                 </td>
                                                 <td>
-                                                    <button type="button" class="btn btn-default btn-xs" aria-label="Refresh Sensor">
+                                                    <button type="button" id="sensor-refresh" value="${sensor.id}" class="btn btn-default btn-xs" aria-label="Refresh Sensor" onclick="checkAvailability('${sensor.id}')">
                                                         <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
                                                     </button>
                                                 </td>
@@ -264,5 +268,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+<!-- Sia javascripts for home -->
+<script src="${pageContext.request.contextPath}/resources/js/dashboard.js"></script>
 </body>
 </html>

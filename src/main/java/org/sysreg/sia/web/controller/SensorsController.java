@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Date;
+import java.text.DecimalFormat;
+import java.util.Random;
 
 /**
  * Created by jose on 21/09/14.
@@ -27,9 +28,14 @@ public class SensorsController {
 
     @RequestMapping(value = "/sensorsget", method = RequestMethod.GET)
     public @ResponseBody String getSensor(@RequestParam String id) {
-        String result = id + "Other things";
-        logger.debug("Debug Message " + id + " "  + new Date().toString());
-        //To reply a raw string
-        return  "\"" + result + "\"";
+        //----------------------
+        //TODO
+        //Connect to Arduino and retrieve the info
+        //----------------------
+        Random rm = new Random();
+        double result = rm.nextDouble()*100;
+        logger.debug("getSensor(" + id + ") received. New value: " + result);
+        DecimalFormat df = new DecimalFormat(".##");
+        return  "\"" + df.format(result) + "\"";
     }
 }
