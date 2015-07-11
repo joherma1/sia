@@ -17,14 +17,14 @@ import static org.junit.Assert.assertTrue;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:src/main/webapp/WEB-INF/applicationContext.xml")
-public class BoardClientTest {
+public class BoardClientLANTest {
 
     @Autowired
     BoardClient boardClient;
 
     @Before
     public void setUp() {
-        boardClient.setUrl("localhost");
+        boardClient.setUrl("127.0.0.1");
         boardClient.setPort(3000);
     }
 
