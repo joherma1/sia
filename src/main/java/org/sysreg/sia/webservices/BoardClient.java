@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -60,8 +61,7 @@ public class BoardClient {
     }
 
     public BoardDTO getBoard(String id) {
-        RestTemplate restTemplate = new RestTemplate();
-        String uri = "http://localhost:3000/boards/{id}";
+        String uri = "http://" + url + ":" + port + "/boards/{id}";
         Map<String, String> params = new HashMap<String, String>();
         params.put("id", "55a0e45766cfdc4b023f932d");
 

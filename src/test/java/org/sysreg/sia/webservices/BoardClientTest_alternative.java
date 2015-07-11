@@ -5,10 +5,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.sysreg.sia.model.Board;
 
 import javax.annotation.Resource;
-import java.beans.ConstructorProperties;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertNotNull;
@@ -19,9 +17,9 @@ import static org.junit.Assert.assertTrue;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:src/main/webapp/WEB-INF/applicationContext.xml")
-public class BoardClientTest {
+public class BoardClientTest_alternative {
 
-    @Resource(name = "localhost_client")
+    @Resource(name = "alternative_client")
     BoardClient client;
 
     //@Test
