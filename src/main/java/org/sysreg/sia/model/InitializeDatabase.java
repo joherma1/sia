@@ -12,7 +12,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 public class InitializeDatabase {
 
@@ -726,6 +728,7 @@ public class InitializeDatabase {
         UseDAO useDAO = context.getBean(UseDAO.class);
         SensorDAO sensorDAO = context.getBean(SensorDAO.class);
         ActuatorDAO actuatorDAO = context.getBean(ActuatorDAO.class);
+        BoardDAO boardDAO = context.getBean(BoardDAO.class);
 
         // Open a transaction
         EntityManagerFactory factory = (EntityManagerFactory) context.getBean("entityManagerFactory");
@@ -759,6 +762,12 @@ public class InitializeDatabase {
         e1.setIrrigationCoef(100);
         e1.setSlope(0F);
         e1.setUse(useDAO.findById("CI"));
+
+        //Boards
+        ArrayList<Board> boards =  new ArrayList<>();
+        boards.add(new Board(1234, "USB", "Test Board USB"));
+        boards.add(new Board(5678, "LAN", "Test Board Ethernet"));
+
         //Sensors 0001
         ArrayList<Sensor> sensors = new ArrayList<>();
 
@@ -807,14 +816,20 @@ public class InitializeDatabase {
         parcelDAO.persist(p1);
         enclosureDAO.persist(e1);
         enclosureDAO.persist(e2);
-        for(Sensor i: sensors) {
+
+        boards.get(0).setEnclosure(e1);
+        boards.get(1).setEnclosure(e2);
+        boardDAO.persist(boards.get(0));
+        boardDAO.persist(boards.get(1));
+
+        for(Sensor i : sensors) {
             Random rm = new Random();
-            i.setValue(rm.nextDouble()*100);
-            i.setEnclosure(e1);
+            i.setValue(rm.nextDouble() * 100);
+            i.setBoard(boards.get(0));
             sensorDAO.persist(i);
         }
         for(Actuator i: actuators) {
-            i.setEnclosure(e1);
+            i.setBoard(boards.get(0));
             actuatorDAO.persist(i);
         }
         //Field #2

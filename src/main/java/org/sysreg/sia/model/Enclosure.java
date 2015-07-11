@@ -40,12 +40,8 @@ public class Enclosure implements Serializable {
 	private Use use;
 
     @OneToMany(mappedBy = "enclosure", fetch = FetchType.EAGER)
-	@OrderBy("code ASC")
-    private Set<Sensor> sensors =  new HashSet<Sensor>();
-
-    @OneToMany(mappedBy = "enclosure", fetch = FetchType.EAGER)
 	@OrderBy("id ASC")
-    private Set<Actuator> actuators = new HashSet<Actuator>();
+    private Set<Board> boards =  new HashSet<>();
 
 	public Parcel getParcel() {
 		return parcel;
@@ -103,27 +99,19 @@ public class Enclosure implements Serializable {
 		this.use = use;
 	}
 
-    public Set<Sensor> getSensors() {
-        return sensors;
-    }
+	public Set<Board> getBoards() {
+		return boards;
+	}
 
-    public void setSensors(Set<Sensor> sensors) {
-        this.sensors = sensors;
-    }
+	public void setBoards(Set<Board> boards) {
+		this.boards = boards;
+	}
 
-    public Set<Actuator> getActuators() {
-        return actuators;
-    }
-
-    public void setActuators(Set<Actuator> actuators) {
-        this.actuators = actuators;
-    }
-
-    public String toString() {
+	public String toString() {
 		return "Recinto [id=" + getEnclosure() + ", superficie=" + area
 				+ ", pendiente=" + slope + ", coefRegadio=" + irrigationCoef
-				+ ", coordinates=" + coordinates.toString() + ", use="
-				+ use.getDescription() + "]";
+				+ ", coordinates=" + (coordinates != null ? coordinates.toString() : "-") + ", use="
+				+ (use != null ? use.getDescription() : "-") + "]";
 	}
 
     public String getId(){

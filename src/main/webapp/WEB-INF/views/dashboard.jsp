@@ -63,10 +63,11 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <c:forEach items="${enclosure.sensors}" var="sensor">
-                                            <tr>
-                                                <td><c:out value="${sensor.id}"/></td>
-                                                <td>
+                                        <c:forEach items="${enclosure.boards}" var="board">
+                                            <c:forEach items="${board.sensors}" var="sensor">
+                                                <tr>
+                                                    <td><c:out value="${sensor.id}"/></td>
+                                                    <td>
                                                     <span id="${sensor.id}-value">
                                                         <fmt:formatNumber type="number" maxFractionDigits="2" value="${sensor.value}" />
                                                     </span>
@@ -92,13 +93,14 @@
                                                             </c:otherwise>
                                                         </c:choose>
                                                     </span>
-                                                </td>
-                                                <td>
-                                                    <button type="button" id="sensor-refresh" value="${sensor.id}" class="btn btn-default btn-xs" aria-label="Refresh Sensor" onclick="checkAvailability('${sensor.id}')">
-                                                        <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
-                                                    </button>
-                                                </td>
-                                            </tr>
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" id="sensor-refresh" value="${sensor.id}" class="btn btn-default btn-xs" aria-label="Refresh Sensor" onclick="checkAvailability('${sensor.id}')">
+                                                            <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
                                         </c:forEach>
                                         </tbody>
                                     </table>
@@ -131,23 +133,25 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <c:forEach items="${enclosure.actuators}" var="actuator">
-                                            <tr>
-                                                <td><c:out value="${actuator.id}"/></td>
-                                                <td><c:out value="${actuator.description}"/></td>
-                                                <td>
-                                                    <c:if test="${actuator.enabled == true}">
-                                                        <button type="button" class="btn btn-default btn-xs active" data-toggle="button" aria-pressed="true" autocomplete="off">
-                                                            <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-                                                        </button>
-                                                    </c:if>
-                                                    <c:if test="${actuator.enabled == false}">
-                                                        <button type="button" class="btn btn-default btn-xs" data-toggle="button" aria-pressed="false" autocomplete="off">
-                                                            <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-                                                        </button>
-                                                    </c:if>
-                                                </td>
-                                            </tr>
+                                        <c:forEach items="${enclosure.boards}" var="board">
+                                            <c:forEach items="${board.actuators}" var="actuator">
+                                                <tr>
+                                                    <td><c:out value="${actuator.id}"/></td>
+                                                    <td><c:out value="${actuator.description}"/></td>
+                                                    <td>
+                                                        <c:if test="${actuator.enabled == true}">
+                                                            <button type="button" class="btn btn-default btn-xs active" data-toggle="button" aria-pressed="true" autocomplete="off">
+                                                                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                                                            </button>
+                                                        </c:if>
+                                                        <c:if test="${actuator.enabled == false}">
+                                                            <button type="button" class="btn btn-default btn-xs" data-toggle="button" aria-pressed="false" autocomplete="off">
+                                                                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                                                            </button>
+                                                        </c:if>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
                                         </c:forEach>
                                         </tbody>
                                     </table>

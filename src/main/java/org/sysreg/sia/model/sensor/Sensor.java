@@ -1,5 +1,6 @@
 package org.sysreg.sia.model.sensor;
 
+import org.sysreg.sia.model.Board;
 import org.sysreg.sia.model.Enclosure;
 
 import javax.persistence.*;
@@ -33,15 +34,8 @@ public class Sensor implements Serializable{
     private String description;
 
     @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name = "TOWN_ID", referencedColumnName = "TOWN_ID"),
-            @JoinColumn(name = "AGGREGATE", referencedColumnName = "AGGREGATE"),
-            @JoinColumn(name = "ZONE", referencedColumnName = "ZONE"),
-            @JoinColumn(name = "POLYGON", referencedColumnName = "POLYGON"),
-            @JoinColumn(name = "PARCEL", referencedColumnName = "PARCEL"),
-            @JoinColumn(name = "ENCLOSURE", referencedColumnName = "ENCLOSURE"),
-    })
-    private Enclosure enclosure;
+    @JoinColumn(name = "BOARD_ID")
+    private Board board;
 
     public String getId() {
         return id;
@@ -83,12 +77,12 @@ public class Sensor implements Serializable{
         this.units = units;
     }
 
-    public Enclosure getEnclosure() {
-        return enclosure;
+    public Board getBoard() {
+        return board;
     }
 
-    public void setEnclosure(Enclosure enclosure) {
-        this.enclosure = enclosure;
+    public void setBoard(Board board) {
+        this.board = board;
     }
 
     public String toString() {

@@ -12,7 +12,7 @@ import javax.persistence.PersistenceContext;
 public class ActuatorDAOImpl implements ActuatorDAO {
 
 	@PersistenceContext
-	private EntityManager entityManager;
+    private EntityManager entityManager;
 
     @Override
     @Transactional

@@ -40,6 +40,9 @@ public class ActuatorTest {
     @Autowired
     private EnclosureDAO enclosureDAO;
 
+    @Autowired
+    private BoardDAO boardDAO;
+
     @Test
     public void testCreation(){
         ArrayList<Actuator> actuators = new ArrayList<Actuator>();
@@ -82,14 +85,19 @@ public class ActuatorTest {
         e1.setArea(25F);
         e1.setIrrigationCoef(100);
         e1.setSlope(0F);
+        //Board
+        Board b1 = new Board(2222,"USB","Test board");
         //Set relations
         e1.setParcel(p1);
         p1.setField(f1);
         f1.setUser(defaultUser);
+        b1.setEnclosure(e1);
 
         fieldDAO.persist(f1);
         parcelDAO.persist(p1);
         enclosureDAO.persist(e1);
+        boardDAO.persist(b1);
+
 
         ArrayList<Actuator> actuators = new ArrayList<Actuator>();
         Actuator actuator;
@@ -98,14 +106,14 @@ public class ActuatorTest {
         actuator = new Actuator("1");
         actuator.setDescription("Test actuator #1");
         actuator.setEnabled(true);
-        actuator.setEnclosure(e1);
+        actuator.setBoard(b1);
         actuators.add(actuator);
 
         //Basic Actuator
         actuator = new BasicActuator("2");
         actuator.setDescription("Test actuator #2");
         actuator.setEnabled(false);
-        actuator.setEnclosure(e1);
+        actuator.setBoard(b1);
         actuators.add(actuator);
 
         for(Actuator i: actuators)
@@ -114,10 +122,10 @@ public class ActuatorTest {
         //SELECT
         actuator = actuatorDao.findById("1");
         assertEquals(actuator, actuators.get(0));
-        assertEquals(e1.getArea(),actuators.get(0).getEnclosure().getArea(),0.002);
+        assertEquals(e1.getArea(),actuators.get(0).getBoard().getEnclosure().getArea(),0.002);
 
         actuator = actuatorDao.findById("2");
         assertEquals(actuator, actuators.get(1));
-        assertEquals(e1.getParcel().getTown().getId(),actuators.get(1).getEnclosure().getParcel().getTown().getId());
+        assertEquals(e1.getParcel().getTown().getId(),actuators.get(1).getBoard().getEnclosure().getParcel().getTown().getId());
     }
 }
