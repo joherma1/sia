@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>Persistence</ID>
+  <OriginalElement>JavaeeElement:/cd4eb85/entityManagerFactory/sia/jpa/JPA/PersistenceModel</OriginalElement>
+  <nodes>
+    <node x="165.0" y="190.0">User#file:///Projects/sia/src/main/java/org/sysreg/sia/model/User.java</node>
+    <node x="1147.409090909091" y="289.0">Temperature#file:///Projects/sia/src/main/java/org/sysreg/sia/model/sensor/Temperature.java</node>
+    <node x="1517.8977272727273" y="512.0">BMP085#file:///Projects/sia/src/main/java/org/sysreg/sia/model/sensor/BMP085.java</node>
+    <node x="991.409090909091" y="256.0">Board#file:///Projects/sia/src/main/java/org/sysreg/sia/model/Board.java</node>
+    <node x="1204.5" y="0.0">Sensor#file:///Projects/sia/src/main/java/org/sysreg/sia/model/sensor/Sensor.java</node>
+    <node x="248.99431818181813" y="33.0">Town#file:///Projects/sia/src/main/java/org/sysreg/sia/model/Town.java</node>
+    <node x="1321.8977272727273" y="289.0">Humidity#file:///Projects/sia/src/main/java/org/sysreg/sia/model/sensor/Humidity.java</node>
+    <node x="278.0" y="631.0">EnclosureId#file:///Projects/sia/src/main/java/org/sysreg/sia/model/EnclosureId.java</node>
+    <node x="547.034090909091" y="11.0">Coordinates#file:///Projects/sia/src/main/java/org/sysreg/sia/model/Coordinates.java</node>
+    <node x="1368.909090909091" y="512.0">SoilMoisture#file:///Projects/sia/src/main/java/org/sysreg/sia/model/sensor/SoilMoisture.java</node>
+    <node x="29.0" y="267.0">Region#file:///Projects/sia/src/main/java/org/sysreg/sia/model/Region.java</node>
+    <node x="1268.909090909091" y="512.0">HH10D#file:///Projects/sia/src/main/java/org/sysreg/sia/model/sensor/HH10D.java</node>
+    <node x="0.0" y="33.0">Province#file:///Projects/sia/src/main/java/org/sysreg/sia/model/Province.java</node>
+    <node x="441.0" y="234.0">Parcel#file:///Projects/sia/src/main/java/org/sysreg/sia/model/Parcel.java</node>
+    <node x="412.25" y="490.0">Field#file:///Projects/sia/src/main/java/org/sysreg/sia/model/Field.java</node>
+    <node x="851.409090909091" y="289.0">BasicActuator#file:///Projects/sia/src/main/java/org/sysreg/sia/model/actuator/BasicActuator.java</node>
+    <node x="1452.8977272727273" y="256.0">Pressure#file:///Projects/sia/src/main/java/org/sysreg/sia/model/sensor/Pressure.java</node>
+    <node x="621.0568181818182" y="468.0">Enclosure#file:///Projects/sia/src/main/java/org/sysreg/sia/model/Enclosure.java</node>
+    <node x="695.409090909091" y="267.0">Use#file:///Projects/sia/src/main/java/org/sysreg/sia/model/Use.java</node>
+    <node x="1158.909090909091" y="512.0">DS18B20#file:///Projects/sia/src/main/java/org/sysreg/sia/model/sensor/DS18B20.java</node>
+    <node x="171.0" y="490.0">Authority#file:///Projects/sia/src/main/java/org/sysreg/sia/model/Authority.java</node>
+    <node x="0.0" y="631.0">ParcelId#file:///Projects/sia/src/main/java/org/sysreg/sia/model/ParcelId.java</node>
+    <node x="891.3977272727273" y="22.0">Actuator#file:///Projects/sia/src/main/java/org/sysreg/sia/model/actuator/Actuator.java</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="DS18B20#file:///Projects/sia/src/main/java/org/sysreg/sia/model/sensor/DS18B20.java" target="Temperature#file:///Projects/sia/src/main/java/org/sysreg/sia/model/sensor/Temperature.java">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="Field#file:///Projects/sia/src/main/java/org/sysreg/sia/model/Field.java" target="User#file:///Projects/sia/src/main/java/org/sysreg/sia/model/User.java">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="Parcel#file:///Projects/sia/src/main/java/org/sysreg/sia/model/Parcel.java" target="Town#file:///Projects/sia/src/main/java/org/sysreg/sia/model/Town.java">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="Parcel#file:///Projects/sia/src/main/java/org/sysreg/sia/model/Parcel.java" target="Coordinates#file:///Projects/sia/src/main/java/org/sysreg/sia/model/Coordinates.java">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="Region#file:///Projects/sia/src/main/java/org/sysreg/sia/model/Region.java" target="Province#file:///Projects/sia/src/main/java/org/sysreg/sia/model/Province.java">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="BasicActuator#file:///Projects/sia/src/main/java/org/sysreg/sia/model/actuator/BasicActuator.java" target="Actuator#file:///Projects/sia/src/main/java/org/sysreg/sia/model/actuator/Actuator.java">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="Enclosure#file:///Projects/sia/src/main/java/org/sysreg/sia/model/Enclosure.java" target="Board#file:///Projects/sia/src/main/java/org/sysreg/sia/model/Board.java">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="Board#file:///Projects/sia/src/main/java/org/sysreg/sia/model/Board.java" target="Sensor#file:///Projects/sia/src/main/java/org/sysreg/sia/model/sensor/Sensor.java">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="Temperature#file:///Projects/sia/src/main/java/org/sysreg/sia/model/sensor/Temperature.java" target="Sensor#file:///Projects/sia/src/main/java/org/sysreg/sia/model/sensor/Sensor.java">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="Humidity#file:///Projects/sia/src/main/java/org/sysreg/sia/model/sensor/Humidity.java" target="Sensor#file:///Projects/sia/src/main/java/org/sysreg/sia/model/sensor/Sensor.java">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="HH10D#file:///Projects/sia/src/main/java/org/sysreg/sia/model/sensor/HH10D.java" target="Humidity#file:///Projects/sia/src/main/java/org/sysreg/sia/model/sensor/Humidity.java">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="Board#file:///Projects/sia/src/main/java/org/sysreg/sia/model/Board.java" target="Actuator#file:///Projects/sia/src/main/java/org/sysreg/sia/model/actuator/Actuator.java">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="BMP085#file:///Projects/sia/src/main/java/org/sysreg/sia/model/sensor/BMP085.java" target="Pressure#file:///Projects/sia/src/main/java/org/sysreg/sia/model/sensor/Pressure.java">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="Field#file:///Projects/sia/src/main/java/org/sysreg/sia/model/Field.java" target="Parcel#file:///Projects/sia/src/main/java/org/sysreg/sia/model/Parcel.java">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="Pressure#file:///Projects/sia/src/main/java/org/sysreg/sia/model/sensor/Pressure.java" target="Sensor#file:///Projects/sia/src/main/java/org/sysreg/sia/model/sensor/Sensor.java">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="Region#file:///Projects/sia/src/main/java/org/sysreg/sia/model/Region.java" target="Town#file:///Projects/sia/src/main/java/org/sysreg/sia/model/Town.java">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="Enclosure#file:///Projects/sia/src/main/java/org/sysreg/sia/model/Enclosure.java" target="Coordinates#file:///Projects/sia/src/main/java/org/sysreg/sia/model/Coordinates.java">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="User#file:///Projects/sia/src/main/java/org/sysreg/sia/model/User.java" target="Town#file:///Projects/sia/src/main/java/org/sysreg/sia/model/Town.java">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="SoilMoisture#file:///Projects/sia/src/main/java/org/sysreg/sia/model/sensor/SoilMoisture.java" target="Humidity#file:///Projects/sia/src/main/java/org/sysreg/sia/model/sensor/Humidity.java">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="Authority#file:///Projects/sia/src/main/java/org/sysreg/sia/model/Authority.java" target="User#file:///Projects/sia/src/main/java/org/sysreg/sia/model/User.java">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="Enclosure#file:///Projects/sia/src/main/java/org/sysreg/sia/model/Enclosure.java" target="Parcel#file:///Projects/sia/src/main/java/org/sysreg/sia/model/Parcel.java">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="Enclosure#file:///Projects/sia/src/main/java/org/sysreg/sia/model/Enclosure.java" target="Use#file:///Projects/sia/src/main/java/org/sysreg/sia/model/Use.java">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.5082174462705437" x="833.0" y="385.49999999999994" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Properties</Category>
+    <Category>Embeddables</Category>
+    <Category>Superclasses</Category>
+  </Categories>
+</Diagram>
+
