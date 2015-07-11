@@ -1,13 +1,20 @@
 package org.sysreg.sia.model;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
-
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.util.DigestUtils;
+import org.sysreg.sia.model.actuator.Actuator;
+import org.sysreg.sia.model.actuator.BasicActuator;
 import org.sysreg.sia.model.dao.*;
+import org.sysreg.sia.model.sensor.*;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 public class InitializeDatabase {
 
@@ -19,6 +26,8 @@ public class InitializeDatabase {
         populate.loadTowns();
         System.out.println("Populating users and authorities");
         populate.loadUsersAndAuthorities();
+        System.out.println("Populating SIGPAC uses");
+        populate.loadUses();
         System.out.println("Populating data for tests");
         populate.loadTestData();
         System.out.println("Finished");
@@ -635,7 +644,6 @@ public class InitializeDatabase {
         entityManager.close();
     }
 
-
     public void loadUsersAndAuthorities(){
         //Wire beans
         UserDAO userDAO = context.getBean(UserDAO.class);
@@ -668,6 +676,48 @@ public class InitializeDatabase {
         entityManager.close();
     }
 
+    public void loadUses(){
+        // Open a transaction
+        EntityManagerFactory factory = (EntityManagerFactory) context.getBean("entityManagerFactory");
+        EntityManager entityManager = factory.createEntityManager();
+        entityManager.getTransaction().begin();
+
+        Query queryUses = entityManager
+                .createNativeQuery("INSERT INTO \"public\".\"uses\" VALUES ('CF', 'Asociación Cítricos - Frutales');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('CS', 'Asociación Cítricos - Frutales de Cáscara');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('CV', 'Asociación Cítricos - Viñedo');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('FF', 'Asociación Frutales - Frutales De Cáscara');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('OC', 'Asociación Olivar - Cítricos');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('CI', 'Cítricos');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('AG', 'Corrientes y Superficies de Agua');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('ED', 'Edificaciones');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('FO', 'Forestal');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('FY', 'Frutales');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('FS', 'Frutos Secos');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('FL', 'Frutos Secos y Olivar');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('FV', 'Frutos Secos y Viñedo');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('TH', 'Huerta');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('IM', 'Improductivos');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('IV', 'Invernaderos y cultivos bajo plastico');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('OV', 'Olivar');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('OF', 'Olivar - Frutal');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('PS', 'Pastizal');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('PR', 'Pasto Arbustivo');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('PA', 'Pasto con Arbolado');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('TA', 'Tierras Arables');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('CA', 'Viales');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('VI', 'Viñedo');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('VF', 'Viñedo - Frutal');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('VO', 'Viñedo - Olivar');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('ZV', 'Zona Censurada');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('ZF', 'Zona Concentrada no incluida en la Ortofoto');" +
+                        "INSERT INTO \"public\".\"uses\" VALUES ('ZI', 'Zona Urbana');");
+        queryUses.executeUpdate();
+
+        entityManager.getTransaction().commit();
+        entityManager.close();
+    }
+
     void loadTestData(){
         //Wire beans
         UserDAO userDAO = context.getBean(UserDAO.class);
@@ -675,6 +725,10 @@ public class InitializeDatabase {
         FieldDAO fieldDAO = context.getBean(FieldDAO.class);
         ParcelDAO parcelDAO = context.getBean(ParcelDAO.class);
         EnclosureDAO enclosureDAO = context.getBean(EnclosureDAO.class);
+        UseDAO useDAO = context.getBean(UseDAO.class);
+        SensorDAO sensorDAO = context.getBean(SensorDAO.class);
+        ActuatorDAO actuatorDAO = context.getBean(ActuatorDAO.class);
+        BoardDAO boardDAO = context.getBean(BoardDAO.class);
 
         // Open a transaction
         EntityManagerFactory factory = (EntityManagerFactory) context.getBean("entityManagerFactory");
@@ -682,7 +736,7 @@ public class InitializeDatabase {
         entityManager.getTransaction().begin();
 
         User defaultUser = userDAO.findByUsername("sia");
-        //Fields
+        //Field #1
         Field f1 = new Field();
         f1.setName("Field #1");
         //Parcel
@@ -700,21 +754,146 @@ public class InitializeDatabase {
         cP1.setSpindle(29);
         p1.setCoordinates(cP1);
         //Enclosure
+        //#1
         Enclosure e1 = new Enclosure();
         e1.setEnclosure(1);
         e1.setCoordinates(cP1);
-        e1.setArea(25F);
+        e1.setArea(20F);
         e1.setIrrigationCoef(100);
         e1.setSlope(0F);
+        e1.setUse(useDAO.findById("CI"));
+
+        //Boards
+        ArrayList<Board> boards =  new ArrayList<>();
+        boards.add(new Board(1234, "USB", "Test Board USB"));
+        boards.add(new Board(5678, "LAN", "Test Board Ethernet"));
+
+        //Sensors 0001
+        ArrayList<Sensor> sensors = new ArrayList<>();
+
+        //Temperature
+        sensors.add(new DS18B20("28f5e9af020000d2"));
+        sensors.add(new DS18B20("282ddbaf020000b0"));
+        sensors.add(new Temperature("T_01", "Temperature"));
+
+        //Pressure
+        sensors.add(new BMP085("bmp085_01"));
+
+        //Humidity
+        sensors.add(new HH10D("HH10D_01"));
+        sensors.add(new SoilMoisture("M_01"));
+
+        //Actuators 0001
+        ArrayList<Actuator> actuators = new ArrayList<>();
+        Actuator actuator;
+        //Actuator
+        actuator = new Actuator("1");
+        actuator.setDescription("Test actuator #1");
+        actuator.setEnabled(true);
+        actuators.add(actuator);
+
+        //Basic Actuator
+        actuator = new BasicActuator("2");
+        actuator.setDescription("Test actuator #2");
+        actuator.setEnabled(false);
+        actuators.add(actuator);
+
+        //#2
+        Enclosure e2 = new Enclosure();
+        e2.setEnclosure(2);
+        e2.setCoordinates(new Coordinates(37D, 45.5D, "DATUM1", 29));
+        e2.setArea(5F);
+        e2.setIrrigationCoef(100);
+        e2.setSlope(0F);
+        e2.setUse(useDAO.findById("CI"));
         //Set relations
         e1.setParcel(p1);
+        e2.setParcel(p1);
         p1.setField(f1);
         f1.setUser(defaultUser);
 
         fieldDAO.persist(f1);
         parcelDAO.persist(p1);
         enclosureDAO.persist(e1);
+        enclosureDAO.persist(e2);
 
+        boards.get(0).setEnclosure(e1);
+        boards.get(1).setEnclosure(e2);
+        boardDAO.persist(boards.get(0));
+        boardDAO.persist(boards.get(1));
+
+        for(Sensor i : sensors) {
+            Random rm = new Random();
+            i.setValue(rm.nextDouble() * 100);
+            i.setBoard(boards.get(0));
+            sensorDAO.persist(i);
+        }
+        for(Actuator i: actuators) {
+            i.setBoard(boards.get(0));
+            actuatorDAO.persist(i);
+        }
+        //Field #2
+        Field f2 = new Field();
+        f2.setName("Field #2");
+        //Parcel #1
+        Parcel p2_1 = new Parcel();
+        p2_1.setParcel(2);
+        p2_1.setPolygon(1);
+        p2_1.setAggregate(4);
+        p2_1.setZone(4);
+        p2_1.setTown(townDAO.findByName("Alcàsser"));
+        p2_1.setArea(2F);
+        p2_1.setCoordinates(new Coordinates(32D,40D,"DATUM1",29));
+        //Enclosure
+        Enclosure e2_1 = new Enclosure();
+        e2_1.setEnclosure(1);
+        e2_1.setCoordinates(new Coordinates(32D, 40D, "DATUM1", 29));
+        e2_1.setArea(2F);
+        e2_1.setIrrigationCoef(100);
+        e2_1.setSlope(0F);
+        e2_1.setUse(useDAO.findById("IM"));
+
+        //Parcel #2
+        Parcel p2_2 = new Parcel();
+        p2_2.setParcel(3);
+        p2_2.setPolygon(1);
+        p2_2.setAggregate(4);
+        p2_2.setZone(4);
+        p2_2.setTown(townDAO.findByName("Alcàsser"));
+        p2_2.setArea(12F);
+        p2_2.setCoordinates(new Coordinates(33.4D,40D,"DATUM1",29));
+        //Enclosure
+        //#1
+        Enclosure e2_2 = new Enclosure();
+        e2_2.setEnclosure(1);
+        e2_2.setCoordinates(new Coordinates(33.4D, 40D, "DATUM1", 29));
+        e2_2.setArea(10F);
+        e2_2.setIrrigationCoef(100);
+        e2_2.setSlope(0F);
+        e2_2.setUse(useDAO.findById("CI"));
+        //#2
+        Enclosure e2_3 = new Enclosure();
+        e2_3.setEnclosure(2);
+        e2_3.setCoordinates(new Coordinates(33.4D, 40D, "DATUM1", 29));
+        e2_3.setArea(2F);
+        e2_3.setIrrigationCoef(90);
+        e2_3.setSlope(0F);
+        e2_3.setUse(useDAO.findById("ED"));
+
+        //Set relations
+        e2_1.setParcel(p2_1);
+        p2_1.setField(f2);
+        e2_2.setParcel(p2_2);
+        e2_3.setParcel(p2_2);
+        p2_2.setField(f2);
+        f2.setUser(defaultUser);
+
+        fieldDAO.persist(f2);
+        parcelDAO.persist(p2_1);
+        parcelDAO.persist(p2_2);
+        enclosureDAO.persist(e2_1);
+        enclosureDAO.persist(e2_2);
+        enclosureDAO.persist(e2_3);
 
     }
 }

@@ -20,4 +20,10 @@ public class UseDAOImpl implements UseDAO {
 		entityManager.persist(use);
 	}
 
+    @Override
+    @Transactional
+    public Use findById(String id) {
+        return entityManager.find(Use.class, id);
+    }
+
 }

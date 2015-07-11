@@ -11,9 +11,11 @@
         <intercept-url pattern="/login" access="permitAll" />
         <intercept-url pattern="/logout" access="permitAll" />
         <intercept-url pattern="/accessdenied" access="permitAll" />
+        <intercept-url pattern="/favicon.ico" access="permitAll" />
+        <intercept-url pattern="/robots.txt" access="permitAll" />
         <intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
-        <form-login login-page="/login"  default-target-url="/towns" authentication-failure-url="/accessdenied"/>
-        <logout logout-success-url="/logout" />
+        <form-login login-page="/login"  default-target-url="/" authentication-failure-url="/accessdenied"/>
+        <logout logout-success-url="/login" />
         <remember-me key="siaKey" token-validity-seconds="1800" />
     </http>
 

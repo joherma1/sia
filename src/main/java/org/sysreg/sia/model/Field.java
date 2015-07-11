@@ -4,13 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "FIELDS")
@@ -18,7 +12,10 @@ public class Field implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+    @TableGenerator(name = "sequenceStore", table = "SEQUENCE_STORE", pkColumnName = "SEQUENCE_NAME", pkColumnValue = "FIELDS_PK", valueColumnName = "SEQUENCE_VALUE", initialValue = 1, allocationSize = 1 )
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "sequenceStore")
 	private int id;
+
 	@Column
 	private String name;
 
@@ -26,7 +23,7 @@ public class Field implements Serializable {
 	@JoinColumn(name = "USER_ID")
 	private User user;
 
-	@OneToMany(mappedBy = "field")
+	@OneToMany(mappedBy = "field", fetch = FetchType.EAGER)
 	private Set<Parcel> parcels = new HashSet<Parcel>();
 
 	public int getId() {
@@ -60,4 +57,8 @@ public class Field implements Serializable {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+    public String toString(){
+        return this.name;
+    }
 }

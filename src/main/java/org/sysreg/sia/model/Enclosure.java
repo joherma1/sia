@@ -1,5 +1,6 @@
 package org.sysreg.sia.model;
 
+import org.sysreg.sia.model.actuator.Actuator;
 import org.sysreg.sia.model.sensor.Sensor;
 
 import javax.persistence.*;
@@ -13,7 +14,7 @@ import java.util.Set;
 public class Enclosure implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	// @Id Evitamos asi que se inerte la parcel de nuevo
+	// @Id
 	@ManyToOne
 	@JoinColumns({
 			@JoinColumn(name = "TOWN_ID", referencedColumnName = "TOWN_ID"),
@@ -38,8 +39,9 @@ public class Enclosure implements Serializable {
 	@JoinColumn(name = "USE_ID")
 	private Use use;
 
-    @OneToMany(mappedBy = "enclosure")
-    private Set<Sensor> sensors =  new HashSet<Sensor>();
+    @OneToMany(mappedBy = "enclosure", fetch = FetchType.EAGER)
+	@OrderBy("id ASC")
+    private Set<Board> boards =  new HashSet<>();
 
 	public Parcel getParcel() {
 		return parcel;
@@ -97,19 +99,26 @@ public class Enclosure implements Serializable {
 		this.use = use;
 	}
 
-    public Set<Sensor> getSensors() {
-        return sensors;
-    }
+	public Set<Board> getBoards() {
+		return boards;
+	}
 
-    public void setSensors(Set<Sensor> sensors) {
-        this.sensors = sensors;
-    }
+	public void setBoards(Set<Board> boards) {
+		this.boards = boards;
+	}
 
-    public String toString() {
+	public String toString() {
 		return "Recinto [id=" + getEnclosure() + ", superficie=" + area
 				+ ", pendiente=" + slope + ", coefRegadio=" + irrigationCoef
-				+ ", coordinates=" + coordinates.toString() + ", use="
-				+ use.getDescription() + "]";
+				+ ", coordinates=" + (coordinates != null ? coordinates.toString() : "-") + ", use="
+				+ (use != null ? use.getDescription() : "-") + "]";
 	}
+
+    public String getId(){
+        String id = String.format("%05d", getParcel().getTown().getId());
+        id += String.format("%03d",getParcel().getAggregate()) + String.format("%03d",getParcel().getZone()) + String.format("%03d",getParcel().getPolygon()) + String.format("%03d",getParcel().getParcel());
+        id += String.format("%03d",getEnclosure());
+        return id;
+    }
 
 }

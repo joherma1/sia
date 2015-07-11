@@ -1,4 +1,4 @@
-package org.sysreg.sia.model.sensor;
+package org.sysreg.sia.model.actuator;
 
 import org.sysreg.sia.model.Board;
 import org.sysreg.sia.model.Enclosure;
@@ -11,31 +11,32 @@ import java.lang.reflect.Field;
  * Created by jose on 08/02/14.
  */
 @Entity
-@Table(name = "SENSORS")
+@Table(name = "ACTUATORS")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "SENSOR_TYPE")
-@DiscriminatorValue("SENSOR")
-public class Sensor implements Serializable{
+@DiscriminatorColumn(name = "ACTUATOR_TYPE")
+@DiscriminatorValue("ACTUATOR")
+public class Actuator implements Serializable{
     private static final long serialVersionUID = 1L;
 
     @Id
     private String id;
 
     @Column
-    private String code;
-    @Column
-    private double value;
+    private boolean enabled;
 
-    protected enum Units {CELSIUS, FAHRENHEIT, KELVIN, PASCAL, PERCENT};
-    @Column
-    @Enumerated(EnumType.STRING)
-    private Units units;
     @Column
     private String description;
 
     @ManyToOne
     @JoinColumn(name = "BOARD_ID")
     private Board board;
+
+    public Actuator() {
+    }
+
+    public Actuator(String id) {
+        this.id = id;
+    }
 
     public String getId() {
         return id;
@@ -45,20 +46,12 @@ public class Sensor implements Serializable{
         this.id = id;
     }
 
-    public String getCode() {
-        return code;
+    public boolean isEnabled() {
+        return enabled;
     }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public double getValue() {
-        return value;
-    }
-
-    public void setValue(double value) {
-        this.value = value;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public String getDescription() {
@@ -67,14 +60,6 @@ public class Sensor implements Serializable{
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Units getUnits() {
-        return units;
-    }
-
-    public void setUnits(Units units) {
-        this.units = units;
     }
 
     public Board getBoard() {
@@ -93,10 +78,10 @@ public class Sensor implements Serializable{
             return res;
     }
 
-    static String printAttributes(Class<?> clazz, Sensor sensor) {
+    static String printAttributes(Class<?> clazz, Actuator sensor) {
         String res = "";
         try {
-            if (clazz.equals(Sensor.class)) {
+            if (clazz.equals(Actuator.class)) {
                 Field[] fields = clazz.getDeclaredFields();
                 for (Field field : fields) {
                     field.setAccessible(true);

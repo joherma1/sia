@@ -7,6 +7,7 @@ import javax.persistence.Embeddable;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+@SuppressWarnings("JpaAttributeTypeInspection")
 @Embeddable
 public class EnclosureId implements Serializable {
 	private static final long serialVersionUID = 1L;

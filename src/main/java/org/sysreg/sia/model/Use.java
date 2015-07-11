@@ -19,8 +19,8 @@ public class Use implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
+    @Column(length = 2)
+	private String id; //2 Char code
 
 	@Column(name = "DESCRIPTION", length = 255)
 	private String description;
@@ -28,11 +28,11 @@ public class Use implements Serializable {
 	@OneToMany(mappedBy = "use")
 	private Set<Enclosure> enclosures;
 
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

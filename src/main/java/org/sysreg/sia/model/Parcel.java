@@ -4,15 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "PARCELS")
@@ -20,7 +12,7 @@ import javax.persistence.Table;
 public class Parcel implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	// @Id Evitamos asi que inserte el town de nuevo
+	// @Id Commented o avoid town insertion again
 	@ManyToOne
 	@JoinColumn(name = "TOWN_ID")
 	private Town town;
@@ -37,8 +29,9 @@ public class Parcel implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "FIELD_ID")
 	private Field field;
-	@OneToMany(mappedBy = "parcel")
-	private Set<Enclosure> enclosure = new HashSet<Enclosure>();
+	@OneToMany(mappedBy = "parcel", fetch = FetchType.EAGER)
+	@OrderBy("enclosure ASC")
+	private Set<Enclosure> enclosures = new HashSet<Enclosure>();
 	@Embedded
 	private Coordinates coordinates;
 
@@ -90,12 +83,12 @@ public class Parcel implements Serializable {
 		this.area = area;
 	}
 
-	public Set<Enclosure> getEnclosure() {
-		return enclosure;
+	public Set<Enclosure> getEnclosures() {
+		return enclosures;
 	}
 
-	public void setEnclosure(Set<Enclosure> enclosure) {
-		this.enclosure = enclosure;
+	public void setEnclosures(Set<Enclosure> enclosure) {
+		this.enclosures = enclosure;
 	}
 
 	public Coordinates getCoordinates() {
@@ -113,4 +106,8 @@ public class Parcel implements Serializable {
 	public void setField(Field field) {
 		this.field = field;
 	}
+
+    public String toString(){
+        return getTown().getName() + ": " + getAggregate() + " - " + getZone();
+    }
 }

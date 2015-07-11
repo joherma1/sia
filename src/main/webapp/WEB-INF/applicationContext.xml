@@ -1,46 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
+<beans xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-3.0.xsd
         http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close">
-		<property name="driverClassName" value="org.postgresql.Driver" />
+    <!-- Bean for the Entity Manager (via entityManagerFactory managed by the container) -->
+    <bean id="entityManagerFactory"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <!-- Data origin -->
+        <property name="dataSource" ref="dataSource"/>
+        <!-- JPA implementation -->
+        <property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>
+        <!-- Hibernate specific properties -->
+        <!-- <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.hbm2ddl.auto">create-drop</prop>
+            </props>
+        </property>
+        -->
+        <!-- Package where search the entities (@Entities). It allows to remove persistence.xml-->
+        <property name="packagesToScan" value="org.sysreg.sia.model"/>
+    </bean>
+
+    <!-- Data Souce: PostgreSQL -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="org.postgresql.Driver"/>
         <!-- RaspberryPi -->
-		<!-- <property name="url" value="jdbc:postgresql://10.0.1.19:5432/sia_pru" />
-		<property name="username" value="sia_app" />
-		<property name="password" value="agricultura.1" />
-		-->
+        <!-- <property name="url" value="jdbc:postgresql://10.0.1.19:5432/sia_pru" />
+        <property name="username" value="sia_app" />
+        <property name="password" value="agricultura.1" />
+        -->
         <!-- Localhost -->
         <property name="url" value="jdbc:postgresql://localhost:5432/sia_dev"/>
-        <property name="initialSize" value="1" />
-		<property name="maxActive" value="20" />
-	</bean>
+        <property name="initialSize" value="1"/>
+        <property name="maxActive" value="20"/>
+    </bean>
 
-	<bean id="entityManagerFactory"
-		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="persistenceUnitName" value="siaPU" />
-		<property name="dataSource" ref="dataSource" />
-	</bean>
+    <!-- JPA implementation: Hibernate -->
+    <bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+        <property name="database" value="POSTGRESQL"/>
+        <property name="showSql" value="true"/>
+        <!-- Schema update enabled for development, change to "false" in production (avoid DB update) -->
+        <property name="generateDdl" value="true"/>
+        <property name="databasePlatform" value="org.hibernate.dialect.PostgreSQLDialect"/>
+    </bean>
 
-	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-		<property name="entityManagerFactory" ref="entityManagerFactory" />
-	</bean>
+    <!-- Transactions managed by JPA -->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
 
-	<bean
-		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+    <!-- Inject EntityManager with @PersistentConten -->
+    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
 
-	<context:annotation-config />
+    <!-- Manage SQL Exceptions -->
+    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
 
-	<tx:annotation-driven />
+    <context:annotation-config/>
 
-	<context:component-scan base-package="org.sysreg.sia.model" />
+    <tx:annotation-driven/>
+
+    <context:component-scan base-package="org.sysreg.sia.model"/>
 
 
 </beans>
