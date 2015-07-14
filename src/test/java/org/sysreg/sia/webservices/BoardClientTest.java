@@ -6,11 +6,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.sysreg.sia.webservices.dto.BoardDTO;
+import org.sysreg.sia.webservices.dto.SensorDTO;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Created by joseant on 11/07/15.
@@ -29,20 +30,28 @@ public class BoardClientTest {
     }
 
     @Test
-    public void testConnection(){
+    public void testConnection() {
         boardClient.testConnection();
     }
 
     @Test
-    public void testGetBoard(){
-        BoardDTO board = boardClient.getBoard("55a0e45766cfdc4b023f932d");
-        assertNotNull(board);
+    public void testGetBoards() {
+        ArrayList<BoardDTO> boards = boardClient.getBoards();
+        assertNotNull(boards);
+        assertTrue(boards.size() > 0);
+        BoardDTO board = boardClient.getBoard(boards.get(0).get_id());
+        assertEquals(board, boards.get(0));
     }
 
     @Test
-    public void testGetBoards(){
+    public void testGetSensors(){
         ArrayList<BoardDTO> boards = boardClient.getBoards();
         assertNotNull(boards);
-        assertTrue(boards.size()>0);
+        assertTrue(boards.size() > 0);
+        ArrayList<SensorDTO> sensors = boardClient.getSensors(boards.get(0).get_id());
+        assertNotNull(sensors);
+        for(SensorDTO sensor: sensors){
+            assertNotEquals(sensor.get_id(),"");
+        }
     }
 }

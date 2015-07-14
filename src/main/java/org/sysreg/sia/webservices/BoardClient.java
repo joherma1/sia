@@ -2,10 +2,9 @@ package org.sysreg.sia.webservices;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.client.RestTemplate;
+import org.sysreg.sia.webservices.dto.BoardDTO;
+import org.sysreg.sia.webservices.dto.SensorDTO;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -62,16 +61,22 @@ public class BoardClient {
 
     public ArrayList<BoardDTO> getBoards() {
         BoardDTO[] boards = springWSClient.getForObject("http://" + url + ":" + port + "/boards", BoardDTO[].class);
-        log.info(boards);
         return new ArrayList<BoardDTO>(Arrays.asList(boards));
     }
 
     public BoardDTO getBoard(String id) {
         String uri = "http://" + url + ":" + port + "/boards/{id}";
         Map<String, String> params = new HashMap<String, String>();
-        params.put("id", "55a0e45766cfdc4b023f932d");
+        params.put("id", id);
         BoardDTO board = springWSClient.getForObject(uri, BoardDTO.class, params);
-        log.info(board);
         return board;
+    }
+
+    public ArrayList<SensorDTO> getSensors(String boardId){
+        String uri = "http://" + url + ":" + port + "/boards/{boardId}/sensors";
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("boardId", boardId);
+        SensorDTO[] sensors = springWSClient.getForObject(uri, SensorDTO[].class, params);
+        return new ArrayList<>(Arrays.asList(sensors));
     }
 }
