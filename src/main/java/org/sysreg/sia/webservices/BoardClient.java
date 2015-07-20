@@ -79,4 +79,22 @@ public class BoardClient {
         SensorDTO[] sensors = springWSClient.getForObject(uri, SensorDTO[].class, params);
         return new ArrayList<>(Arrays.asList(sensors));
     }
+
+    public SensorDTO getSensor(String boardId, String sensorId){
+        String uri = "http://" + url + ":" + port + "/boards/{boardId}/sensors/{sensorId}";
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("boardId", boardId);
+        params.put("sensorId", sensorId);
+        SensorDTO sensor = springWSClient.getForObject(uri, SensorDTO.class, params);
+        return sensor;
+    }
+
+    public Float getSensorValue (String boardId, String sensorId){
+        String uri = "http://" + url + ":" + port + "/boards/{boardId}/sensors/{sensorId}";
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("boardId", boardId);
+        params.put("sensorId", sensorId);
+        SensorDTO sensor = springWSClient.getForObject(uri, SensorDTO.class, params);
+        return sensor.getValue();
+    }
 }

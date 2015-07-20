@@ -54,4 +54,30 @@ public class BoardClientTest {
             assertNotEquals(sensor.get_id(),"");
         }
     }
+
+    @Test
+    public void testGetSensor(){
+        ArrayList<BoardDTO> boards = boardClient.getBoards();
+        assertNotNull(boards);
+        assertTrue(boards.size() > 0);
+        ArrayList<SensorDTO> sensors = boardClient.getSensors(boards.get(0).get_id());
+        assertNotNull(sensors);
+        for(SensorDTO sensor: sensors){
+            assertEquals(sensor, boardClient.getSensor(boards.get(0).get_id(),sensor.get_id()));
+        }
+    }
+
+    @Test
+    public void testGetSensorValue(){
+        ArrayList<BoardDTO> boards = boardClient.getBoards();
+        assertNotNull(boards);
+        assertTrue(boards.size() > 0);
+        ArrayList<SensorDTO> sensors = boardClient.getSensors(boards.get(0).get_id());
+        assertNotNull(sensors);
+        for(SensorDTO sensor: sensors){
+            assertEquals(sensor, boardClient.getSensor(boards.get(0).get_id(),sensor.get_id()));
+            Float value = boardClient.getSensorValue(boards.get(0).get_id(),sensor.get_id());
+            assertEquals(value, sensor.getValue());
+        }
+    }
 }
