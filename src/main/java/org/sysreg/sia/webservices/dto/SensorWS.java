@@ -1,10 +1,8 @@
-package org.sysreg.sia.webservices;
+package org.sysreg.sia.webservices.dto;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.client.RestTemplate;
-import org.sysreg.sia.webservices.dto.BoardDTO;
-import org.sysreg.sia.webservices.dto.SensorDTO;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,10 +10,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by joseant on 11/07/15.
+ * Created by joseant on 20/07/15.
  */
-public class BoardClient {
-    private static final Logger log = LogManager.getLogger(BoardClient.class.getName());
+public class SensorWS {
+    private static final Logger log = LogManager.getLogger(SensorWS.class);
 
     RestTemplate springWSClient;
 
@@ -23,19 +21,12 @@ public class BoardClient {
 
     private int port;
 
-    public BoardClient() {
+
+    public SensorWS() {
     }
 
-    public BoardClient(String url, int port) {
+    public SensorWS(String url, int port) {
         this.url = url;
-        this.port = port;
-    }
-
-    public int getPort() {
-        return port;
-    }
-
-    public void setPort(int port) {
         this.port = port;
     }
 
@@ -47,29 +38,20 @@ public class BoardClient {
         this.url = url;
     }
 
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
     public RestTemplate getSpringWSClient() {
         return springWSClient;
     }
 
     public void setSpringWSClient(RestTemplate springWSClient) {
         this.springWSClient = springWSClient;
-    }
-
-    public void testConnection() {
-        springWSClient.getForObject("http://" + url + ":" + port, String.class);
-    }
-
-    public ArrayList<BoardDTO> getBoards() {
-        BoardDTO[] boards = springWSClient.getForObject("http://" + url + ":" + port + "/boards", BoardDTO[].class);
-        return new ArrayList<BoardDTO>(Arrays.asList(boards));
-    }
-
-    public BoardDTO getBoard(String id) {
-        String uri = "http://" + url + ":" + port + "/boards/{id}";
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("id", id);
-        BoardDTO board = springWSClient.getForObject(uri, BoardDTO.class, params);
-        return board;
     }
 
     public ArrayList<SensorDTO> getSensors(String boardId){
