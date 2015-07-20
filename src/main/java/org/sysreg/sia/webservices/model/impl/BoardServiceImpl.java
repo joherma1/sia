@@ -13,37 +13,22 @@ import java.util.List;
  */
 public class BoardServiceImpl implements BoardService {
 
-    String host;
-
-    int port;
-
-    BoardWS boardWS;
-
-    public BoardServiceImpl() {
-    }
-
-    public BoardServiceImpl(String host, int port) {
-        this.port = port;
-        this.host = host;
-        this.boardWS = new BoardWS(host, port);
-    }
+    private BoardWS boardWS;
 
     public String getHost() {
-        return host;
+        return boardWS.getHost();
     }
 
     public void setHost(String host) {
-        this.host = host;
-        this.boardWS.setUrl(this.host);
+        boardWS.setHost(host);
     }
 
     public int getPort() {
-        return port;
+        return boardWS.getPort();
     }
 
     public void setPort(int port) {
-        this.port = port;
-        this.boardWS.setPort(this.port);
+        this.boardWS.setPort(port);
     }
 
     public BoardWS getBoardWS() {
@@ -54,15 +39,23 @@ public class BoardServiceImpl implements BoardService {
         this.boardWS = boardWS;
     }
 
+    public BoardServiceImpl() {
+    }
+
+    public BoardServiceImpl(String host, int port) {
+        this.setHost(host);
+        this.setPort(port);
+    }
+
     @Override
     public List<Board> getBoards() {
         //Converter BoardDTO into Board
-        ArrayList<BoardDTO> boards =  boardWS.getBoards();
+        ArrayList<BoardDTO> boards = boardWS.getBoards();
         List<Board> result = new ArrayList<>();
-        for (BoardDTO board : boards){
+        for (BoardDTO board : boards) {
             //TODO
             // Board model has port != board DTO two ids
-            Board aux = new Board(Integer.parseInt(board.getId()), board.get_id(),board.getDescription());
+            Board aux = new Board(Integer.parseInt(board.getId()), board.get_id(), board.getDescription());
             result.add(aux);
         }
         return result;

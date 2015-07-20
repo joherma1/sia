@@ -30,7 +30,7 @@ public class BoardWSTest {
 
     @Before
     public void setUp() {
-        boardWS.setUrl("localhost");
+        boardWS.setHost("localhost");
         boardWS.setPort(3000);
         sensorWS.setUrl("localhost");
         sensorWS.setPort(3000);

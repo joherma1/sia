@@ -15,17 +15,17 @@ import java.util.Map;
 public class BoardWS {
     private static final Logger log = LogManager.getLogger(BoardWS.class.getName());
 
-    RestTemplate springWSClient;
+    private RestTemplate springWSClient;
 
-    private String url;
+    private String host;
 
     private int port;
 
     public BoardWS() {
     }
 
-    public BoardWS(String url, int port) {
-        this.url = url;
+    public BoardWS(String host, int port) {
+        this.host = host;
         this.port = port;
     }
 
@@ -37,12 +37,12 @@ public class BoardWS {
         this.port = port;
     }
 
-    public String getUrl() {
-        return url;
+    public String getHost() {
+        return host;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setHost(String host) {
+        this.host = host;
     }
 
     public RestTemplate getSpringWSClient() {
@@ -54,16 +54,16 @@ public class BoardWS {
     }
 
     public void testConnection() {
-        springWSClient.getForObject("http://" + url + ":" + port, String.class);
+        springWSClient.getForObject("http://" + host + ":" + port, String.class);
     }
 
     public ArrayList<BoardDTO> getBoards() {
-        BoardDTO[] boards = springWSClient.getForObject("http://" + url + ":" + port + "/boards", BoardDTO[].class);
+        BoardDTO[] boards = springWSClient.getForObject("http://" + host + ":" + port + "/boards", BoardDTO[].class);
         return new ArrayList<BoardDTO>(Arrays.asList(boards));
     }
 
     public BoardDTO getBoard(String id) {
-        String uri = "http://" + url + ":" + port + "/boards/{id}";
+        String uri = "http://" + host + ":" + port + "/boards/{id}";
         Map<String, String> params = new HashMap<String, String>();
         params.put("id", id);
         BoardDTO board = springWSClient.getForObject(uri, BoardDTO.class, params);

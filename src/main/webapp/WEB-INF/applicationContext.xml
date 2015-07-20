@@ -87,13 +87,6 @@
     <alias alias="raspberryFacade" name="raspberryFacade" />
     <bean id="raspberryFacade" class="org.sysreg.sia.webservices.facade.impl.RaspberryFacadeImpl" scope="prototype">
         <property name="boardService" ref="boardService"/>
-        <!--<constructor-arg index="0">-->
-            <!--<bean id="boardService" class="org.sysreg.sia.webservices.model.impl.BoardServiceImpl">-->
-                <!--<constructor-arg index="0" type="java.lang.String" value="localhost"/>-->
-                <!--<constructor-arg index="1" type="int" value="3000"/>-->
-                <!--<property name="boardWS" ref="boardWS"/>-->
-            <!--</bean>-->
-        <!--</constructor-arg>-->
     </bean>
 
 </beans>
