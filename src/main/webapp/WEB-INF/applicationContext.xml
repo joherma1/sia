@@ -71,25 +71,25 @@
     <!-- Bean Web services -->
     <bean id="springWSClient" class="org.springframework.web.client.RestTemplate" scope="singleton"/>
 
-    <bean id="boardWS" class="org.sysreg.sia.webservices.dto.BoardWS" scope="prototype">
+    <bean id="boardWS" class="org.sysreg.sia.webservices.dto.BoardWS" scope="request">
         <property name="springWSClient" ref="springWSClient"/>
     </bean>
 
-    <bean id="sensorWS" class="org.sysreg.sia.webservices.dto.SensorWS" scope="prototype">
+    <bean id="sensorWS" class="org.sysreg.sia.webservices.dto.SensorWS" scope="request">
         <property name="springWSClient" ref="springWSClient"/>
     </bean>
 
     <alias alias="boardService" name="boardService" />
-    <bean id="boardService" class="org.sysreg.sia.webservices.model.impl.BoardServiceImpl" scope="prototype">
+    <bean id="boardService" class="org.sysreg.sia.webservices.model.impl.BoardServiceImpl" scope="request">
         <property name="boardWS" ref="boardWS" />
     </bean>
 
     <alias alias="raspberryFacade" name="raspberryFacade" />
-    <bean id="raspberryFacade" class="org.sysreg.sia.webservices.facade.impl.RaspberryFacadeImpl" scope="prototype">
+    <bean id="raspberryFacade" class="org.sysreg.sia.webservices.facade.impl.RaspberryFacadeImpl" scope="request">
         <constructor-arg ref="boardService" />
     </bean>
 
-    <!-- As we need the facade to be prototype and with run time arguments,
+    <!--[Problem: singleton references prototype]  As we need the facade to be prototype and with run time arguments,
     we create the instances using ObjectFactoryCreatingFactoryBean instead of contextAware implementation-->
     <!-- Factory provided by spring -->
     <bean id="raspberryFacadeFactory" class="org.springframework.beans.factory.config.ObjectFactoryCreatingFactoryBean">
