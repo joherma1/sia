@@ -13,12 +13,10 @@ public interface RaspberryFacade {
 
     Board getBoard(String id);
 
+    void initConnection(String host, int port);
+
     String getHost();
 
-    void setHost(String host);
-
     int getPort();
-
-    void setPort(int port);
 
 }

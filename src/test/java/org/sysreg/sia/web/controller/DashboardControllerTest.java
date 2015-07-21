@@ -28,10 +28,11 @@ public class DashboardControllerTest {
     @Mock
     private EnclosureDAO enclosureDAO;
 
+
     @Before
     public void setUp() {
         //Inject the mocks to the Controller
-        dashboardController = new DashboardController(enclosureDAO);
+        dashboardController = new DashboardController(enclosureDAO, null);
     }
 
     @Test

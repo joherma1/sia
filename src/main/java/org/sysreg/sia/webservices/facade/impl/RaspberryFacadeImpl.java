@@ -1,5 +1,6 @@
 package org.sysreg.sia.webservices.facade.impl;
 
+import org.springframework.util.Assert;
 import org.sysreg.sia.model.Board;
 import org.sysreg.sia.webservices.facade.RaspberryFacade;
 import org.sysreg.sia.webservices.model.BoardService;
@@ -37,10 +38,11 @@ public class RaspberryFacadeImpl implements RaspberryFacade {
         boardService.setPort(port);
     }
 
-    public RaspberryFacadeImpl() {
+    public RaspberryFacadeImpl(BoardService boardService) {
+        this.boardService = boardService;
     }
 
-    public RaspberryFacadeImpl(String host, int port) {
+    public void initConnection(String host, int port){
         this.setHost(host);
         this.setPort(port);
     }
@@ -49,6 +51,8 @@ public class RaspberryFacadeImpl implements RaspberryFacade {
     //TODO
     //Define specific MVC DTO
     public List<Board> getAllBoards() {
+        Assert.hasText(this.getHost(), "Host is mandatory");
+        Assert.isTrue(this.getPort() > 0, "Port is mandatory");
         return boardService.getBoards();
     }
 

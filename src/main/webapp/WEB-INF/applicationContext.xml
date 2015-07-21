@@ -86,7 +86,17 @@
 
     <alias alias="raspberryFacade" name="raspberryFacade" />
     <bean id="raspberryFacade" class="org.sysreg.sia.webservices.facade.impl.RaspberryFacadeImpl" scope="prototype">
-        <property name="boardService" ref="boardService"/>
+        <constructor-arg ref="boardService" />
     </bean>
+
+    <!-- As we need the facade to be prototype and with run time arguments,
+    we create the instances using ObjectFactoryCreatingFactoryBean instead of contextAware implementation-->
+    <!-- Factory provided by spring -->
+    <bean id="raspberryFacadeFactory" class="org.springframework.beans.factory.config.ObjectFactoryCreatingFactoryBean">
+        <property name="targetBeanName">
+            <idref local="raspberryFacade" />
+        </property>
+    </bean>
+
 
 </beans>

@@ -25,9 +25,7 @@ public class RaspberryFacadeTest {
 
     @Before
     public void setUp(){
-        raspberryFacade.setHost("localhost");
-        raspberryFacade.setPort(3000);
-//        raspberryFacade = (RaspberryFacade) applicationContext.getBean("raspberryFacade","localhost", 3000);
+        raspberryFacade.initConnection("localhost", 3000);
     }
 
     @Test

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
 import java.text.DecimalFormat;
 import java.util.Random;
 
@@ -27,7 +28,7 @@ public class SensorsController {
 
 
     @RequestMapping(value = "/sensorsget", method = RequestMethod.GET)
-    public @ResponseBody String getSensor(@RequestParam String id) {
+    public @ResponseBody String getSensor(@RequestParam String id, Principal principal) {
         //----------------------
         //TODO
         //Connect to Arduino and retrieve the info
