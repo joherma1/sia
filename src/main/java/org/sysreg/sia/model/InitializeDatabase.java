@@ -729,6 +729,7 @@ public class InitializeDatabase {
         SensorDAO sensorDAO = context.getBean(SensorDAO.class);
         ActuatorDAO actuatorDAO = context.getBean(ActuatorDAO.class);
         BoardDAO boardDAO = context.getBean(BoardDAO.class);
+        ServerDAO serverDAO = context.getBean(ServerDAO.class);
 
         // Open a transaction
         EntityManagerFactory factory = (EntityManagerFactory) context.getBean("entityManagerFactory");
@@ -762,6 +763,11 @@ public class InitializeDatabase {
         e1.setIrrigationCoef(100);
         e1.setSlope(0F);
         e1.setUse(useDAO.findById("CI"));
+
+        //Servers
+        ArrayList<Server> servers = new ArrayList<>();
+        servers.add(new Server("localhost",3000));
+        servers.add(new Server("127.0.1.1",3000));
 
         //Boards
         ArrayList<Board> boards =  new ArrayList<>();
@@ -817,8 +823,13 @@ public class InitializeDatabase {
         enclosureDAO.persist(e1);
         enclosureDAO.persist(e2);
 
-        boards.get(0).setEnclosure(e1);
-        boards.get(1).setEnclosure(e2);
+        servers.get(0).setEnclosure(e1);
+        servers.get(1).setEnclosure(e2);
+        serverDAO.persist(servers.get(0));
+        serverDAO.persist(servers.get(1));
+
+        boards.get(0).setServer(servers.get(0));
+        boards.get(1).setServer(servers.get(1));
         boardDAO.persist(boards.get(0));
         boardDAO.persist(boards.get(1));
 

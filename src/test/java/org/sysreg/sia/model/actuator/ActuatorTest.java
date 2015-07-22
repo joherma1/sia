@@ -44,7 +44,7 @@ public class ActuatorTest {
     private BoardDAO boardDAO;
 
     @Test
-    public void testCreation(){
+    public void testCreation() {
         ArrayList<Actuator> actuators = new ArrayList<Actuator>();
 
         //Actuator
@@ -53,12 +53,12 @@ public class ActuatorTest {
         //Basic Actuator
         actuators.add(new BasicActuator("2"));
 
-        for(Actuator i: actuators)
+        for (Actuator i : actuators)
             System.out.println(i.toString());
     }
 
     @Test
-    public void testInsertSelect(){
+    public void testInsertSelect() {
         //Prepare requiered fields
         User defaultUser = userDAO.findByUsername("sia");
         //Fields
@@ -85,13 +85,16 @@ public class ActuatorTest {
         e1.setArea(25F);
         e1.setIrrigationCoef(100);
         e1.setSlope(0F);
+        //Server
+        Server s1 = new Server("localhost", 3000);
         //Board
-        Board b1 = new Board(2222,"USB","Test board");
+        Board b1 = new Board(2222, "USB", "Test board");
         //Set relations
         e1.setParcel(p1);
         p1.setField(f1);
         f1.setUser(defaultUser);
-        b1.setEnclosure(e1);
+        s1.setEnclosure(e1);
+        b1.setServer(s1);
 
         fieldDAO.persist(f1);
         parcelDAO.persist(p1);
@@ -116,16 +119,16 @@ public class ActuatorTest {
         actuator.setBoard(b1);
         actuators.add(actuator);
 
-        for(Actuator i: actuators)
+        for (Actuator i : actuators)
             actuatorDao.persist(i);
 
         //SELECT
         actuator = actuatorDao.findById("1");
         assertEquals(actuator, actuators.get(0));
-        assertEquals(e1.getArea(),actuators.get(0).getBoard().getEnclosure().getArea(),0.002);
+        assertEquals(e1.getArea(), actuators.get(0).getBoard().getServer().getEnclosure().getArea(), 0.002);
 
         actuator = actuatorDao.findById("2");
         assertEquals(actuator, actuators.get(1));
-        assertEquals(e1.getParcel().getTown().getId(),actuators.get(1).getBoard().getEnclosure().getParcel().getTown().getId());
+        assertEquals(e1.getParcel().getTown().getId(), actuators.get(1).getBoard().getServer().getEnclosure().getParcel().getTown().getId());
     }
 }

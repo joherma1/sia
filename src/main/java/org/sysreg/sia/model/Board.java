@@ -26,15 +26,8 @@ public class Board implements Serializable {
     private String description;
 
     @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name = "TOWN_ID", referencedColumnName = "TOWN_ID"),
-            @JoinColumn(name = "AGGREGATE", referencedColumnName = "AGGREGATE"),
-            @JoinColumn(name = "ZONE", referencedColumnName = "ZONE"),
-            @JoinColumn(name = "POLYGON", referencedColumnName = "POLYGON"),
-            @JoinColumn(name = "PARCEL", referencedColumnName = "PARCEL"),
-            @JoinColumn(name = "ENCLOSURE", referencedColumnName = "ENCLOSURE"),
-    })
-    private Enclosure enclosure;
+    @JoinColumn(name = "SERVER_ID")
+    private Server server;
 
     @OneToMany(mappedBy = "board", fetch = FetchType.EAGER)
     private Set<Sensor> sensors = new HashSet<>();
@@ -75,12 +68,12 @@ public class Board implements Serializable {
         this.description = description;
     }
 
-    public Enclosure getEnclosure() {
-        return enclosure;
+    public Server getServer() {
+        return server;
     }
 
-    public void setEnclosure(Enclosure enclosure) {
-        this.enclosure = enclosure;
+    public void setServer(Server server) {
+        this.server = server;
     }
 
     public Set<Sensor> getSensors() {
