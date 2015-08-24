@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface RaspberryFacade {
 
-    List<Board> getAllBoards();
+    List<Board> getBoards();
 
     Board getBoard(String id);
 

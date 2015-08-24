@@ -65,7 +65,7 @@
 
     <tx:annotation-driven/>
 
-    <context:component-scan base-package="org.sysreg.sia.model"/>
+    <context:component-scan base-package="org.sysreg.sia.daos"/>
 
     <!-- Bean Web services -->
     <bean id="springWSClient" class="org.springframework.web.client.RestTemplate" scope="singleton"/>
@@ -78,13 +78,13 @@
         <property name="springWSClient" ref="springWSClient"/>
     </bean>
 
-    <alias alias="boardService" name="boardService" />
-    <bean id="boardService" class="org.sysreg.sia.webservices.model.impl.BoardServiceImpl" scope="request">
+    <alias alias="boardService" name="defaultBoardService" />
+    <bean id="defaultBoardService" class="org.sysreg.sia.webservices.impl.DefaultBoardService" scope="request">
         <property name="boardWS" ref="boardWS" />
     </bean>
 
-    <alias alias="raspberryFacade" name="raspberryFacade" />
-    <bean id="raspberryFacade" class="org.sysreg.sia.webservices.facade.impl.RaspberryFacadeImpl" scope="request">
+    <alias alias="raspberryFacade" name="defaultRaspberryFacade" />
+    <bean id="defaultRaspberryFacade" class="org.sysreg.sia.webservices.facade.impl.DefaultRaspberryFacade" scope="request">
         <constructor-arg ref="boardService" />
     </bean>
 
@@ -93,7 +93,7 @@
     <!-- Factory provided by spring -->
     <bean id="raspberryFacadeFactory" class="org.springframework.beans.factory.config.ObjectFactoryCreatingFactoryBean">
         <property name="targetBeanName">
-            <idref local="raspberryFacade" />
+            <idref local="defaultRaspberryFacade" />
         </property>
     </bean>
 

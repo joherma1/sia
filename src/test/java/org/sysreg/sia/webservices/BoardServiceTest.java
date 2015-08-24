@@ -9,7 +9,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.sysreg.sia.model.Board;
-import org.sysreg.sia.webservices.model.BoardService;
 
 import java.util.List;
 

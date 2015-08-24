@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.sysreg.sia.model.Enclosure;
-import org.sysreg.sia.model.dao.EnclosureDAO;
+import org.sysreg.sia.daos.EnclosureDAO;
 import org.sysreg.sia.webservices.facade.RaspberryFacade;
 
 import java.security.Principal;
@@ -36,7 +36,7 @@ public class DashboardController {
         RaspberryFacade raspberryFacade = raspberryFacadeObjectFactory.getObject();
         raspberryFacade.initConnection("localhost", 3000);
         model.put("enclosure", enclosure);
-        model.put("sensors", raspberryFacade.getAllBoards());
+        model.put("sensors", raspberryFacade.getBoards());
         return "dashboard";
     }
 

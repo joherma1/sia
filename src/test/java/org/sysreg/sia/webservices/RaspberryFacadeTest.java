@@ -37,7 +37,7 @@ public class RaspberryFacadeTest {
 
     @Test
     public void testGetBoards() {
-        List<Board> boards = raspberryFacade.getAllBoards();
+        List<Board> boards = raspberryFacade.getBoards();
         assertNotNull(boards);
         assertTrue(boards.size() > 0);
     }

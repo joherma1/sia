@@ -5,16 +5,14 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.util.DigestUtils;
 import org.sysreg.sia.model.actuator.Actuator;
 import org.sysreg.sia.model.actuator.BasicActuator;
-import org.sysreg.sia.model.dao.*;
+import org.sysreg.sia.daos.*;
 import org.sysreg.sia.model.sensor.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Random;
-import java.util.Set;
 
 public class InitializeDatabase {
 
