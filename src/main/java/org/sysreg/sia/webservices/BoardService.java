@@ -1,7 +1,6 @@
 package org.sysreg.sia.webservices;
 
 import org.sysreg.sia.model.Board;
-import org.sysreg.sia.webservices.dto.BoardWS;
 
 import java.util.List;
 

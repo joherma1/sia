@@ -70,17 +70,19 @@
     <!-- Bean Web services -->
     <bean id="springWSClient" class="org.springframework.web.client.RestTemplate" scope="singleton"/>
 
-    <bean id="boardWS" class="org.sysreg.sia.webservices.dto.BoardWS" scope="request">
+    <alias alias="boardWSClient" name="defaultBoardWSClient" />
+    <bean id="defaultBoardWSClient" class="org.sysreg.sia.webservices.client.impl.DefaultBoardWSClient" scope="request">
         <property name="springWSClient" ref="springWSClient"/>
     </bean>
 
-    <bean id="sensorWS" class="org.sysreg.sia.webservices.dto.SensorWS" scope="request">
+    <alias alias="sensorWSClient" name="defaultSensorWSClient" />
+    <bean id="defaultSensorWSClient" class="org.sysreg.sia.webservices.client.impl.DefaultSensorWSClient" scope="request">
         <property name="springWSClient" ref="springWSClient"/>
     </bean>
 
     <alias alias="boardService" name="defaultBoardService" />
     <bean id="defaultBoardService" class="org.sysreg.sia.webservices.impl.DefaultBoardService" scope="request">
-        <property name="boardWS" ref="boardWS" />
+        <property name="boardWSClient" ref="boardWSClient" />
     </bean>
 
     <alias alias="raspberryFacade" name="defaultRaspberryFacade" />
@@ -93,7 +95,7 @@
     <!-- Factory provided by spring -->
     <bean id="raspberryFacadeFactory" class="org.springframework.beans.factory.config.ObjectFactoryCreatingFactoryBean">
         <property name="targetBeanName">
-            <idref local="defaultRaspberryFacade" />
+            <idref bean="raspberryFacade" />
         </property>
     </bean>
 

@@ -2,7 +2,7 @@ package org.sysreg.sia.webservices.impl;
 
 import org.sysreg.sia.model.Board;
 import org.sysreg.sia.webservices.dto.BoardDTO;
-import org.sysreg.sia.webservices.dto.BoardWS;
+import org.sysreg.sia.webservices.client.impl.DefaultBoardWSClient;
 import org.sysreg.sia.webservices.BoardService;
 
 import java.util.ArrayList;
@@ -13,30 +13,30 @@ import java.util.List;
  */
 public class DefaultBoardService implements BoardService {
 
-    private BoardWS boardWS;
+    private DefaultBoardWSClient boardWSClient;
 
     public String getHost() {
-        return boardWS.getHost();
+        return boardWSClient.getHost();
     }
 
     public void setHost(String host) {
-        boardWS.setHost(host);
+        boardWSClient.setHost(host);
     }
 
     public int getPort() {
-        return boardWS.getPort();
+        return boardWSClient.getPort();
     }
 
     public void setPort(int port) {
-        this.boardWS.setPort(port);
+        this.boardWSClient.setPort(port);
     }
 
-    public BoardWS getBoardWS() {
-        return boardWS;
+    public DefaultBoardWSClient getBoardWSClient() {
+        return boardWSClient;
     }
 
-    public void setBoardWS(BoardWS boardWS) {
-        this.boardWS = boardWS;
+    public void setBoardWSClient(DefaultBoardWSClient boardWSClient) {
+        this.boardWSClient = boardWSClient;
     }
 
     public DefaultBoardService() {
@@ -50,7 +50,7 @@ public class DefaultBoardService implements BoardService {
     @Override
     public List<Board> getBoards() {
         //Converter BoardDTO into Board
-        ArrayList<BoardDTO> boards = boardWS.getBoards();
+        ArrayList<BoardDTO> boards = boardWSClient.getBoards();
         List<Board> result = new ArrayList<>();
         for (BoardDTO board : boards) {
             //TODO
