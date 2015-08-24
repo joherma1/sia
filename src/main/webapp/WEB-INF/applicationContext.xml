@@ -67,6 +67,21 @@
 
     <context:component-scan base-package="org.sysreg.sia.daos"/>
 
+    <!-- Services -->
+
+    <alias alias="fieldService" name="defaultFieldService" />
+    <bean id="defaultFieldService" class="org.sysreg.sia.services.impl.DefaultFieldService" scope="singleton">
+        <property name="userDAO" ref="defaultUserDAO" />
+        <property name="fieldDAO" ref="defaultFieldDAO" />
+        <property name="enclosureDAO" ref="defaultEnclosureDAO" />
+    </bean>
+
+    <!-- Facades -->
+    <alias alias="fieldFacade" name="defaultFieldFacade" />
+    <bean id="defaultFieldFacade" class="org.sysreg.sia.facades.impl.DefaultFieldFacade" scope="singleton">
+        <property name="fieldService" ref="fieldService" />
+    </bean>
+
     <!-- Bean Web services -->
     <bean id="springWSClient" class="org.springframework.web.client.RestTemplate" scope="singleton"/>
 
