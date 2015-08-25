@@ -1,4 +1,4 @@
-package org.sysreg.sia.webservices;
+package org.sysreg.sia.ws;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -8,10 +8,10 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.sysreg.sia.webservices.dto.BoardDTO;
-import org.sysreg.sia.webservices.client.impl.DefaultBoardWSClient;
-import org.sysreg.sia.webservices.dto.SensorDTO;
-import org.sysreg.sia.webservices.client.impl.DefaultSensorWSClient;
+import org.sysreg.sia.ws.client.dto.AlRegBoardDTO;
+import org.sysreg.sia.ws.client.dto.AlRegSensorDTO;
+import org.sysreg.sia.ws.client.impl.AlRegBoardWSClient;
+import org.sysreg.sia.ws.client.impl.AlRegSensorWSClient;
 
 import java.util.ArrayList;
 
@@ -29,10 +29,10 @@ public class BoardWSTest {
     MockHttpServletRequest request;
 
     @Autowired
-    DefaultBoardWSClient boardWSClient;
+    AlRegBoardWSClient boardWSClient;
 
     @Autowired
-    DefaultSensorWSClient sensorWSClient;
+    AlRegSensorWSClient sensorWSClient;
 
     @Before
     public void setUp() {
@@ -49,45 +49,45 @@ public class BoardWSTest {
 
     @Test
     public void testGetBoards() {
-        ArrayList<BoardDTO> boards = boardWSClient.getBoards();
+        ArrayList<AlRegBoardDTO> boards = boardWSClient.getBoards();
         assertNotNull(boards);
         assertTrue(boards.size() > 0);
-        BoardDTO board = boardWSClient.getBoard(boards.get(0).get_id());
+        AlRegBoardDTO board = boardWSClient.getBoard(boards.get(0).get_id());
         assertEquals(board, boards.get(0));
     }
 
     @Test
     public void testGetSensors() {
-        ArrayList<BoardDTO> boards = boardWSClient.getBoards();
+        ArrayList<AlRegBoardDTO> boards = boardWSClient.getBoards();
         assertNotNull(boards);
         assertTrue(boards.size() > 0);
-        ArrayList<SensorDTO> sensors = sensorWSClient.getSensors(boards.get(0).get_id());
+        ArrayList<AlRegSensorDTO> sensors = sensorWSClient.getSensors(boards.get(0).get_id());
         assertNotNull(sensors);
-        for (SensorDTO sensor : sensors) {
+        for (AlRegSensorDTO sensor : sensors) {
             assertNotEquals(sensor.get_id(), "");
         }
     }
 
     @Test
     public void testGetSensor() {
-        ArrayList<BoardDTO> boards = boardWSClient.getBoards();
+        ArrayList<AlRegBoardDTO> boards = boardWSClient.getBoards();
         assertNotNull(boards);
         assertTrue(boards.size() > 0);
-        ArrayList<SensorDTO> sensors = sensorWSClient.getSensors(boards.get(0).get_id());
+        ArrayList<AlRegSensorDTO> sensors = sensorWSClient.getSensors(boards.get(0).get_id());
         assertNotNull(sensors);
-        for (SensorDTO sensor : sensors) {
+        for (AlRegSensorDTO sensor : sensors) {
             assertEquals(sensor, sensorWSClient.getSensor(boards.get(0).get_id(), sensor.get_id()));
         }
     }
 
     @Test
     public void testGetSensorValue() {
-        ArrayList<BoardDTO> boards = boardWSClient.getBoards();
+        ArrayList<AlRegBoardDTO> boards = boardWSClient.getBoards();
         assertNotNull(boards);
         assertTrue(boards.size() > 0);
-        ArrayList<SensorDTO> sensors = sensorWSClient.getSensors(boards.get(0).get_id());
+        ArrayList<AlRegSensorDTO> sensors = sensorWSClient.getSensors(boards.get(0).get_id());
         assertNotNull(sensors);
-        for (SensorDTO sensor : sensors) {
+        for (AlRegSensorDTO sensor : sensors) {
             assertEquals(sensor, sensorWSClient.getSensor(boards.get(0).get_id(), sensor.get_id()));
             Float value = sensorWSClient.getSensorValue(boards.get(0).get_id(), sensor.get_id());
             assertEquals(value, sensor.getValue());

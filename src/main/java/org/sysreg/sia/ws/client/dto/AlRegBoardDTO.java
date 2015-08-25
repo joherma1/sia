@@ -1,4 +1,4 @@
-package org.sysreg.sia.webservices.dto;
+package org.sysreg.sia.ws.client.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -8,7 +8,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  * Created by joseant on 11/07/15.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)//ignore properties not described
-public class BoardDTO {
+public class AlRegBoardDTO {
 
     private String _id;
 
@@ -16,7 +16,7 @@ public class BoardDTO {
 
     private String description;
 
-    private SensorDTO[] sensors;
+    private AlRegSensorDTO[] sensors;
 
     public String get_id() {
         return _id;
@@ -42,11 +42,11 @@ public class BoardDTO {
         this.description = description;
     }
 
-    public SensorDTO[] getSensors() {
+    public AlRegSensorDTO[] getSensors() {
         return sensors;
     }
 
-    public void setSensors(SensorDTO[] sensors) {
+    public void setSensors(AlRegSensorDTO[] sensors) {
         this.sensors = sensors;
     }
 
@@ -59,12 +59,12 @@ public class BoardDTO {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof BoardDTO))
+        if (!(obj instanceof AlRegBoardDTO))
             return false;
         if (obj == this)
             return true;
 
-        BoardDTO rhs = (BoardDTO) obj;
+        AlRegBoardDTO rhs = (AlRegBoardDTO) obj;
         return new EqualsBuilder().
                 append(_id, rhs._id).
                 append(id, rhs.id).

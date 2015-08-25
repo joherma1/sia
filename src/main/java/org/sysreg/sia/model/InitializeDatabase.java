@@ -765,7 +765,7 @@ public class InitializeDatabase {
         //Servers
         ArrayList<Server> servers = new ArrayList<>();
         servers.add(new Server("localhost",3000));
-        servers.add(new Server("127.0.1.1",3000));
+        servers.add(new Server("127.0.0.1",3000));
 
         //Boards
         ArrayList<Board> boards =  new ArrayList<>();

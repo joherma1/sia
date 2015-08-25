@@ -1,22 +1,24 @@
-package org.sysreg.sia.webservices.facade;
+package org.sysreg.sia.ws.service;
 
 import org.sysreg.sia.model.Board;
 
 import java.util.List;
 
 /**
- * Created by joseant on 11/07/15.
+ * Created by joseant on 20/07/15.
  */
-public interface RaspberryFacade {
+public interface BoardService {
 
     List<Board> getBoards();
 
     Board getBoard(String id);
 
-    void initConnection(String host, int port);
-
     String getHost();
 
+    void setHost(String host);
+
     int getPort();
+
+    void setPort(int port);
 
 }

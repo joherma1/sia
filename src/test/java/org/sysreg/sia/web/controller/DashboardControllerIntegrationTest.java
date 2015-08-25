@@ -7,13 +7,17 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.ui.ModelMap;
+import org.sysreg.sia.dtos.EnclosureDTO;
+import org.sysreg.sia.facades.FieldFacade;
+import org.sysreg.sia.facades.ServerFacade;
+import org.sysreg.sia.facades.impl.AlRegServerFacade;
 import org.sysreg.sia.model.Board;
 import org.sysreg.sia.model.Enclosure;
 import org.sysreg.sia.model.User;
 import org.sysreg.sia.daos.EnclosureDAO;
-import org.sysreg.sia.webservices.facade.RaspberryFacade;
-import org.sysreg.sia.webservices.facade.impl.DefaultRaspberryFacade;
-import org.sysreg.sia.webservices.BoardService;
+import org.sysreg.sia.ws.facades.RaspberryFacade;
+import org.sysreg.sia.ws.facades.impl.DefaultRaspberryFacade;
+import org.sysreg.sia.ws.service.BoardService;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -32,21 +36,21 @@ public class DashboardControllerIntegrationTest {
 
     //Services mocked
     @Mock
-    private EnclosureDAO enclosureDAO;
+    private FieldFacade fieldFacade;
 
     @Mock
-    private ObjectFactory<RaspberryFacade> raspberryFacadeObjectFactory;
+    private ObjectFactory<ServerFacade> serverFacadeObjectFactory;
 
     @Mock
     private BoardService boardService;
 
     @Mock
-    private DefaultRaspberryFacade raspberryFacade;
+    private AlRegServerFacade serverFacade;
 
     @Before
     public void setUp() {
         //Inject the mocks to the Controller
-        dashboardController = new DashboardController(enclosureDAO, raspberryFacadeObjectFactory);
+        dashboardController = new DashboardController(fieldFacade, serverFacadeObjectFactory);
     }
 
     @Test
@@ -62,17 +66,17 @@ public class DashboardControllerIntegrationTest {
         User expectedUser = new User();
         expectedUser.setName(testUser.getName());
 
-        Enclosure expectedEnclosure = new Enclosure();
+        EnclosureDTO expectedEnclosure = new EnclosureDTO();
         expectedEnclosure.setArea(23.F);
         expectedEnclosure.setSlope(1F);
 
 
         //Mock the services behaviour with mockito
-        when(enclosureDAO.findById("expectedId")).thenReturn(expectedEnclosure);
+        when(fieldFacade.getEnclosure(testUser.getName(),"expectedId")).thenReturn(expectedEnclosure);
         when(boardService.getBoards()).thenReturn(new ArrayList<Board>());
-        when(raspberryFacade.getHost()).thenReturn("localhost");
-        when(raspberryFacade.getPort()).thenReturn(3000);
-        when(raspberryFacadeObjectFactory.getObject()).thenReturn(raspberryFacade);
+        when(serverFacade.getHost()).thenReturn("localhost");
+        when(serverFacade.getPort()).thenReturn(3000);
+        when(serverFacadeObjectFactory.getObject()).thenReturn(serverFacade);
 
         //Call the controller
         ModelMap model = new ModelMap();
@@ -83,6 +87,6 @@ public class DashboardControllerIntegrationTest {
         assertSame(expectedEnclosure, model.get("enclosure"));
 
         //Verify that the services was called at least one time
-        verify(enclosureDAO, atLeastOnce()).findById("expectedId");
+        verify(fieldFacade, atLeastOnce()).getEnclosure(testUser.getName(),"expectedId");
     }
 }

@@ -1,10 +1,10 @@
-package org.sysreg.sia.webservices.client.impl;
+package org.sysreg.sia.ws.client.impl;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.client.RestTemplate;
-import org.sysreg.sia.webservices.client.SensorWSClient;
-import org.sysreg.sia.webservices.dto.SensorDTO;
+import org.sysreg.sia.ws.client.SensorWSClient;
+import org.sysreg.sia.ws.client.dto.AlRegSensorDTO;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,8 +14,8 @@ import java.util.Map;
 /**
  * Created by joseant on 20/07/15.
  */
-public class DefaultSensorWSClient implements SensorWSClient{
-    private static final Logger log = LogManager.getLogger(DefaultSensorWSClient.class);
+public class AlRegSensorWSClient implements SensorWSClient {
+    private static final Logger log = LogManager.getLogger(AlRegSensorWSClient.class);
 
     RestTemplate springWSClient;
 
@@ -24,10 +24,10 @@ public class DefaultSensorWSClient implements SensorWSClient{
     private int port;
 
 
-    public DefaultSensorWSClient() {
+    public AlRegSensorWSClient() {
     }
 
-    public DefaultSensorWSClient(String host, int port) {
+    public AlRegSensorWSClient(String host, int port) {
         this.host = host;
         this.port = port;
     }
@@ -61,31 +61,31 @@ public class DefaultSensorWSClient implements SensorWSClient{
     }
 
     @Override
-    public ArrayList<SensorDTO> getSensors(String boardId){
+    public ArrayList<AlRegSensorDTO> getSensors(String boardId) {
         String uri = "http://" + host + ":" + port + "/boards/{boardId}/sensors";
         Map<String, String> params = new HashMap<String, String>();
         params.put("boardId", boardId);
-        SensorDTO[] sensors = springWSClient.getForObject(uri, SensorDTO[].class, params);
+        AlRegSensorDTO[] sensors = springWSClient.getForObject(uri, AlRegSensorDTO[].class, params);
         return new ArrayList<>(Arrays.asList(sensors));
     }
 
     @Override
-    public SensorDTO getSensor(String boardId, String sensorId){
+    public AlRegSensorDTO getSensor(String boardId, String sensorId) {
         String uri = "http://" + host + ":" + port + "/boards/{boardId}/sensors/{sensorId}";
         Map<String, String> params = new HashMap<String, String>();
         params.put("boardId", boardId);
         params.put("sensorId", sensorId);
-        SensorDTO sensor = springWSClient.getForObject(uri, SensorDTO.class, params);
+        AlRegSensorDTO sensor = springWSClient.getForObject(uri, AlRegSensorDTO.class, params);
         return sensor;
     }
 
     @Override
-    public Float getSensorValue (String boardId, String sensorId){
+    public Float getSensorValue(String boardId, String sensorId) {
         String uri = "http://" + host + ":" + port + "/boards/{boardId}/sensors/{sensorId}";
         Map<String, String> params = new HashMap<String, String>();
         params.put("boardId", boardId);
         params.put("sensorId", sensorId);
-        SensorDTO sensor = springWSClient.getForObject(uri, SensorDTO.class, params);
+        AlRegSensorDTO sensor = springWSClient.getForObject(uri, AlRegSensorDTO.class, params);
         return sensor.getValue();
     }
 }

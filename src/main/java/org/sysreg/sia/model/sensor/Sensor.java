@@ -26,7 +26,6 @@ public class Sensor implements Serializable{
     @Column
     private double value;
 
-    protected enum Units {CELSIUS, FAHRENHEIT, KELVIN, PASCAL, PERCENT};
     @Column
     @Enumerated(EnumType.STRING)
     private Units units;

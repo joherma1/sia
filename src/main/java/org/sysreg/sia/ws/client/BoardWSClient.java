@@ -1,6 +1,6 @@
-package org.sysreg.sia.webservices.client;
+package org.sysreg.sia.ws.client;
 
-import org.sysreg.sia.webservices.dto.BoardDTO;
+import org.sysreg.sia.ws.client.dto.AlRegBoardDTO;
 
 import java.util.ArrayList;
 
@@ -17,7 +17,7 @@ public interface BoardWSClient {
 
     void setHost(String host);
 
-    ArrayList<BoardDTO> getBoards();
+    ArrayList<AlRegBoardDTO> getBoards();
 
-    BoardDTO getBoard(String id);
+    AlRegBoardDTO getBoard(String id);
 }

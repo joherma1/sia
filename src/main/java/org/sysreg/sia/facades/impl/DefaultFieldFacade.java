@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Required;
 import org.sysreg.sia.dtos.EnclosureDTO;
 import org.sysreg.sia.dtos.FieldDTO;
 import org.sysreg.sia.dtos.ParcelDTO;
+import org.sysreg.sia.dtos.ServerInfoDTO;
 import org.sysreg.sia.facades.FieldFacade;
 import org.sysreg.sia.model.Enclosure;
 import org.sysreg.sia.model.Field;
 import org.sysreg.sia.model.Parcel;
+import org.sysreg.sia.model.Server;
 import org.sysreg.sia.services.FieldService;
 
 import java.util.ArrayList;
@@ -61,8 +63,31 @@ public class DefaultFieldFacade implements FieldFacade {
 
         Enclosure enclosureModel = fieldService.getEnclosureById(user, id);
         EnclosureDTO enclosureData = new EnclosureDTO();
+        //Converter
         enclosureData.setId(enclosureModel.getId());
-
+        enclosureData.setDescription(enclosureModel.toString());
+        enclosureData.setTown(enclosureModel.getParcel().getTown().getName());
+        enclosureData.setRegion(enclosureModel.getParcel().getTown().getRegion().getName());
+        enclosureData.setProvince(enclosureModel.getParcel().getTown().getProvince().getName());
+        enclosureData.setAggregate(enclosureModel.getParcel().getAggregate());
+        enclosureData.setZone(enclosureModel.getParcel().getZone());
+        enclosureData.setPolygon(enclosureModel.getParcel().getPolygon());
+        enclosureData.setParcel(enclosureModel.getParcel().getParcel());
+        enclosureData.setEnclosure(enclosureModel.getEnclosure());
+        enclosureData.setArea(enclosureModel.getArea());
+        enclosureData.setSlope(enclosureModel.getSlope());
+        enclosureData.setIrrigationCoef(enclosureModel.getIrrigationCoef());
+        enclosureData.setCoordinates(enclosureModel.getCoordinates().toString());
+        enclosureData.setUse(enclosureModel.getUse().getDescription());
+        List<ServerInfoDTO> serversInfoData = new ArrayList<>();
+        for(Server server: enclosureModel.getServers()){
+            ServerInfoDTO serverInfoData = new ServerInfoDTO();
+            serverInfoData.setHost(server.getIp());
+            serverInfoData.setPort(server.getPort());
+            serverInfoData.setDescription(server.getDescription());
+            serversInfoData.add(serverInfoData);
+        }
+        enclosureData.setServers(serversInfoData);
         return enclosureData;
     }
 

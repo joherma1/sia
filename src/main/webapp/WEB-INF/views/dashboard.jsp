@@ -1,6 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%--@elvariable id="enclosure" type="org.sysreg.sia.model.Enclosure"--%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -63,7 +62,7 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <c:forEach items="${enclosure.servers}" var="server">
+                                        <c:forEach items="${servers}" var="server">
                                             <c:forEach items="${server.boards}" var="board">
                                                 <c:forEach items="${board.sensors}" var="sensor">
                                                     <tr>
@@ -75,23 +74,23 @@
                                                     </span>
                                                     <span>
                                                         <c:choose>
-                                                            <c:when test="${sensor.units.name() == 'CELSIUS'}">
+                                                            <c:when test="${sensor.units == 'Celsius'}">
                                                                 &degC
                                                             </c:when>
-                                                            <c:when test="${sensor.units.name() == 'FAHRENHEIT'}">
+                                                            <c:when test="${sensor.units == 'Fahrenheit'}">
                                                                 &degF
                                                             </c:when>
-                                                            <c:when test="${sensor.units.name() == 'KELVIN'}">
+                                                            <c:when test="${sensor.units == 'Kelvin'}">
                                                                 &degK
                                                             </c:when>
-                                                            <c:when test="${sensor.units.name() == 'PASCAL'}">
+                                                            <c:when test="${sensor.units == 'Pascal'}">
                                                                 Pa
                                                             </c:when>
-                                                            <c:when test="${sensor.units.name() == 'PERCENT'}">
+                                                            <c:when test="${sensor.units == 'Percen'}">
                                                                 %
                                                             </c:when>
                                                             <c:otherwise>
-                                                                <c:out value="${sensor.units.name()}"/>
+                                                                <c:out value="${sensor.units}"/>
                                                             </c:otherwise>
                                                         </c:choose>
                                                     </span>
@@ -140,14 +139,14 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <c:forEach items="${enclosure.servers}" var="server">
+                                        <c:forEach items="${servers}" var="server">
                                             <c:forEach items="${server.boards}" var="board">
                                                 <c:forEach items="${board.actuators}" var="actuator">
                                                     <tr>
                                                         <td><c:out value="${actuator.id}"/></td>
                                                         <td><c:out value="${actuator.description}"/></td>
                                                         <td>
-                                                            <c:if test="${actuator.enabled == true}">
+                                                            <c:if test="${actuator.value == true}">
                                                                 <button type="button"
                                                                         class="btn btn-default btn-xs active"
                                                                         data-toggle="button" aria-pressed="true"
@@ -156,7 +155,7 @@
                                                                           aria-hidden="true"></span>
                                                                 </button>
                                                             </c:if>
-                                                            <c:if test="${actuator.enabled == false}">
+                                                            <c:if test="${actuator.value == false}">
                                                                 <button type="button" class="btn btn-default btn-xs"
                                                                         data-toggle="button" aria-pressed="false"
                                                                         autocomplete="off">
@@ -201,31 +200,31 @@
                     <tr>
                         <td><b>Town</b></td>
                         <td>
-                            <c:out value="${enclosure.parcel.town.name}"/></td>
+                            <c:out value="${enclosure.town}"/></td>
                     </tr>
                     <tr>
                         <td><b>Region</b></td>
-                        <td><c:out value="${enclosure.parcel.town.region.name}"/></td>
+                        <td><c:out value="${enclosure.region}"/></td>
                     </tr>
                     <tr>
                         <td><b>Province</b></td>
-                        <td><c:out value="${enclosure.parcel.town.region.province.name}"/></td>
+                        <td><c:out value="${enclosure.province}"/></td>
                     </tr>
                     <tr>
                         <td><b>Aggregate</b></td>
-                        <td><c:out value="${enclosure.parcel.aggregate}"/></td>
+                        <td><c:out value="${enclosure.aggregate}"/></td>
                     </tr>
                     <tr>
                         <td><b>Zone</b></td>
-                        <td><c:out value="${enclosure.parcel.zone}"/></td>
+                        <td><c:out value="${enclosure.zone}"/></td>
                     </tr>
                     <tr>
                         <td><b>Polygon</b></td>
-                        <td><c:out value="${enclosure.parcel.polygon}"/></td>
+                        <td><c:out value="${enclosure.polygon}"/></td>
                     </tr>
                     <tr>
                         <td><b>Parcel</b></td>
-                        <td><c:out value="${enclosure.parcel.parcel}"/></td>
+                        <td><c:out value="${enclosure.parcel}"/></td>
                     </tr>
                     <tr>
                         <td><b>Enclosure</b></td>
@@ -250,7 +249,7 @@
                     </tr>
                     <tr>
                         <td><b>Use</b></td>
-                        <td><c:out value="${enclosure.use.description}"/></td>
+                        <td><c:out value="${enclosure.use}"/></td>
                     </tr>
                     </tbody>
                 </table>

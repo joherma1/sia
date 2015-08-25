@@ -1,7 +1,6 @@
-package org.sysreg.sia.webservices;
+package org.sysreg.sia.ws.service;
 
 import org.sysreg.sia.model.sensor.Sensor;
-import org.sysreg.sia.webservices.BoardService;
 
 import java.util.List;
 

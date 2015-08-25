@@ -1,10 +1,10 @@
-package org.sysreg.sia.webservices.client.impl;
+package org.sysreg.sia.ws.client.impl;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.client.RestTemplate;
-import org.sysreg.sia.webservices.client.BoardWSClient;
-import org.sysreg.sia.webservices.dto.BoardDTO;
+import org.sysreg.sia.ws.client.BoardWSClient;
+import org.sysreg.sia.ws.client.dto.AlRegBoardDTO;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,8 +14,8 @@ import java.util.Map;
 /**
  * Created by joseant on 11/07/15.
  */
-public class DefaultBoardWSClient implements BoardWSClient {
-    private static final Logger log = LogManager.getLogger(DefaultBoardWSClient.class.getName());
+public class AlRegBoardWSClient implements BoardWSClient {
+    private static final Logger log = LogManager.getLogger(AlRegBoardWSClient.class.getName());
 
     private RestTemplate springWSClient;
 
@@ -23,10 +23,10 @@ public class DefaultBoardWSClient implements BoardWSClient {
 
     private int port;
 
-    public DefaultBoardWSClient() {
+    public AlRegBoardWSClient() {
     }
 
-    public DefaultBoardWSClient(String host, int port) {
+    public AlRegBoardWSClient(String host, int port) {
         this.host = host;
         this.port = port;
     }
@@ -64,17 +64,17 @@ public class DefaultBoardWSClient implements BoardWSClient {
     }
 
     @Override
-    public ArrayList<BoardDTO> getBoards() {
-        BoardDTO[] boards = springWSClient.getForObject("http://" + host + ":" + port + "/boards", BoardDTO[].class);
-        return new ArrayList<BoardDTO>(Arrays.asList(boards));
+    public ArrayList<AlRegBoardDTO> getBoards() {
+        AlRegBoardDTO[] boards = springWSClient.getForObject("http://" + host + ":" + port + "/boards", AlRegBoardDTO[].class);
+        return new ArrayList<AlRegBoardDTO>(Arrays.asList(boards));
     }
 
     @Override
-    public BoardDTO getBoard(String id) {
+    public AlRegBoardDTO getBoard(String id) {
         String uri = "http://" + host + ":" + port + "/boards/{id}";
         Map<String, String> params = new HashMap<String, String>();
         params.put("id", id);
-        BoardDTO board = springWSClient.getForObject(uri, BoardDTO.class, params);
+        AlRegBoardDTO board = springWSClient.getForObject(uri, AlRegBoardDTO.class, params);
         return board;
     }
 

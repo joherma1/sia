@@ -1,4 +1,4 @@
-package org.sysreg.sia.webservices.dto;
+package org.sysreg.sia.ws.client.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -8,7 +8,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  * Created by joseant on 11/07/15.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class SensorDTO {
+public class AlRegSensorDTO {
 
     private String _id;
 
@@ -60,12 +60,12 @@ public class SensorDTO {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof SensorDTO))
+        if (!(obj instanceof AlRegSensorDTO))
             return false;
         if (obj == this)
             return true;
 
-        SensorDTO rhs = (SensorDTO) obj;
+        AlRegSensorDTO rhs = (AlRegSensorDTO) obj;
         return new EqualsBuilder().
                 append(_id, rhs._id).
                 append(code, rhs.code).
