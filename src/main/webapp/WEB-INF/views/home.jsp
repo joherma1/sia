@@ -37,20 +37,20 @@
         <ul class="nav nav-list">
             <c:forEach items="${fields}" var="field">
                 <li><label class="tree-toggler nav-header">
-                        <c:out value="${field}"/>
+                        <c:out value="${field.description}"/>
                     </label>
                     <!-- Parcels for each field -->
                     <ul class="nav nav-list tree">
                         <c:forEach items="${field.parcels}" var="parcel">
                             <li>
                                 <label class="tree-toggler nav-header">
-                                    Parcela: <c:out value="${parcel}"/>
+                                    Parcela: <c:out value="${parcel.description}"/>
                                 </label>
                                 <ul class="nav nav-list tree">
                                     <c:forEach items="${parcel.enclosures}" var="enclosure">
                                         <li>
                                             <a href="<c:url value="/dashboard?enclosureId=${enclosure.id}" />">
-                                                <c:out value="${enclosure}" />
+                                                <c:out value="${enclosure.description}" />
                                             </a>
                                         </li>
                                     </c:forEach>

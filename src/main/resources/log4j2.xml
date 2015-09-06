@@ -6,7 +6,7 @@
         </Console>
     </Appenders>
     <Loggers>
-        <Logger name="org.sysreg.sia.model.dao.FieldDAO" level="debug" additivity="false">
+        <Logger name="org.sysreg.sia.daos.FieldDAO" level="debug" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
         <Root level="debug">
