@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import java.util.Date;
+
 /**
  * Created by joseant on 11/07/15.
  */
@@ -17,6 +19,8 @@ public class AlRegSensorDTO {
     private Float value;
 
     private String description;
+
+    private Date timestamp;
 
     public String get_id() {
         return _id;
@@ -48,6 +52,14 @@ public class AlRegSensorDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
     }
 
     @Override

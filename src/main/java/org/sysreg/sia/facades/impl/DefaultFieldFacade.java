@@ -1,5 +1,7 @@
 package org.sysreg.sia.facades.impl;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.sysreg.sia.dtos.EnclosureDTO;
 import org.sysreg.sia.dtos.FieldDTO;
@@ -19,27 +21,33 @@ import java.util.List;
  * Created by joseant on 24/08/15.
  */
 public class DefaultFieldFacade implements FieldFacade {
+    private static final Logger log = LogManager.getLogger(DefaultFieldFacade.class.getName());
 
     private FieldService fieldService;
 
+    @Required
+    public void setFieldService(FieldService fieldService) {
+        this.fieldService = fieldService;
+    }
+
     @Override
     public List<FieldDTO> getFields(String user) {
-        if(user == null || user.length() < 1)
+        if (user == null || user.length() < 1)
             throw new IllegalArgumentException("User with username " + user + " not found");
 
         List<Field> fieldList = fieldService.getFieldsForUser(user);
         List<FieldDTO> fieldDTOList = new ArrayList<>();
-        for(Field field : fieldList){
+        for (Field field : fieldList) {
             FieldDTO fieldDTO = new FieldDTO();
             fieldDTO.setDescription(field.toString());
             //Parcels
             List<ParcelDTO> parcelDTOList = new ArrayList<>();
-            for(Parcel parcel : field.getParcels()){
+            for (Parcel parcel : field.getParcels()) {
                 ParcelDTO parcelDTO = new ParcelDTO();
                 parcelDTO.setDescription(parcel.toString());
                 //Enclosures
                 List<EnclosureDTO> enclosureDTOList = new ArrayList<>();
-                for(Enclosure enclosure : parcel.getEnclosures()){
+                for (Enclosure enclosure : parcel.getEnclosures()) {
                     EnclosureDTO enclosureDTO = new EnclosureDTO();
                     enclosureDTO.setId(enclosure.getId());
                     enclosureDTO.setDescription(enclosure.toString());
@@ -56,10 +64,10 @@ public class DefaultFieldFacade implements FieldFacade {
 
     @Override
     public EnclosureDTO getEnclosure(String user, String id) {
-        if(user == null || user.length() < 1)
+        if (user == null || user.length() < 1)
             throw new IllegalArgumentException("User with username " + user + " not found");
-        if(id == null || id.length() < 1)
-        throw new IllegalArgumentException("Enclosure with id " + id + " not found");
+        if (id == null || id.length() < 1)
+            throw new IllegalArgumentException("Enclosure with id " + id + " not found");
 
         Enclosure enclosureModel = fieldService.getEnclosureById(user, id);
         EnclosureDTO enclosureData = new EnclosureDTO();
@@ -80,7 +88,7 @@ public class DefaultFieldFacade implements FieldFacade {
         enclosureData.setCoordinates(enclosureModel.getCoordinates().toString());
         enclosureData.setUse(enclosureModel.getUse().getDescription());
         List<ServerInfoDTO> serversInfoData = new ArrayList<>();
-        for(Server server: enclosureModel.getServers()){
+        for (Server server : enclosureModel.getServers()) {
             ServerInfoDTO serverInfoData = new ServerInfoDTO();
             serverInfoData.setHost(server.getIp());
             serverInfoData.setPort(server.getPort());
@@ -91,8 +99,18 @@ public class DefaultFieldFacade implements FieldFacade {
         return enclosureData;
     }
 
-    @Required
-    public void setFieldService(FieldService fieldService) {
-        this.fieldService = fieldService;
+    public ServerInfoDTO getServerInfoForBoard(String user, String boardId) {
+        try {
+            Server server = fieldService.getServerByBoard(user, boardId);
+            ServerInfoDTO serverInfoData = new ServerInfoDTO();
+            serverInfoData.setHost(server.getIp());
+            serverInfoData.setPort(server.getPort());
+            serverInfoData.setDescription(server.getDescription());
+            return serverInfoData;
+        }catch (Exception e){
+            log.error("Exception retrieving the server info", e);
+            return null;
+        }
     }
+
 }

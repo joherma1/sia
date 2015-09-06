@@ -22,8 +22,6 @@ public interface ServerFacade {
 
     BoardDTO getBoard(String boardId);
 
-    SensorDTO getSensor(String boardId, String sensorId);
-
     SensorDTO getSensorValue(String boardId, String sensorId);
 
 }

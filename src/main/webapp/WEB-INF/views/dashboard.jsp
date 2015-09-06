@@ -1,5 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -69,8 +68,7 @@
                                                         <td><c:out value="${sensor.id}"/></td>
                                                         <td>
                                                     <span id="${sensor.id}-value">
-                                                        <fmt:formatNumber type="number" maxFractionDigits="2"
-                                                                          value="${sensor.value}"/>
+                                                        <c:out value="${sensor.value}" />
                                                     </span>
                                                     <span>
                                                         <c:choose>
@@ -99,7 +97,7 @@
                                                             <button type="button" id="sensor-refresh"
                                                                     value="${sensor.id}" class="btn btn-default btn-xs"
                                                                     aria-label="Refresh Sensor"
-                                                                    onclick="checkAvailability('${sensor.id}')">
+                                                                    onclick="checkAvailability('${board.description}','${sensor.id}')">
                                                                 <span class="glyphicon glyphicon-refresh"
                                                                       aria-hidden="true"></span>
                                                             </button>

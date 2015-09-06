@@ -11,9 +11,9 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.sysreg.sia.ws.client.dto.AlRegBoardDTO;
 import org.sysreg.sia.ws.client.dto.AlRegSensorDTO;
 import org.sysreg.sia.ws.client.impl.AlRegBoardWSClient;
-import org.sysreg.sia.ws.client.impl.AlRegSensorWSClient;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -31,15 +31,10 @@ public class BoardWSTest {
     @Autowired
     AlRegBoardWSClient boardWSClient;
 
-    @Autowired
-    AlRegSensorWSClient sensorWSClient;
-
     @Before
     public void setUp() {
         boardWSClient.setHost("localhost");
         boardWSClient.setPort(3000);
-        sensorWSClient.setHost("localhost");
-        sensorWSClient.setPort(3000);
     }
 
     @Test
@@ -49,7 +44,7 @@ public class BoardWSTest {
 
     @Test
     public void testGetBoards() {
-        ArrayList<AlRegBoardDTO> boards = boardWSClient.getBoards();
+        List<AlRegBoardDTO> boards = boardWSClient.getBoards();
         assertNotNull(boards);
         assertTrue(boards.size() > 0);
         AlRegBoardDTO board = boardWSClient.getBoard(boards.get(0).get_id());
@@ -58,10 +53,10 @@ public class BoardWSTest {
 
     @Test
     public void testGetSensors() {
-        ArrayList<AlRegBoardDTO> boards = boardWSClient.getBoards();
+        List<AlRegBoardDTO> boards = boardWSClient.getBoards();
         assertNotNull(boards);
         assertTrue(boards.size() > 0);
-        ArrayList<AlRegSensorDTO> sensors = sensorWSClient.getSensors(boards.get(0).get_id());
+        List<AlRegSensorDTO> sensors = boardWSClient.getSensors(boards.get(0).get_id());
         assertNotNull(sensors);
         for (AlRegSensorDTO sensor : sensors) {
             assertNotEquals(sensor.get_id(), "");
@@ -70,27 +65,29 @@ public class BoardWSTest {
 
     @Test
     public void testGetSensor() {
-        ArrayList<AlRegBoardDTO> boards = boardWSClient.getBoards();
+        List<AlRegBoardDTO> boards = boardWSClient.getBoards();
         assertNotNull(boards);
         assertTrue(boards.size() > 0);
-        ArrayList<AlRegSensorDTO> sensors = sensorWSClient.getSensors(boards.get(0).get_id());
+        List<AlRegSensorDTO> sensors = boardWSClient.getSensors(boards.get(0).get_id());
         assertNotNull(sensors);
         for (AlRegSensorDTO sensor : sensors) {
-            assertEquals(sensor, sensorWSClient.getSensor(boards.get(0).get_id(), sensor.get_id()));
+            assertEquals(sensor, boardWSClient.getSensor(boards.get(0).get_id(), sensor.get_id()));
         }
     }
 
     @Test
     public void testGetSensorValue() {
-        ArrayList<AlRegBoardDTO> boards = boardWSClient.getBoards();
+        List<AlRegBoardDTO> boards = boardWSClient.getBoards();
         assertNotNull(boards);
         assertTrue(boards.size() > 0);
-        ArrayList<AlRegSensorDTO> sensors = sensorWSClient.getSensors(boards.get(0).get_id());
+        List<AlRegSensorDTO> sensors = boardWSClient.getSensors(boards.get(0).get_id());
         assertNotNull(sensors);
         for (AlRegSensorDTO sensor : sensors) {
-            assertEquals(sensor, sensorWSClient.getSensor(boards.get(0).get_id(), sensor.get_id()));
-            Float value = sensorWSClient.getSensorValue(boards.get(0).get_id(), sensor.get_id());
-            assertEquals(value, sensor.getValue());
+            // Get value without having in account the timestamp
+            Float value = boardWSClient.getSensorValue(boards.get(0).get_id(), sensor.get_id());
+            assertNotNull(value);
+            //Get the value again but from the database, must be the same (<60s)
+            assertEquals(sensor, boardWSClient.getSensor(boards.get(0).get_id(), sensor.get_id()));
         }
     }
 }

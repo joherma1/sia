@@ -20,7 +20,10 @@ public class Board implements Serializable {
     private int id;
 
     @Column
-    private String port;
+    private String protocol;
+
+    @Column
+    private String uri;
 
     @Column
     private String description;
@@ -38,9 +41,10 @@ public class Board implements Serializable {
     public Board() {
     }
 
-    public Board(int id, String port, String description) {
+    public Board(int id, String protocol, String uri, String description) {
         this.id = id;
-        this.port = port;
+        this.protocol = protocol;
+        this.uri = uri;
         this.description = description;
     }
 
@@ -52,12 +56,20 @@ public class Board implements Serializable {
         this.id = id;
     }
 
-    public String getPort() {
-        return port;
+    public String getProtocol() {
+        return protocol;
     }
 
-    public void setPort(String port) {
-        this.port = port;
+    public void setProtocol(String port) {
+        this.protocol = port;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
     }
 
     public String getDescription() {

@@ -74,6 +74,7 @@
         <property name="userDAO" ref="defaultUserDAO" />
         <property name="fieldDAO" ref="defaultFieldDAO" />
         <property name="enclosureDAO" ref="defaultEnclosureDAO" />
+        <property name="serverDAO" ref="defaultServerDAO" />
     </bean>
 
     <!-- Facades -->
@@ -87,11 +88,6 @@
 
     <alias alias="boardWSClient" name="alRegBoardWSClient" />
     <bean id="alRegBoardWSClient" class="org.sysreg.sia.ws.client.impl.AlRegBoardWSClient" scope="request">
-        <property name="springWSClient" ref="springWSClient"/>
-    </bean>
-
-    <alias alias="sensorWSClient" name="alRegSensorWSClient" />
-    <bean id="alRegSensorWSClient" class="org.sysreg.sia.ws.client.impl.AlRegSensorWSClient" scope="request">
         <property name="springWSClient" ref="springWSClient"/>
     </bean>
 

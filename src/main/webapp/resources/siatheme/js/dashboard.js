@@ -2,17 +2,17 @@
  * Created by jose on 04/01/15.
  */
 
-function checkAvailability(id) {
+function checkAvailability(boardId, sensorId) {
     $.ajax({
         url : "sensorsget",
         dataType : "json",
-        data : "id=" + id,
+        data : "boardId=" + boardId + "&sensorId=" + sensorId,
         success : function(data) {
-           $("#" + id + "-value").html(data);
+           $("#" + sensorId + "-value").html(data);
         },
         error : function() {
             alert("error");
-            //$('#result').html("Fail");
+            $("#" + sensorId + "-value").html("XX");
         }
     });
 }

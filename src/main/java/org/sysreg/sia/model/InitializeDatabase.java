@@ -3,9 +3,9 @@ package org.sysreg.sia.model;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.util.DigestUtils;
+import org.sysreg.sia.daos.*;
 import org.sysreg.sia.model.actuator.Actuator;
 import org.sysreg.sia.model.actuator.BasicActuator;
-import org.sysreg.sia.daos.*;
 import org.sysreg.sia.model.sensor.*;
 
 import javax.persistence.EntityManager;
@@ -769,8 +769,9 @@ public class InitializeDatabase {
 
         //Boards
         ArrayList<Board> boards =  new ArrayList<>();
-        boards.add(new Board(1234, "USB", "Test Board USB"));
-        boards.add(new Board(5678, "LAN", "Test Board Ethernet"));
+        boards.add(new Board(1234, "USB", "/dev/cu.usbmodem1411", "55ecb0a13cfac3d641ce0379"));
+        boards.add(new Board(5678, "LAN", "192.168.1.3:8080", "Test Board Ethernet"));
+        boards.add(new Board(1235, "USB", "/dev/cu.usbmodem1412", "OtroId"));
 
         //Sensors 0001
         ArrayList<Sensor> sensors = new ArrayList<>();
@@ -827,8 +828,10 @@ public class InitializeDatabase {
         serverDAO.persist(servers.get(1));
 
         boards.get(0).setServer(servers.get(0));
+        boards.get(2).setServer(servers.get(0));
         boards.get(1).setServer(servers.get(1));
         boardDAO.persist(boards.get(0));
+        boardDAO.persist(boards.get(2));
         boardDAO.persist(boards.get(1));
 
         for(Sensor i : sensors) {

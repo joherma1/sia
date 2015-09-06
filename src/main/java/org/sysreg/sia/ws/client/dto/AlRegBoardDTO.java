@@ -14,6 +14,10 @@ public class AlRegBoardDTO {
 
     private String id;
 
+    private String protocol;
+
+    private String uri;
+
     private String description;
 
     private AlRegSensorDTO[] sensors;
@@ -32,6 +36,22 @@ public class AlRegBoardDTO {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getProtocol() {
+        return protocol;
+    }
+
+    public void setProtocol(String protocol) {
+        this.protocol = protocol;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
     }
 
     public String getDescription() {

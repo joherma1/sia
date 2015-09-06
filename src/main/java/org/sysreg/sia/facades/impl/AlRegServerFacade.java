@@ -1,5 +1,7 @@
 package org.sysreg.sia.facades.impl;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.sysreg.sia.dtos.ActuatorDTO;
 import org.sysreg.sia.dtos.BoardDTO;
 import org.sysreg.sia.dtos.SensorDTO;
@@ -9,6 +11,7 @@ import org.sysreg.sia.model.actuator.Actuator;
 import org.sysreg.sia.model.sensor.Sensor;
 import org.sysreg.sia.ws.service.BoardService;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +19,8 @@ import java.util.List;
  * Created by joseant on 24/08/15.
  */
 public class AlRegServerFacade implements ServerFacade {
+    private static final Logger log = LogManager.getLogger(AlRegServerFacade.class.getName());
+
     private BoardService boardService;
 
     public AlRegServerFacade(BoardService boardService) {
@@ -59,7 +64,7 @@ public class AlRegServerFacade implements ServerFacade {
                 SensorDTO sensorDTO = new SensorDTO();
                 sensorDTO.setId(sensor.getId());
                 sensorDTO.setDescription(sensor.getDescription());
-                sensorDTO.setValue(Double.toString(sensor.getValue()));
+                sensorDTO.setValue(formatDouble(sensor.getValue()));
                 sensorDTO.setUnits(sensor.getUnits() != null ? sensor.getUnits().toString() : null);
                 sensorsDTO.add(sensorDTO);
             }
@@ -84,7 +89,7 @@ public class AlRegServerFacade implements ServerFacade {
         if (boardId == null || boardId.length() < 1)
             throw new IllegalArgumentException("The board " + boardId + " does not exist");
 
-        Board board = boardService.getBoard(boardId);
+        Board board = boardService.getBoardForId(boardId);
         BoardDTO boardDTO = new BoardDTO();
         boardDTO.setId(Integer.toString(board.getId()));
         boardDTO.setDescription(board.getDescription());
@@ -93,7 +98,7 @@ public class AlRegServerFacade implements ServerFacade {
             SensorDTO sensorDTO = new SensorDTO();
             sensorDTO.setId(sensor.getId());
             sensorDTO.setDescription(sensor.getDescription());
-            sensorDTO.setValue(Double.toString(sensor.getValue()));
+            sensorDTO.setValue(formatDouble(sensor.getValue()));
             sensorDTO.setUnits(sensor.getUnits().toString());
             sensorsDTO.add(sensorDTO);
         }
@@ -109,12 +114,33 @@ public class AlRegServerFacade implements ServerFacade {
     }
 
     @Override
-    public SensorDTO getSensor(String boardId, String sensorId) {
-        return null;
+    public SensorDTO getSensorValue(String boardId, String sensorId) {
+        SensorDTO sensorDTO = new SensorDTO();
+        sensorDTO.setId(sensorId);
+        Float value = boardService.getSensorValueForId(boardId, sensorId);
+        sensorDTO.setValue(formatFloat(value));
+        return sensorDTO;
     }
 
-    @Override
-    public SensorDTO getSensorValue(String boardId, String sensorId) {
-        return null;
+    private String formatFloat(Float value) {
+        String res = "";
+        try {
+            DecimalFormat df = new DecimalFormat(".##");
+            res = df.format(value);
+        } catch (IllegalArgumentException e) {
+            log.error("Error parsing the value", e);
+        }
+        return res;
+    }
+
+    private String formatDouble(Double value) {
+        String res = "";
+        try {
+            DecimalFormat df = new DecimalFormat(".##");
+            res = df.format(value);
+        } catch (IllegalArgumentException e) {
+            log.error("Error parsing the value", e);
+        }
+        return res;
     }
 }

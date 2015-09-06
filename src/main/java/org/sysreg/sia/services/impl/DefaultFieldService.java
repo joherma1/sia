@@ -6,9 +6,11 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.sysreg.sia.daos.EnclosureDAO;
 import org.sysreg.sia.daos.FieldDAO;
+import org.sysreg.sia.daos.ServerDAO;
 import org.sysreg.sia.daos.UserDAO;
 import org.sysreg.sia.model.Enclosure;
 import org.sysreg.sia.model.Field;
+import org.sysreg.sia.model.Server;
 import org.sysreg.sia.model.User;
 import org.sysreg.sia.services.FieldService;
 
@@ -24,6 +26,28 @@ public class DefaultFieldService implements FieldService {
     private EnclosureDAO enclosureDAO;
 
     private UserDAO userDAO;
+
+    private ServerDAO serverDAO;
+
+    @Required
+    public void setFieldDAO(FieldDAO fieldDAO) {
+        this.fieldDAO = fieldDAO;
+    }
+
+    @Required
+    public void setEnclosureDAO(EnclosureDAO enclosureDAO) {
+        this.enclosureDAO = enclosureDAO;
+    }
+
+    @Required
+    public void setUserDAO(UserDAO userDAO) {
+        this.userDAO = userDAO;
+    }
+
+    @Required
+    public void setServerDAO(ServerDAO serverDAO) {
+        this.serverDAO = serverDAO;
+    }
 
     @Override
     public List<Field> getFieldsForUser(String user) throws EmptyResultDataAccessException {
@@ -62,18 +86,16 @@ public class DefaultFieldService implements FieldService {
         }
     }
 
-    @Required
-    public void setFieldDAO(FieldDAO fieldDAO) {
-        this.fieldDAO = fieldDAO;
+    @Override
+    public Server getServerByBoard(String user, String boardId) {
+        final User userField = userDAO.findByUsername(user);
+        final Server server = serverDAO.findByUserAndBoard(userField, boardId);
+        if (userField == null || server == null) {
+            throw new EmptyResultDataAccessException("Server with the board: " + boardId + " not found", 1);
+        } else {
+            return server;
+        }
     }
 
-    @Required
-    public void setEnclosureDAO(EnclosureDAO enclosureDAO) {
-        this.enclosureDAO = enclosureDAO;
-    }
 
-    @Required
-    public void setUserDAO(UserDAO userDAO) {
-        this.userDAO = userDAO;
-    }
 }

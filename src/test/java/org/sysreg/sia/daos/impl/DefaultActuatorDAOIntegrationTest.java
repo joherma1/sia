@@ -90,7 +90,7 @@ public class DefaultActuatorDAOIntegrationTest {
         //Server
         Server s1 = new Server("localhost", 3000);
         //Board
-        Board b1 = new Board(2222, "USB", "Test board");
+        Board b1 = new Board(2222, "USB", "/dev/cu.usbmodem1411", "Test board");
         //Set relations
         e1.setParcel(p1);
         p1.setField(f1);
