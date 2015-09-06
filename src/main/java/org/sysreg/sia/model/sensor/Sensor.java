@@ -1,11 +1,14 @@
 package org.sysreg.sia.model.sensor;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.sysreg.sia.model.Board;
 import org.sysreg.sia.model.Enclosure;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.util.Date;
 
 /**
  * Created by jose on 08/02/14.
@@ -15,7 +18,7 @@ import java.lang.reflect.Field;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "SENSOR_TYPE")
 @DiscriminatorValue("SENSOR")
-public class Sensor implements Serializable{
+public class Sensor implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -23,13 +26,17 @@ public class Sensor implements Serializable{
 
     @Column
     private String code;
+
+    @Column
+    private Date timestamp;
+
     @Column
     private double value;
 
-    protected enum Units {CELSIUS, FAHRENHEIT, KELVIN, PASCAL, PERCENT};
     @Column
     @Enumerated(EnumType.STRING)
     private Units units;
+
     @Column
     private String description;
 
@@ -61,6 +68,14 @@ public class Sensor implements Serializable{
         this.value = value;
     }
 
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -86,11 +101,11 @@ public class Sensor implements Serializable{
     }
 
     public String toString() {
-            String res = "";
-            Class sensorType = this.getClass();
-            res += sensorType.getSimpleName() + ": " + '\t';
-            res += printAttributes(sensorType, this);
-            return res;
+        String res = "";
+        Class sensorType = this.getClass();
+        res += sensorType.getSimpleName() + ": " + '\t';
+        res += printAttributes(sensorType, this);
+        return res;
     }
 
     static String printAttributes(Class<?> clazz, Sensor sensor) {
@@ -115,5 +130,31 @@ public class Sensor implements Serializable{
             e.printStackTrace();
             return null;
         }
+    }
+
+    // Override hashCode and equals to compare only with
+    // id + code + description
+    //  it doesn't matter which Board, units, value or timestamp have
+    public int hashCode() {
+        return new HashCodeBuilder(17, 31)
+                . // two randomly chosen prime numbers
+                        // if deriving: appendSuper(super.hashCode()).
+                        append(this.id).append(this.code).append(this.description).toHashCode();
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (obj == this)
+            return true;
+        if (!(obj instanceof Sensor))
+            return false;
+
+        Sensor rhs = (Sensor) obj;
+        return new EqualsBuilder()
+                .
+                        // if deriving: appendSuper(super.equals(obj)).
+                                append(this.id, rhs.getId()).append(this.code, rhs.getCode())
+                .append(this.description, rhs.getDescription()).isEquals();
     }
 }
