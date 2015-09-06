@@ -12,11 +12,7 @@ import org.sysreg.sia.facades.FieldFacade;
 import org.sysreg.sia.facades.ServerFacade;
 import org.sysreg.sia.facades.impl.AlRegServerFacade;
 import org.sysreg.sia.model.Board;
-import org.sysreg.sia.model.Enclosure;
 import org.sysreg.sia.model.User;
-import org.sysreg.sia.daos.EnclosureDAO;
-import org.sysreg.sia.ws.facades.RaspberryFacade;
-import org.sysreg.sia.ws.facades.impl.DefaultRaspberryFacade;
 import org.sysreg.sia.ws.service.BoardService;
 
 import java.security.Principal;
@@ -72,7 +68,7 @@ public class DashboardControllerIntegrationTest {
 
 
         //Mock the services behaviour with mockito
-        when(fieldFacade.getEnclosure(testUser.getName(),"expectedId")).thenReturn(expectedEnclosure);
+        when(fieldFacade.getEnclosure(testUser.getName(), "expectedId")).thenReturn(expectedEnclosure);
         when(boardService.getBoards()).thenReturn(new ArrayList<Board>());
         when(serverFacade.getHost()).thenReturn("localhost");
         when(serverFacade.getPort()).thenReturn(3000);
@@ -87,6 +83,6 @@ public class DashboardControllerIntegrationTest {
         assertSame(expectedEnclosure, model.get("enclosure"));
 
         //Verify that the services was called at least one time
-        verify(fieldFacade, atLeastOnce()).getEnclosure(testUser.getName(),"expectedId");
+        verify(fieldFacade, atLeastOnce()).getEnclosure(testUser.getName(), "expectedId");
     }
 }
