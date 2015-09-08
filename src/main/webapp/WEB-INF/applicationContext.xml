@@ -20,6 +20,7 @@
         <property name="jpaProperties">
             <props>
                 <!--<prop key="hibernate.hbm2ddl.auto">create-drop</prop>-->
+                <!--<prop key="hibernate.hbm2ddl.auto">update</prop>-->
                 <!-- Workarround to get the IntelliJ Persistence Tool window working -->
                 <prop key="hibernate.connection.url">jdbc:postgresql://localhost:5432/sia_dev</prop>
             </props>

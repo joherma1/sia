@@ -17,6 +17,19 @@ import java.util.Random;
 public class InitializeDatabase {
 
     private ApplicationContext context;
+    private ServerDAO serverDAO;
+    private BoardDAO boardDAO;
+    private ActuatorDAO actuatorDAO;
+    private SensorDAO sensorDAO;
+    private UseDAO useDAO;
+    private EnclosureDAO enclosureDAO;
+    private ParcelDAO parcelDAO;
+    private FieldDAO fieldDAO;
+    private TownDAO townDAO;
+    private UserDAO userDAO;
+    private AuthorityDAO authorityDAO;
+    private VarietyDAO varietyDAO;
+
 
     public static void main(String[] args) {
         System.out.println("Initializing population");
@@ -26,8 +39,12 @@ public class InitializeDatabase {
         populate.loadUsersAndAuthorities();
         System.out.println("Populating SIGPAC uses");
         populate.loadUses();
+        System.out.println("Populating orange varieties");
+        populate.loadVarieties();
         System.out.println("Populating data for tests");
         populate.loadTestData();
+        System.out.println("Pouplating fake data");
+        populate.loadSampleData();
         System.out.println("Finished");
 
     }
@@ -36,6 +53,19 @@ public class InitializeDatabase {
         //Load context
         context = new ClassPathXmlApplicationContext(
                 "file:src/main/webapp/WEB-INF/applicationContext.xml");
+
+        authorityDAO = context.getBean(AuthorityDAO.class);
+        userDAO = context.getBean(UserDAO.class);
+        townDAO = context.getBean(TownDAO.class);
+        fieldDAO = context.getBean(FieldDAO.class);
+        parcelDAO = context.getBean(ParcelDAO.class);
+        enclosureDAO = context.getBean(EnclosureDAO.class);
+        useDAO = context.getBean(UseDAO.class);
+        sensorDAO = context.getBean(SensorDAO.class);
+        actuatorDAO = context.getBean(ActuatorDAO.class);
+        boardDAO = context.getBean(BoardDAO.class);
+        serverDAO = context.getBean(ServerDAO.class);
+        varietyDAO = context.getBean(VarietyDAO.class);
     }
 
     public void loadTowns() {
@@ -643,11 +673,6 @@ public class InitializeDatabase {
     }
 
     public void loadUsersAndAuthorities(){
-        //Wire beans
-        UserDAO userDAO = context.getBean(UserDAO.class);
-        TownDAO townDAO = context.getBean(TownDAO.class);
-        AuthorityDAO authorityDAO = context.getBean(AuthorityDAO.class);
-
         // Open a transaction
         EntityManagerFactory factory = (EntityManagerFactory) context.getBean("entityManagerFactory");
         EntityManager entityManager = factory.createEntityManager();
@@ -716,19 +741,26 @@ public class InitializeDatabase {
         entityManager.close();
     }
 
-    void loadTestData(){
-        //Wire beans
-        UserDAO userDAO = context.getBean(UserDAO.class);
-        TownDAO townDAO = context.getBean(TownDAO.class);
-        FieldDAO fieldDAO = context.getBean(FieldDAO.class);
-        ParcelDAO parcelDAO = context.getBean(ParcelDAO.class);
-        EnclosureDAO enclosureDAO = context.getBean(EnclosureDAO.class);
-        UseDAO useDAO = context.getBean(UseDAO.class);
-        SensorDAO sensorDAO = context.getBean(SensorDAO.class);
-        ActuatorDAO actuatorDAO = context.getBean(ActuatorDAO.class);
-        BoardDAO boardDAO = context.getBean(BoardDAO.class);
-        ServerDAO serverDAO = context.getBean(ServerDAO.class);
+    public void loadVarieties(){
+        // Open a transaction
+        EntityManagerFactory factory = (EntityManagerFactory) context.getBean("entityManagerFactory");
+        EntityManager entityManager = factory.createEntityManager();
+        entityManager.getTransaction().begin();
 
+        Query queryVarieties = entityManager
+                .createNativeQuery("INSERT INTO \"public\".\"varieties\" (id, name,description) VALUES ('1', 'Marisol', 'La Clementina Marisol es una mandarina precoz, de color rojo intenso y fácil de pelar, con gran cantidad de zumo aromático y dulce pero con un toque de acidez.  Su pulpa es tierna, fundente y sin semillas ');" +
+                        "INSERT INTO \"public\".\"varieties\" (id, name,description) VALUES ('2','Hernandina', 'Mutación de Clementina Fina originada en Picassent (Valencia). El árbol es vigoroso, con la madera algo frágil y sin espinas. La viabilidad del polen es alta. La variedad es partenocárpica y autoincompatible');" +
+//                        "INSERT INTO \"public\".\"varieties\" (id, name,description) VALUES ('3','Nave Late', 'Mutación de Washington originada en Australia. Árbol vigoroso, con alguna espina en las ramas de mayor vigor. Las flores carecen de polen y al igual que el resto de variedades del grupo navel, los frutos presentan ombligo.');" +
+                        "INSERT INTO \"public\".\"sequence_store\" VALUES('VARIETIES_PK',(SELECT MAX(id)+1 FROM \"public\".\"varieties\"));"
+                );
+
+        queryVarieties.executeUpdate();
+
+        entityManager.getTransaction().commit();
+        entityManager.close();
+    }
+
+    void loadTestData(){
         // Open a transaction
         EntityManagerFactory factory = (EntityManagerFactory) context.getBean("entityManagerFactory");
         EntityManager entityManager = factory.createEntityManager();
@@ -906,6 +938,170 @@ public class InitializeDatabase {
         enclosureDAO.persist(e2_1);
         enclosureDAO.persist(e2_2);
         enclosureDAO.persist(e2_3);
+
+        User joherma1 = new User();
+        joherma1.setUsername("joherma1");
+        joherma1.setPassword("");
+
+        entityManager.getTransaction().commit();
+        entityManager.close();
+    }
+
+    public void loadSampleData(){
+        // Open a transaction
+        EntityManagerFactory factory = (EntityManagerFactory) context.getBean("entityManagerFactory");
+        EntityManager entityManager = factory.createEntityManager();
+        entityManager.getTransaction().begin();
+
+        User joherma1 = new User();
+        joherma1.setUsername("joherma1");
+        joherma1.setPassword("b92ed60847a306d48331f61afedd2df3"); //md5 encrypted
+        joherma1.setActive(true);
+        joherma1.setName("Jose Antonio");
+        joherma1.setSurname("Hernández Martínez");
+        joherma1.setMobile("687802637");
+        joherma1.setAddress("Ricard Hernández 60");
+        joherma1.setTown(townDAO.findByName("Alcàsser"));
+        joherma1.setAuthority(authorityDAO.findByName("ROLE_USER"));
+        userDAO.persist(joherma1);
+
+        Field camiSueca = new Field();
+        camiSueca.setName("Camí Sueca");
+        camiSueca.setUser(joherma1);
+        fieldDAO.persist(camiSueca);
+
+        Parcel camiSuecaP1 = new Parcel();
+        camiSuecaP1.setTown(townDAO.findByName("Picassent"));
+        camiSuecaP1.setAggregate(0);
+        camiSuecaP1.setZone(0);
+        camiSuecaP1.setPolygon(12);
+        camiSuecaP1.setParcel(11);
+        camiSuecaP1.setField(camiSueca);
+        camiSuecaP1.setCoordinates(new Coordinates(720614.46, 4359890, "WGS84", 30));
+        parcelDAO.persist(camiSuecaP1);
+
+        Enclosure camiSuecaP1E1 = new Enclosure();
+        camiSuecaP1E1.setEnclosure(1);
+        camiSuecaP1E1.setSlope(1.3F);
+        camiSuecaP1E1.setIrrigationCoef(100);
+        camiSuecaP1E1.setUse(useDAO.findById("CF"));
+        camiSuecaP1E1.setCoordinates(camiSuecaP1.getCoordinates());
+        camiSuecaP1E1.setParcel(camiSuecaP1);
+        camiSuecaP1E1.setArea(0.232F);
+        Variety hernandina = varietyDAO.findByName("hernandina");
+        camiSuecaP1E1.setVariety(hernandina);
+        enclosureDAO.persist(camiSuecaP1E1);
+
+        Field aiguaSalada = new Field();
+        aiguaSalada.setName("Aigua Salada");
+        aiguaSalada.setUser(joherma1);
+        fieldDAO.persist(aiguaSalada);
+
+        Parcel aiguaSaladaP1 = new Parcel();
+        aiguaSaladaP1.setTown(townDAO.findByName("Picassent"));
+        aiguaSaladaP1.setAggregate(0);
+        aiguaSaladaP1.setZone(0);
+        aiguaSaladaP1.setPolygon(31);
+        aiguaSaladaP1.setParcel(354);
+        aiguaSaladaP1.setField(aiguaSalada);
+        aiguaSaladaP1.setCoordinates(new Coordinates(714748.16, 4359983.19, "WGS84", 30));
+        parcelDAO.persist(aiguaSaladaP1);
+
+        Enclosure aiguaSaladaP1E1 = new Enclosure();
+        aiguaSaladaP1E1.setEnclosure(1);
+        aiguaSaladaP1E1.setSlope(1.8F);
+        aiguaSaladaP1E1.setIrrigationCoef(100);
+        aiguaSaladaP1E1.setUse(useDAO.findById("CF"));
+        aiguaSaladaP1E1.setCoordinates(aiguaSaladaP1.getCoordinates());
+        aiguaSaladaP1E1.setParcel(aiguaSaladaP1);
+        aiguaSaladaP1E1.setArea(0.4031F);
+        Variety navelLate = new Variety();
+        navelLate.setName("Navel Late");
+        navelLate.setDescription("Mutación de Washington originada en Australia. Árbol vigoroso, con alguna espina en las ramas de mayor vigor. Las flores carecen de polen y al igual que el resto de variedades del grupo navel, los frutos presentan ombligo.');");
+        aiguaSaladaP1E1.setVariety(navelLate);
+        varietyDAO.persist(navelLate);
+        enclosureDAO.persist(aiguaSaladaP1E1);
+
+        Field marisol = new Field();
+        marisol.setName("Marisol Rampa");
+        marisol.setUser(joherma1);
+        fieldDAO.persist(marisol);
+
+        Parcel marisolP1 = new Parcel();
+        marisolP1.setTown(townDAO.findByName("Picassent"));
+        marisolP1.setAggregate(0);
+        marisolP1.setZone(0);
+        marisolP1.setPolygon(52);
+        marisolP1.setParcel(182);
+        marisolP1.setField(marisol);
+        marisolP1.setCoordinates(new Coordinates(718662.72, 4357744.62, "WGS84", 30));
+        parcelDAO.persist(marisolP1);
+
+        Enclosure marisolP1E1 = new Enclosure();
+        marisolP1E1.setEnclosure(1);
+        marisolP1E1.setSlope(2.8F);
+        marisolP1E1.setIrrigationCoef(100);
+        marisolP1E1.setUse(useDAO.findById("CF"));
+        marisolP1E1.setCoordinates(marisolP1.getCoordinates());
+        marisolP1E1.setParcel(marisolP1);
+        marisolP1E1.setArea(0.3153F);
+        marisolP1E1.setVariety(varietyDAO.findByName("marisol"));
+        enclosureDAO.persist(marisolP1E1);
+
+
+        //Paridera
+        Field paridera = new Field();
+        paridera.setName("Paridera");
+        paridera.setUser(joherma1);
+        fieldDAO.persist(paridera);
+
+        //P1
+        Parcel parideraP1 = new Parcel();
+        parideraP1.setTown(townDAO.findByName("Picassent"));
+        parideraP1.setAggregate(0);
+        parideraP1.setZone(0);
+        parideraP1.setPolygon(51);
+        parideraP1.setParcel(175);
+        parideraP1.setField(paridera);
+        parideraP1.setCoordinates(new Coordinates(718692.56, 4358545.69, "WGS84", 30));
+        parcelDAO.persist(parideraP1);
+
+        Enclosure parideraP1E1 = new Enclosure();
+        parideraP1E1.setEnclosure(1);
+        parideraP1E1.setSlope(2.7F);
+        parideraP1E1.setIrrigationCoef(100);
+        parideraP1E1.setUse(useDAO.findById("CF"));
+        parideraP1E1.setCoordinates(parideraP1.getCoordinates());
+        parideraP1E1.setParcel(parideraP1);
+        parideraP1E1.setArea(0.56F);
+        parideraP1E1.setVariety(varietyDAO.findByName("hernandina"));
+        enclosureDAO.persist(parideraP1E1);
+
+        //P1
+        Parcel parideraP2 = new Parcel();
+        parideraP2.setTown(townDAO.findByName("Picassent"));
+        parideraP2.setAggregate(0);
+        parideraP2.setZone(0);
+        parideraP2.setPolygon(51);
+        parideraP2.setParcel(177);
+        parideraP2.setField(paridera);
+        parideraP2.setCoordinates(new Coordinates(718668.69, 4358511.47, "WGS84", 30));
+        parcelDAO.persist(parideraP2);
+
+        Enclosure parideraP2E1 = new Enclosure();
+        parideraP2E1.setEnclosure(1);
+        parideraP2E1.setSlope(2.8F);
+        parideraP2E1.setIrrigationCoef(100);
+        parideraP2E1.setUse(useDAO.findById("CF"));
+        parideraP2E1.setCoordinates(parideraP2.getCoordinates());
+        parideraP2E1.setParcel(parideraP2);
+        parideraP2E1.setArea(0.1823F);
+        parideraP2E1.setVariety(varietyDAO.findByName("hernandina"));
+        enclosureDAO.persist(parideraP2E1);
+
+
+        entityManager.getTransaction().commit();
+        entityManager.close();
 
     }
 }

@@ -3,6 +3,7 @@ package org.sysreg.sia.daos.impl;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -20,6 +21,21 @@ public class DefaultUserDAO implements UserDAO {
 	@Transactional
 	public void persist(User user) {
 		entityManager.persist(user);
+	}
+
+	@Override
+	@Transactional
+	public void update(User user){
+		entityManager.merge(user);
+	}
+
+	@Override
+	@Transactional
+	public void persistOrUpdate(User user){
+		if(user.getId() == 0) //New
+			entityManager.persist(user);
+		else
+			entityManager.merge(user);
 	}
 
 	@Override
