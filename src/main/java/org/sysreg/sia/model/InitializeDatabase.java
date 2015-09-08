@@ -801,9 +801,9 @@ public class InitializeDatabase {
 
         //Boards
         ArrayList<Board> boards =  new ArrayList<>();
-        boards.add(new Board(1234, "USB", "/dev/cu.usbmodem1411", "55ecb0a13cfac3d641ce0379"));
-        boards.add(new Board(5678, "LAN", "192.168.1.3:8080", "Test Board Ethernet"));
-        boards.add(new Board(1235, "USB", "/dev/cu.usbmodem1412", "OtroId"));
+        boards.add(new Board(1, "USB", "/dev/cu.usbmodem1411", "55ecb0a13cfac3d641ce0379"));
+        boards.add(new Board(2, "LAN", "192.168.1.3:8080", "Test Board Ethernet"));
+        boards.add(new Board(3, "USB", "/dev/cu.usbmodem1412", "OtroId"));
 
         //Sensors 0001
         ArrayList<Sensor> sensors = new ArrayList<>();
