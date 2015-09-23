@@ -17,11 +17,14 @@
         <!-- JPA implementation -->
         <property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>
         <!-- Hibernate specific properties -->
-        <!--<property name="jpaProperties">-->
-            <!--<props>-->
+        <property name="jpaProperties">
+            <props>
                 <!--<prop key="hibernate.hbm2ddl.auto">create-drop</prop>-->
-            <!--</props>-->
-        <!--</property>-->
+                <!--<prop key="hibernate.hbm2ddl.auto">update</prop>-->
+                <!-- Workarround to get the IntelliJ Persistence Tool window working -->
+                <prop key="hibernate.connection.url">jdbc:postgresql://localhost:5432/sia_dev</prop>
+            </props>
+        </property>
         <!-- Package where search the entities (@Entities). It allows to remove persistence.xml-->
         <property name="packagesToScan" value="org.sysreg.sia.model"/>
     </bean>

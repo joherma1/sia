@@ -97,7 +97,7 @@
                                                             <button type="button" id="sensor-refresh"
                                                                     value="${sensor.id}" class="btn btn-default btn-xs"
                                                                     aria-label="Refresh Sensor"
-                                                                    onclick="checkAvailability('${board.description}','${sensor.id}')">
+                                                                    onclick="checkAvailability('${board.id}','${sensor.id}')">
                                                                 <span class="glyphicon glyphicon-refresh"
                                                                       aria-hidden="true"></span>
                                                             </button>

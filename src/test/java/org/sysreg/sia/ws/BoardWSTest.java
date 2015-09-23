@@ -47,7 +47,7 @@ public class BoardWSTest {
         List<AlRegBoardDTO> boards = boardWSClient.getBoards();
         assertNotNull(boards);
         assertTrue(boards.size() > 0);
-        AlRegBoardDTO board = boardWSClient.getBoard(boards.get(0).get_id());
+        AlRegBoardDTO board = boardWSClient.getBoard(boards.get(0).getId());
         assertEquals(board, boards.get(0));
     }
 
@@ -56,7 +56,7 @@ public class BoardWSTest {
         List<AlRegBoardDTO> boards = boardWSClient.getBoards();
         assertNotNull(boards);
         assertTrue(boards.size() > 0);
-        List<AlRegSensorDTO> sensors = boardWSClient.getSensors(boards.get(0).get_id());
+        List<AlRegSensorDTO> sensors = boardWSClient.getSensors(boards.get(0).getId());
         assertNotNull(sensors);
         for (AlRegSensorDTO sensor : sensors) {
             assertNotEquals(sensor.get_id(), "");
@@ -68,10 +68,10 @@ public class BoardWSTest {
         List<AlRegBoardDTO> boards = boardWSClient.getBoards();
         assertNotNull(boards);
         assertTrue(boards.size() > 0);
-        List<AlRegSensorDTO> sensors = boardWSClient.getSensors(boards.get(0).get_id());
+        List<AlRegSensorDTO> sensors = boardWSClient.getSensors(boards.get(0).getId());
         assertNotNull(sensors);
         for (AlRegSensorDTO sensor : sensors) {
-            assertEquals(sensor, boardWSClient.getSensor(boards.get(0).get_id(), sensor.get_id()));
+            assertEquals(sensor, boardWSClient.getSensor(boards.get(0).getId(), sensor.getCode()));
         }
     }
 
@@ -80,14 +80,14 @@ public class BoardWSTest {
         List<AlRegBoardDTO> boards = boardWSClient.getBoards();
         assertNotNull(boards);
         assertTrue(boards.size() > 0);
-        List<AlRegSensorDTO> sensors = boardWSClient.getSensors(boards.get(0).get_id());
+        List<AlRegSensorDTO> sensors = boardWSClient.getSensors(boards.get(0).getId());
         assertNotNull(sensors);
         for (AlRegSensorDTO sensor : sensors) {
             // Get value without having in account the timestamp
-            Float value = boardWSClient.getSensorValue(boards.get(0).get_id(), sensor.get_id());
+            Float value = boardWSClient.getSensorValue(boards.get(0).getId(), sensor.getCode());
             assertNotNull(value);
             //Get the value again but from the database, must be the same (<60s)
-            assertEquals(sensor, boardWSClient.getSensor(boards.get(0).get_id(), sensor.get_id()));
+            assertEquals(sensor, boardWSClient.getSensor(boards.get(0).getId(), sensor.getCode()));
         }
     }
 }

@@ -11,4 +11,8 @@ public interface FieldDAO {
 
 	void persist(Field field);
 
+    void update(Field field);
+
+    void persistOrUpdate(Field field);
+
 }

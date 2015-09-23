@@ -34,15 +34,12 @@ public class DefaultServerDAO implements ServerDAO {
 
     @Override
     public Server findByUserAndBoard(User user, String boardId) {
-        //TODO
-        //search board by actual ID, not using the workaround description
-
         Query q = entityManager.createQuery("select server from Server as server " +
                 "inner join server.boards as board " +
                 "where server.enclosure.parcel.field.user.username = ?1 " +
-                "and board.description = ?2"); //TODO
+                "and board.id = ?2");
         q.setParameter(1, user.getUsername());
-        q.setParameter(2, boardId);
+        q.setParameter(2, Integer.parseInt(boardId));
         List<Server> results = q.getResultList();
         if (results.size() > 0)
             return results.get(0);
