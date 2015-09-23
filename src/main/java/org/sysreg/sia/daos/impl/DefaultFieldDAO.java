@@ -40,4 +40,18 @@ public class DefaultFieldDAO implements FieldDAO {
         entityManager.persist(field);
     }
 
+    @Override
+    @Transactional
+    public void update(Field field){
+        entityManager.merge(field);
+    }
+
+    @Override
+    @Transactional
+    public void persistOrUpdate(Field field){
+        if(field.getId() == 0)
+            entityManager.persist(field);
+        else
+            entityManager.merge(field);
+    }
 }

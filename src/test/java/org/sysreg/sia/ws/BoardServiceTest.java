@@ -49,9 +49,7 @@ public class BoardServiceTest {
     public void testGetSensors() {
         List<Board> boards = boardService.getBoards();
         if (boards.size() > 0) {
-            //TODO
-            //fix board ID, using description
-            List<Sensor> sensors = boardService.getSensorsForBoard(boards.get(0).getDescription());
+            List<Sensor> sensors = boardService.getSensorsForBoard(Integer.toString(boards.get(0).getId()));
             for (Sensor sensorOrig : boards.get(0).getSensors()) {
                 assertTrue(sensors.contains(sensorOrig));
             }
@@ -68,11 +66,9 @@ public class BoardServiceTest {
         List<Board> boards = boardService.getBoards();
         if (boards.size() > 0 && boards.get(0).getSensors().size() > 0) {
             Sensor sensor = boards.get(0).getSensors().iterator().next();
-            //TODO
-            //fix board ID, using description
-            Float value = boardService.getSensorValueForId(sensor.getBoard().getDescription(), sensor.getId());
+            Float value = boardService.getSensorValueForId(Integer.toString(sensor.getBoard().getId()), sensor.getCode());
             Date queryAgain = new Date();
-            Sensor sensorUpdated = boardService.getSensorForId(sensor.getBoard().getDescription(), sensor.getId());
+            Sensor sensorUpdated = boardService.getSensorForId(Integer.toString(sensor.getBoard().getId()), sensor.getCode());
 
             // Test 1:
             // if(timestamp is recent) same value (not call the board)
@@ -86,7 +82,7 @@ public class BoardServiceTest {
 
             // Test 2:
             // Value recent --> not call Arduino
-            value = boardService.getSensorValueForId(boards.get(0).getDescription(), sensor.getId());
+            value = boardService.getSensorValueForId(Integer.toHexString(boards.get(0).getId()), sensor.getCode());
             assertTrue((queryAgain.getTime() - sensorUpdated.getTimestamp().getTime()) / 1000 < 60);
             assertEquals(sensorUpdated.getValue(), new FloatingDecimal(value).doubleValue(), 1e-10);
         }

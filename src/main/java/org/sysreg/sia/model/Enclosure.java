@@ -39,6 +39,10 @@ public class Enclosure implements Serializable {
     @OrderBy("id ASC")
     private Set<Server> servers = new HashSet<>();
 
+    @ManyToOne
+    @JoinColumn(name = "VARIETY_ID")
+    private Variety variety;
+
     public Parcel getParcel() {
         return parcel;
     }
@@ -101,6 +105,14 @@ public class Enclosure implements Serializable {
 
     public void setServers(Set<Server> servers) {
         this.servers = servers;
+    }
+
+    public Variety getVariety() {
+        return variety;
+    }
+
+    public void setVariety(Variety variety) {
+        this.variety = variety;
     }
 
     public String toString() {

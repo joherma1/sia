@@ -108,6 +108,6 @@ public class Parcel implements Serializable {
 	}
 
     public String toString(){
-        return getTown().getName() + ": " + getAggregate() + " - " + getZone();
+        return getTown().getName() + ": " + getPolygon() + " - " + getParcel();
     }
 }

@@ -63,7 +63,7 @@ public class AlRegServerFacade implements ServerFacade {
             for (Sensor sensor : board.getSensors()) {
                 SensorDTO sensorDTO = new SensorDTO();
                 sensorDTO.setId(sensor.getId());
-                sensorDTO.setDescription(sensor.getDescription());
+                sensorDTO.setDescription(sensor.getCode() + " " + sensor.getDescription());
                 sensorDTO.setValue(formatDouble(sensor.getValue()));
                 sensorDTO.setUnits(sensor.getUnits() != null ? sensor.getUnits().toString() : null);
                 sensorsDTO.add(sensorDTO);
@@ -97,7 +97,7 @@ public class AlRegServerFacade implements ServerFacade {
         for (Sensor sensor : board.getSensors()) {
             SensorDTO sensorDTO = new SensorDTO();
             sensorDTO.setId(sensor.getId());
-            sensorDTO.setDescription(sensor.getDescription());
+            sensorDTO.setDescription(sensor.getCode() + " " + sensor.getDescription());
             sensorDTO.setValue(formatDouble(sensor.getValue()));
             sensorDTO.setUnits(sensor.getUnits().toString());
             sensorsDTO.add(sensorDTO);
