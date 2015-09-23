@@ -66,9 +66,9 @@ public class BoardServiceTest {
         List<Board> boards = boardService.getBoards();
         if (boards.size() > 0 && boards.get(0).getSensors().size() > 0) {
             Sensor sensor = boards.get(0).getSensors().iterator().next();
-            Float value = boardService.getSensorValueForId(Integer.toString(sensor.getBoard().getId()), sensor.getId());
+            Float value = boardService.getSensorValueForId(Integer.toString(sensor.getBoard().getId()), sensor.getCode());
             Date queryAgain = new Date();
-            Sensor sensorUpdated = boardService.getSensorForId(Integer.toString(sensor.getBoard().getId()), sensor.getId());
+            Sensor sensorUpdated = boardService.getSensorForId(Integer.toString(sensor.getBoard().getId()), sensor.getCode());
 
             // Test 1:
             // if(timestamp is recent) same value (not call the board)
@@ -82,7 +82,7 @@ public class BoardServiceTest {
 
             // Test 2:
             // Value recent --> not call Arduino
-            value = boardService.getSensorValueForId(Integer.toHexString(boards.get(0).getId()), sensor.getId());
+            value = boardService.getSensorValueForId(Integer.toHexString(boards.get(0).getId()), sensor.getCode());
             assertTrue((queryAgain.getTime() - sensorUpdated.getTimestamp().getTime()) / 1000 < 60);
             assertEquals(sensorUpdated.getValue(), new FloatingDecimal(value).doubleValue(), 1e-10);
         }

@@ -146,6 +146,39 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
+            <!-- Surefire Plugin: Maven Unit tests -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.18.1</version>
+                <configuration>
+                    <!--<includes>-->
+                    <!--<include>Sample.java</include>-->
+                    <!--</includes>-->
+                    <excludes>
+                        <exclude>**/ws/**</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <!-- Failsafe Plugin: Maven Integration Tests-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.18.1</version>
+                <configuration>
+                    <includes>
+                        <include>**/ws/**</include>
+                    </includes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 	<properties>

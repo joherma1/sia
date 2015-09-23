@@ -61,17 +61,13 @@ public class DefaultBoardService implements BoardService {
             Set<Sensor> sensors = new HashSet<>();
             for (AlRegSensorDTO alRegSensorDTO : boardFull.getSensors()) {
                 Sensor sensor = new Sensor();
-                //TODO
-                //mongoCode set as Postgre ID
-                //mongoDescritpion set as PostgreCode
-                //confussing
-                sensor.setId(alRegSensorDTO.getCode());
-                sensor.setCode(alRegSensorDTO.getDescription());
+                //sensor ID (Postgres) not set, internal to the database
+                sensor.setCode(alRegSensorDTO.getCode());
+                sensor.setDescription(alRegSensorDTO.getDescription());
                 // Use of FloatingDecimal to avoid deltas conversion (e.g. 25.69999999)
                 sensor.setValue(alRegSensorDTO.getValue() != null ?
                         new FloatingDecimal(alRegSensorDTO.getValue()).doubleValue() : 0D);
                 sensor.setTimestamp(alRegSensorDTO.getTimestamp() != null ? alRegSensorDTO.getTimestamp() : new Date(0));
-                sensor.setCode(alRegSensorDTO.getDescription());
                 sensor.setBoard(aux);
                 sensors.add(sensor);
             }
@@ -92,12 +88,12 @@ public class DefaultBoardService implements BoardService {
         Set<Sensor> sensors = new HashSet<>();
         for (AlRegSensorDTO alRegSensorDTO : boardDTO.getSensors()) {
             Sensor sensor = new Sensor();
-            sensor.setId(alRegSensorDTO.getCode());
-            sensor.setCode(alRegSensorDTO.getDescription());
+            //sensor ID (Postgres) not set, internal to the database
+            sensor.setCode(alRegSensorDTO.getCode());
+            sensor.setDescription(alRegSensorDTO.getDescription());
             sensor.setValue(alRegSensorDTO.getValue() != null ?
                     new FloatingDecimal(alRegSensorDTO.getValue()).doubleValue() : 0D);
             sensor.setTimestamp(alRegSensorDTO.getTimestamp() != null ? alRegSensorDTO.getTimestamp() : new Date(0));
-            sensor.setCode(alRegSensorDTO.getDescription());
             sensor.setBoard(board);
             sensors.add(sensor);
         }
@@ -115,12 +111,12 @@ public class DefaultBoardService implements BoardService {
         List<Sensor> sensors = new ArrayList<>();
         for (AlRegSensorDTO alRegSensorDTO : sensorsDTO) {
             Sensor sensor = new Sensor();
-            sensor.setId(alRegSensorDTO.getCode());
-            sensor.setCode(alRegSensorDTO.getDescription());
+            //sensor ID (Postgres) not set, internal to the database
+            sensor.setCode(alRegSensorDTO.getCode());
+            sensor.setDescription(alRegSensorDTO.getDescription());
             sensor.setValue(alRegSensorDTO.getValue() != null ?
                     new FloatingDecimal(alRegSensorDTO.getValue()).doubleValue() : 0D);
             sensor.setTimestamp(alRegSensorDTO.getTimestamp() != null ? alRegSensorDTO.getTimestamp() : new Date(0));
-            sensor.setCode(alRegSensorDTO.getDescription());
             //TODO
             //Eager board initialization: Set board attribute
             //sensor.setBoard(null);
@@ -133,8 +129,9 @@ public class DefaultBoardService implements BoardService {
     public Sensor getSensorForId(String boardId, String sensorId) {
         AlRegSensorDTO sensorDTO = boardWSClient.getSensor(boardId, sensorId);
         Sensor sensor = new Sensor();
-        sensor.setId(sensorDTO.getCode());
-        sensor.setCode(sensorDTO.getDescription());
+        //sensor ID (Postgres) not set, internal to the database
+        sensor.setCode(sensorDTO.getCode());
+        sensor.setDescription(sensorDTO.getDescription());
         sensor.setValue(sensorDTO.getValue() != null ?
                 new FloatingDecimal(sensorDTO.getValue()).doubleValue() : 0D);
         sensor.setTimestamp(sensorDTO.getTimestamp() != null ? sensorDTO.getTimestamp() : new Date(0));
