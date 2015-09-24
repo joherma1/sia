@@ -62,7 +62,8 @@ public class AlRegServerFacade implements ServerFacade {
             List<SensorDTO> sensorsDTO = new ArrayList<>();
             for (Sensor sensor : board.getSensors()) {
                 SensorDTO sensorDTO = new SensorDTO();
-                sensorDTO.setId(sensor.getId());
+                //Arduino code = SIA id
+                sensorDTO.setId(sensor.getCode());
                 sensorDTO.setDescription(sensor.getCode() + " " + sensor.getDescription());
                 sensorDTO.setValue(formatDouble(sensor.getValue()));
                 sensorDTO.setUnits(sensor.getUnits() != null ? sensor.getUnits().toString() : null);
@@ -96,7 +97,8 @@ public class AlRegServerFacade implements ServerFacade {
         List<SensorDTO> sensorsDTO = new ArrayList<>();
         for (Sensor sensor : board.getSensors()) {
             SensorDTO sensorDTO = new SensorDTO();
-            sensorDTO.setId(sensor.getId());
+            //Arduino code = SIA id
+            sensorDTO.setId(sensor.getCode());
             sensorDTO.setDescription(sensor.getCode() + " " + sensor.getDescription());
             sensorDTO.setValue(formatDouble(sensor.getValue()));
             sensorDTO.setUnits(sensor.getUnits().toString());

@@ -61,7 +61,7 @@ public class BoardServiceTest {
      * getSensorForId --> Get the sensor from the database
      * getSensorValue --> Get the sensor from the arduino (unless iS too recent [ < CHECK_INTERVAL])
      */
-    @Test
+    //@Test
     public void testGetValueSensor() {
         List<Board> boards = boardService.getBoards();
         if (boards.size() > 0 && boards.get(0).getSensors().size() > 0) {

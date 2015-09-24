@@ -75,7 +75,7 @@ public class BoardWSTest {
         }
     }
 
-    @Test
+    //@Test
     public void testGetSensorValue() {
         List<AlRegBoardDTO> boards = boardWSClient.getBoards();
         assertNotNull(boards);
