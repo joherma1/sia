@@ -1,9 +1,13 @@
-package org.sysreg.sia.model;
+package org.sysreg.sia.web.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.DigestUtils;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.sysreg.sia.daos.*;
+import org.sysreg.sia.model.*;
 import org.sysreg.sia.model.actuator.Actuator;
 import org.sysreg.sia.model.actuator.BasicActuator;
 import org.sysreg.sia.model.sensor.*;
@@ -14,58 +18,54 @@ import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class InitializeDatabase {
-
+/**
+ * Created by joseant on 25/09/15.
+ */
+@Controller
+public class AdminController {
+    @Autowired
     private ApplicationContext context;
+    @Autowired
     private ServerDAO serverDAO;
+    @Autowired
     private BoardDAO boardDAO;
+    @Autowired
     private ActuatorDAO actuatorDAO;
+    @Autowired
     private SensorDAO sensorDAO;
+    @Autowired
     private UseDAO useDAO;
+    @Autowired
     private EnclosureDAO enclosureDAO;
+    @Autowired
     private ParcelDAO parcelDAO;
+    @Autowired
     private FieldDAO fieldDAO;
+    @Autowired
     private TownDAO townDAO;
+    @Autowired
     private UserDAO userDAO;
+    @Autowired
     private AuthorityDAO authorityDAO;
+    @Autowired
     private VarietyDAO varietyDAO;
 
 
-    public static void main(String[] args) {
+    @RequestMapping(value = "/initialize", method = RequestMethod.GET)
+    public void sampleData() {
         System.out.println("Initializing population");
-        InitializeDatabase populate = new InitializeDatabase();
-        populate.loadTowns();
+        loadTowns();
         System.out.println("Populating users and authorities");
-        populate.loadUsersAndAuthorities();
+        loadUsersAndAuthorities();
         System.out.println("Populating SIGPAC uses");
-        populate.loadUses();
+        loadUses();
         System.out.println("Populating orange varieties");
-        populate.loadVarieties();
+        loadVarieties();
         System.out.println("Populating data for tests");
-        populate.loadTestData();
+        loadTestData();
         System.out.println("Pouplating fake data");
-        populate.loadSampleData();
+        loadSampleData();
         System.out.println("Finished");
-
-    }
-
-    public InitializeDatabase() {
-        //Load context
-        context = new ClassPathXmlApplicationContext(
-                "file:src/main/webapp/WEB-INF/applicationContext.xml");
-
-        authorityDAO = context.getBean(AuthorityDAO.class);
-        userDAO = context.getBean(UserDAO.class);
-        townDAO = context.getBean(TownDAO.class);
-        fieldDAO = context.getBean(FieldDAO.class);
-        parcelDAO = context.getBean(ParcelDAO.class);
-        enclosureDAO = context.getBean(EnclosureDAO.class);
-        useDAO = context.getBean(UseDAO.class);
-        sensorDAO = context.getBean(SensorDAO.class);
-        actuatorDAO = context.getBean(ActuatorDAO.class);
-        boardDAO = context.getBean(BoardDAO.class);
-        serverDAO = context.getBean(ServerDAO.class);
-        varietyDAO = context.getBean(VarietyDAO.class);
     }
 
     public void loadTowns() {
@@ -749,9 +749,9 @@ public class InitializeDatabase {
 
         Query queryVarieties = entityManager
                 .createNativeQuery("INSERT INTO \"public\".\"varieties\" (id, name,description) VALUES ('1', 'Marisol', 'La Clementina Marisol es una mandarina precoz, de color rojo intenso y fácil de pelar, con gran cantidad de zumo aromático y dulce pero con un toque de acidez.  Su pulpa es tierna, fundente y sin semillas ');" +
-                        "INSERT INTO \"public\".\"varieties\" (id, name,description) VALUES ('2','Hernandina', 'Mutación de Clementina Fina originada en Picassent (Valencia). El árbol es vigoroso, con la madera algo frágil y sin espinas. La viabilidad del polen es alta. La variedad es partenocárpica y autoincompatible');" +
+                                "INSERT INTO \"public\".\"varieties\" (id, name,description) VALUES ('2','Hernandina', 'Mutación de Clementina Fina originada en Picassent (Valencia). El árbol es vigoroso, con la madera algo frágil y sin espinas. La viabilidad del polen es alta. La variedad es partenocárpica y autoincompatible');" +
 //                        "INSERT INTO \"public\".\"varieties\" (id, name,description) VALUES ('3','Nave Late', 'Mutación de Washington originada en Australia. Árbol vigoroso, con alguna espina en las ramas de mayor vigor. Las flores carecen de polen y al igual que el resto de variedades del grupo navel, los frutos presentan ombligo.');" +
-                        "INSERT INTO \"public\".\"sequence_store\" VALUES('VARIETIES_PK',(SELECT MAX(id)+1 FROM \"public\".\"varieties\"));"
+                                "INSERT INTO \"public\".\"sequence_store\" VALUES('VARIETIES_PK',(SELECT MAX(id)+1 FROM \"public\".\"varieties\"));"
                 );
 
         queryVarieties.executeUpdate();
