@@ -47,8 +47,8 @@
         <!-- Localhost -->
         <property name="url"
                   value="jdbc:postgresql://#{systemEnvironment['POSTGRES_PORT_5432_TCP_ADDR']?: '${jdbc.host}' }:#{systemEnvironment['POSTGRES_PORT_5432_TCP_PORT']?: '${jdbc.port}' }/${jdbc.schema}"/>
-        <property name="username" value="${jdbc.username}" />
-        <property name="password" value="${jdbc.password}" />
+        <property name="username" value="#{systemEnvironment['POSTGRES_USER']?: ${jdbc.username}}" />
+        <property name="password" value="#{systemEnvironment['POSTGRES_PASSWORD']?: ${jdbc.password}}" />
         <property name="initialSize" value="1"/>
         <property name="maxActive" value="20"/>
     </bean>
@@ -67,7 +67,7 @@
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 
-    <!-- Inject EntityManager with @PersistentConten -->
+    <!-- Inject EntityManager with @PersistentContent -->
     <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
 
     <!-- Manage SQL Exceptions -->
