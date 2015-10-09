@@ -11,7 +11,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.sysreg.sia.model.Board;
 import org.sysreg.sia.model.sensor.Sensor;
 import org.sysreg.sia.ws.service.BoardService;
-import sun.misc.FloatingDecimal;
 
 import java.util.Date;
 import java.util.List;
@@ -75,7 +74,7 @@ public class BoardServiceTest {
             // if(timestamp is old) database updated [NORMAL CASE]
             if ((new Date().getTime() - sensor.getTimestamp().getTime()) / 1000 < 60) {
                 //using the quickest conversion function
-                assertEquals(sensor.getValue(), new FloatingDecimal(value).doubleValue(), 1e-15);
+                assertEquals(sensor.getValue(), value.doubleValue(), 1e-15);
             } else {
                 assertNotEquals(sensor.getTimestamp(), sensorUpdated.getTimestamp());
             }
@@ -84,7 +83,7 @@ public class BoardServiceTest {
             // Value recent --> not call Arduino
             value = boardService.getSensorValueForId(Integer.toHexString(boards.get(0).getId()), sensor.getCode());
             assertTrue((queryAgain.getTime() - sensorUpdated.getTimestamp().getTime()) / 1000 < 60);
-            assertEquals(sensorUpdated.getValue(), new FloatingDecimal(value).doubleValue(), 1e-10);
+            assertEquals(sensorUpdated.getValue(), value.doubleValue(), 1e-10);
         }
     }
 }

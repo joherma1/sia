@@ -1,7 +1,12 @@
 package org.sysreg.sia.web.controller;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hibernate.ejb.Ejb3Configuration;
+import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +20,8 @@ import org.sysreg.sia.model.sensor.*;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -23,8 +30,11 @@ import java.util.Random;
  */
 @Controller
 public class AdminController {
+    private static final Logger log = LogManager.getLogger(AdminController.class.getName());
     @Autowired
     private ApplicationContext context;
+    @Autowired
+    LocalContainerEntityManagerFactoryBean factoryBean;
     @Autowired
     private ServerDAO serverDAO;
     @Autowired
@@ -52,20 +62,41 @@ public class AdminController {
 
 
     @RequestMapping(value = "/initialize", method = RequestMethod.GET)
-    public void sampleData() {
-        System.out.println("Initializing population");
+    public String initialize() {
+        log.info("Initializing population");
+        log.info("Droping and creating Database");
+        dropAndCreate();
+        log.info("Populating Provinces, Regions and Towns");
         loadTowns();
-        System.out.println("Populating users and authorities");
+        log.info("Populating users and authorities");
         loadUsersAndAuthorities();
-        System.out.println("Populating SIGPAC uses");
+        log.info("Populating SIGPAC uses");
         loadUses();
-        System.out.println("Populating orange varieties");
+        log.info("Populating orange varieties");
         loadVarieties();
-        System.out.println("Populating data for tests");
+        log.info("Populating data for tests");
         loadTestData();
-        System.out.println("Pouplating fake data");
+        log.info("Populating sample data");
         loadSampleData();
-        System.out.println("Finished");
+        log.info("Finished");
+
+        return "initialize";
+    }
+
+    public void dropAndCreate() {
+        try {
+            // Load the Hibernate configuration
+            LocalContainerEntityManagerFactoryBean factoryBean = context.getBean(LocalContainerEntityManagerFactoryBean.class);
+            Ejb3Configuration cfg = new Ejb3Configuration();
+            Ejb3Configuration configured = cfg.configure(factoryBean.getPersistenceUnitInfo(), factoryBean.getJpaPropertyMap());
+            // Set the datasource connection
+            Connection connection = factoryBean.getDataSource().getConnection();
+            SchemaExport schemaExport = new SchemaExport(configured.getHibernateConfiguration(), connection);
+            // Drop and create schema
+            schemaExport.create(true, true);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void loadTowns() {
