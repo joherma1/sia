@@ -9,12 +9,23 @@
         http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-    <!-- Bean for loading properties-->
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location">
-            <value>classpath:config/application.properties</value>
+    <!-- Bean to define the files and read the properties programatically (Java properties) -->
+    <bean id="siaProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="locations">
+            <list>
+                <value>classpath:config/application.properties</value>
+                <value>classpath:config/test.properties</value>
+            </list>
         </property>
     </bean>
+
+    <!-- Bean for loading properties in Spring (XML and @Values)-->
+    <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+        <property name="properties" ref="siaProperties" />
+        <property name="ignoreResourceNotFound" value="true" />
+    </bean>
+
+
 
     <!-- Bean for the Entity Manager (via entityManagerFactory managed by the container) -->
     <bean id="entityManagerFactory"

@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.ejb.Ejb3Configuration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
+import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -16,9 +17,11 @@ import org.sysreg.sia.model.sensor.*;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Properties;
 import java.util.Random;
 
 public class InitializeDatabase {
@@ -37,7 +40,7 @@ public class InitializeDatabase {
     private UserDAO userDAO;
     private AuthorityDAO authorityDAO;
     private VarietyDAO varietyDAO;
-
+    private PropertiesFactoryBean propertiesFactoryBean;
 
     public static void main(String[] args) {
         log.info("Initializing population");
@@ -77,6 +80,8 @@ public class InitializeDatabase {
         boardDAO = context.getBean(BoardDAO.class);
         serverDAO = context.getBean(ServerDAO.class);
         varietyDAO = context.getBean(VarietyDAO.class);
+        propertiesFactoryBean = context.getBean(PropertiesFactoryBean.class);
+
     }
 
     public void dropAndCreate(){
@@ -823,8 +828,14 @@ public class InitializeDatabase {
 
         //Servers
         ArrayList<Server> servers = new ArrayList<>();
-        servers.add(new Server("localhost",3000));
-        servers.add(new Server("127.0.0.1",3000));
+        Properties props = null;
+        try {
+            props = propertiesFactoryBean.getObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        servers.add(new Server(props.getProperty("default.siarest.host"),Integer.parseInt(props.getProperty("default.siarest.port"))));
+        servers.add(new Server(props.getProperty("default.siarest.host"),Integer.parseInt(props.getProperty("default.siarest.port"))));
 
         //Boards
         ArrayList<Board> boards =  new ArrayList<>();

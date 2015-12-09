@@ -5,7 +5,10 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.ejb.Ejb3Configuration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.env.Environment;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.DigestUtils;
@@ -20,9 +23,11 @@ import org.sysreg.sia.model.sensor.*;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Properties;
 import java.util.Random;
 
 /**
@@ -59,6 +64,8 @@ public class AdminController {
     private AuthorityDAO authorityDAO;
     @Autowired
     private VarietyDAO varietyDAO;
+    @Autowired
+    private PropertiesFactoryBean propertiesFactoryBean;
 
 
     @RequestMapping(value = "/initialize", method = RequestMethod.GET)
@@ -827,8 +834,14 @@ public class AdminController {
 
         //Servers
         ArrayList<Server> servers = new ArrayList<>();
-        servers.add(new Server("localhost",3000));
-        servers.add(new Server("127.0.0.1",3000));
+        Properties props = null;
+        try {
+            props = propertiesFactoryBean.getObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        servers.add(new Server(props.getProperty("default.siarest.host"),Integer.parseInt(props.getProperty("default.siarest.port"))));
+        servers.add(new Server(props.getProperty("default.siarest.host"),Integer.parseInt(props.getProperty("default.siarest.port"))));
 
         //Boards
         ArrayList<Board> boards =  new ArrayList<>();
