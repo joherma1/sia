@@ -3,6 +3,7 @@ package org.sysreg.sia.daos.impl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -44,6 +45,12 @@ public class DefaultActuatorDAOIntegrationTest {
 
     @Autowired
     private BoardDAO boardDAO;
+
+    @Value("${test.siarest.host}")
+    String siarestHost;
+
+    @Value("${test.siarest.port}")
+    String siarestPort;
 
     @Test
     public void testCreation() {
@@ -88,7 +95,7 @@ public class DefaultActuatorDAOIntegrationTest {
         e1.setIrrigationCoef(100);
         e1.setSlope(0F);
         //Server
-        Server s1 = new Server("localhost", 3000);
+        Server s1 = new Server(siarestHost, Integer.parseInt(siarestPort));
         //Board
         Board b1 = new Board(2222, "USB", "/dev/cu.usbmodem1411", "Test board");
         //Set relations

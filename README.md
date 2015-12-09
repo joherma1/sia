@@ -20,3 +20,9 @@ About the extensible architecture, it’s an aspect that covers all the system, 
 
 
 ![SIA Dasbhoard Controller](https://raw.githubusercontent.com/joherma1/sia/master/doc/Architecture/SIA%20-%20DashboardController.png)
+
+
+### Alias
+mvn test
+mvn integration-test
+mvn tomcat7:run

@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.ModelMap;
 import org.sysreg.sia.dtos.EnclosureDTO;
 import org.sysreg.sia.facades.FieldFacade;
@@ -29,6 +30,11 @@ import static org.mockito.Mockito.*;
 public class DashboardControllerIntegrationTest {
 
     private DashboardController dashboardController;
+
+    @Value("${default.siarest.host}")
+    String siarestHost;
+    @Value("${default.siarest.port}")
+    String siarestPort;
 
     //Services mocked
     @Mock

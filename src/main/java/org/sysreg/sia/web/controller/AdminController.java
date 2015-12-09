@@ -1,15 +1,21 @@
-package org.sysreg.sia.model;
+package org.sysreg.sia.web.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.ejb.Ejb3Configuration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.env.Environment;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.DigestUtils;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.sysreg.sia.daos.*;
+import org.sysreg.sia.model.*;
 import org.sysreg.sia.model.actuator.Actuator;
 import org.sysreg.sia.model.actuator.BasicActuator;
 import org.sysreg.sia.model.sensor.*;
@@ -24,79 +30,79 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Random;
 
-public class InitializeDatabase {
-    private static final Logger log = LogManager.getLogger(InitializeDatabase.class.getName());
-
+/**
+ * Created by joseant on 25/09/15.
+ */
+@Controller
+public class AdminController {
+    private static final Logger log = LogManager.getLogger(AdminController.class.getName());
+    @Autowired
     private ApplicationContext context;
+    @Autowired
+    LocalContainerEntityManagerFactoryBean factoryBean;
+    @Autowired
     private ServerDAO serverDAO;
+    @Autowired
     private BoardDAO boardDAO;
+    @Autowired
     private ActuatorDAO actuatorDAO;
+    @Autowired
     private SensorDAO sensorDAO;
+    @Autowired
     private UseDAO useDAO;
+    @Autowired
     private EnclosureDAO enclosureDAO;
+    @Autowired
     private ParcelDAO parcelDAO;
+    @Autowired
     private FieldDAO fieldDAO;
+    @Autowired
     private TownDAO townDAO;
+    @Autowired
     private UserDAO userDAO;
+    @Autowired
     private AuthorityDAO authorityDAO;
+    @Autowired
     private VarietyDAO varietyDAO;
+    @Autowired
     private PropertiesFactoryBean propertiesFactoryBean;
 
-    public static void main(String[] args) {
+
+    @RequestMapping(value = "/initialize", method = RequestMethod.GET)
+    public String initialize() {
         log.info("Initializing population");
-        InitializeDatabase populate = new InitializeDatabase();
         log.info("Droping and creating Database");
-        populate.dropAndCreate();
+        dropAndCreate();
         log.info("Populating Provinces, Regions and Towns");
-        populate.loadTowns();
+        loadTowns();
         log.info("Populating users and authorities");
-        populate.loadUsersAndAuthorities();
+        loadUsersAndAuthorities();
         log.info("Populating SIGPAC uses");
-        populate.loadUses();
+        loadUses();
         log.info("Populating orange varieties");
-        populate.loadVarieties();
+        loadVarieties();
         log.info("Populating data for tests");
-        populate.loadTestData();
+        loadTestData();
         log.info("Populating sample data");
-        populate.loadSampleData();
+        loadSampleData();
         log.info("Finished");
 
+        return "initialize";
     }
 
-    public InitializeDatabase() {
-        //Load context
-        context = new ClassPathXmlApplicationContext(
-                "file:src/main/webapp/WEB-INF/applicationContext.xml");
-
-        authorityDAO = context.getBean(AuthorityDAO.class);
-        userDAO = context.getBean(UserDAO.class);
-        townDAO = context.getBean(TownDAO.class);
-        fieldDAO = context.getBean(FieldDAO.class);
-        parcelDAO = context.getBean(ParcelDAO.class);
-        enclosureDAO = context.getBean(EnclosureDAO.class);
-        useDAO = context.getBean(UseDAO.class);
-        sensorDAO = context.getBean(SensorDAO.class);
-        actuatorDAO = context.getBean(ActuatorDAO.class);
-        boardDAO = context.getBean(BoardDAO.class);
-        serverDAO = context.getBean(ServerDAO.class);
-        varietyDAO = context.getBean(VarietyDAO.class);
-        propertiesFactoryBean = context.getBean(PropertiesFactoryBean.class);
-
-    }
-
-    public void dropAndCreate(){
+    public void dropAndCreate() {
         try {
-                // Load the Hibernate configuration
-                LocalContainerEntityManagerFactoryBean factoryBean = context.getBean(LocalContainerEntityManagerFactoryBean.class);
-                Ejb3Configuration cfg = new Ejb3Configuration();
-                Ejb3Configuration configured = cfg.configure(factoryBean.getPersistenceUnitInfo(), factoryBean.getJpaPropertyMap());
-                // Set the datasource connection
-                Connection connection = factoryBean.getDataSource().getConnection();
-                SchemaExport schemaExport = new SchemaExport(configured.getHibernateConfiguration(), connection);
-                // Drop and create schema
-                schemaExport.create(true,true);
+            // Load the Hibernate configuration
+            LocalContainerEntityManagerFactoryBean factoryBean = context.getBean(LocalContainerEntityManagerFactoryBean.class);
+            Ejb3Configuration cfg = new Ejb3Configuration();
+            Ejb3Configuration configured = cfg.configure(factoryBean.getPersistenceUnitInfo(), factoryBean.getJpaPropertyMap());
+            // Set the datasource connection
+            Connection connection = factoryBean.getDataSource().getConnection();
+            SchemaExport schemaExport = new SchemaExport(configured.getHibernateConfiguration(), connection);
+            // Drop and create schema
+            schemaExport.create(true, true);
         } catch (SQLException e) {
-                e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
@@ -781,9 +787,9 @@ public class InitializeDatabase {
 
         Query queryVarieties = entityManager
                 .createNativeQuery("INSERT INTO \"public\".\"varieties\" (id, name,description) VALUES ('1', 'Marisol', 'La Clementina Marisol es una mandarina precoz, de color rojo intenso y fácil de pelar, con gran cantidad de zumo aromático y dulce pero con un toque de acidez.  Su pulpa es tierna, fundente y sin semillas ');" +
-                        "INSERT INTO \"public\".\"varieties\" (id, name,description) VALUES ('2','Hernandina', 'Mutación de Clementina Fina originada en Picassent (Valencia). El árbol es vigoroso, con la madera algo frágil y sin espinas. La viabilidad del polen es alta. La variedad es partenocárpica y autoincompatible');" +
+                                "INSERT INTO \"public\".\"varieties\" (id, name,description) VALUES ('2','Hernandina', 'Mutación de Clementina Fina originada en Picassent (Valencia). El árbol es vigoroso, con la madera algo frágil y sin espinas. La viabilidad del polen es alta. La variedad es partenocárpica y autoincompatible');" +
 //                        "INSERT INTO \"public\".\"varieties\" (id, name,description) VALUES ('3','Nave Late', 'Mutación de Washington originada en Australia. Árbol vigoroso, con alguna espina en las ramas de mayor vigor. Las flores carecen de polen y al igual que el resto de variedades del grupo navel, los frutos presentan ombligo.');" +
-                        "INSERT INTO \"public\".\"sequence_store\" VALUES('VARIETIES_PK',(SELECT MAX(id)+1 FROM \"public\".\"varieties\"));"
+                                "INSERT INTO \"public\".\"sequence_store\" VALUES('VARIETIES_PK',(SELECT MAX(id)+1 FROM \"public\".\"varieties\"));"
                 );
 
         queryVarieties.executeUpdate();

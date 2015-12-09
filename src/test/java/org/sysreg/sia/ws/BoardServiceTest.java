@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -11,7 +12,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.sysreg.sia.model.Board;
 import org.sysreg.sia.model.sensor.Sensor;
 import org.sysreg.sia.ws.service.BoardService;
-import sun.misc.FloatingDecimal;
 
 import java.util.Date;
 import java.util.List;
@@ -32,10 +32,16 @@ public class BoardServiceTest {
     @Autowired
     BoardService boardService;
 
+    @Value("${test.siarest.host}")
+    String siarestHost;
+
+    @Value("${test.siarest.port}")
+    String siarestPort;
+
     @Before
     public void setUp() {
-        boardService.setHost("localhost");
-        boardService.setPort(3000);
+        boardService.setHost(siarestHost);
+        boardService.setPort(Integer.parseInt(siarestPort));
     }
 
     @Test
@@ -75,7 +81,7 @@ public class BoardServiceTest {
             // if(timestamp is old) database updated [NORMAL CASE]
             if ((new Date().getTime() - sensor.getTimestamp().getTime()) / 1000 < 60) {
                 //using the quickest conversion function
-                assertEquals(sensor.getValue(), new FloatingDecimal(value).doubleValue(), 1e-15);
+                assertEquals(sensor.getValue(), value.doubleValue(), 1e-15);
             } else {
                 assertNotEquals(sensor.getTimestamp(), sensorUpdated.getTimestamp());
             }
@@ -84,7 +90,7 @@ public class BoardServiceTest {
             // Value recent --> not call Arduino
             value = boardService.getSensorValueForId(Integer.toHexString(boards.get(0).getId()), sensor.getCode());
             assertTrue((queryAgain.getTime() - sensorUpdated.getTimestamp().getTime()) / 1000 < 60);
-            assertEquals(sensorUpdated.getValue(), new FloatingDecimal(value).doubleValue(), 1e-10);
+            assertEquals(sensorUpdated.getValue(), value.doubleValue(), 1e-10);
         }
     }
 }
