@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -23,16 +24,21 @@ import static org.junit.Assert.assertTrue;
 @WebAppConfiguration
 @ContextConfiguration("file:src/main/webapp/WEB-INF/applicationContext.xml")
 public class RaspberryFacadeTest {
-
     @Autowired
     MockHttpServletRequest request;
 
     @Autowired
     ServerFacade raspberryFacade;
 
+    @Value("${test.siarest.host}")
+    String siarestHost;
+
+    @Value("${test.siarest.port}")
+    String siarestPort;
+
     @Before
     public void setUp() {
-        raspberryFacade.initConnection("localhost", 3000);
+        raspberryFacade.initConnection(siarestHost, Integer.parseInt(siarestPort));
     }
 
     @Test

@@ -13,6 +13,7 @@
         <intercept-url pattern="/accessdenied" access="permitAll" />
         <intercept-url pattern="/favicon.ico" access="permitAll" />
         <intercept-url pattern="/robots.txt" access="permitAll" />
+        <intercept-url pattern="/initialize" access="permitAll" />
         <intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
         <form-login login-page="/login"  default-target-url="/" authentication-failure-url="/accessdenied"/>
         <logout logout-success-url="/login" />

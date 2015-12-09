@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -12,7 +13,6 @@ import org.sysreg.sia.ws.client.dto.AlRegBoardDTO;
 import org.sysreg.sia.ws.client.dto.AlRegSensorDTO;
 import org.sysreg.sia.ws.client.impl.AlRegBoardWSClient;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -31,10 +31,16 @@ public class BoardWSTest {
     @Autowired
     AlRegBoardWSClient boardWSClient;
 
+    @Value("${test.siarest.host}")
+    String siarestHost;
+
+    @Value("${test.siarest.port}")
+    String siarestPort;
+
     @Before
     public void setUp() {
-        boardWSClient.setHost("localhost");
-        boardWSClient.setPort(3000);
+        boardWSClient.setHost(siarestHost);
+        boardWSClient.setPort(Integer.parseInt(siarestPort));
     }
 
     @Test

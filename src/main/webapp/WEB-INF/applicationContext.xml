@@ -1,13 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns:context="http://www.springframework.org/schema/context"
        xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns="http://www.springframework.org/schema/beans"
+       xmlns="http://www.springframework.org/schema/beans" xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-3.0.xsd
         http://www.springframework.org/schema/tx
-        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!-- Bean to define the files and read the properties programatically (Java properties) -->
+    <bean id="siaProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="locations">
+            <list>
+                <value>classpath:config/application.properties</value>
+                <value>classpath:config/test.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Bean for loading properties in Spring (XML and @Values)-->
+    <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+        <property name="properties" ref="siaProperties" />
+        <property name="ignoreResourceNotFound" value="true" />
+    </bean>
+
+
 
     <!-- Bean for the Entity Manager (via entityManagerFactory managed by the container) -->
     <bean id="entityManagerFactory"
@@ -20,9 +38,9 @@
         <property name="jpaProperties">
             <props>
                 <!--<prop key="hibernate.hbm2ddl.auto">create-drop</prop>-->
-                <!--<prop key="hibernate.hbm2ddl.auto">update</prop>-->
-                <!-- Workarround to get the IntelliJ Persistence Tool window working -->
-                <prop key="hibernate.connection.url">jdbc:postgresql://localhost:5432/sia_dev</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <!-- Workaround to get the IntelliJ Persistence Tool window working -->
+                <!--<prop key="hibernate.connection.url">jdbc:postgresql://localhost:5432/sia_dev</prop>-->
             </props>
         </property>
         <!-- Package where search the entities (@Entities). It allows to remove persistence.xml-->
@@ -32,14 +50,17 @@
     <!-- Data Souce: PostgreSQL -->
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
           destroy-method="close">
-        <property name="driverClassName" value="org.postgresql.Driver"/>
+        <property name="driverClassName" value="${jdbc.driverClassName}"/>
         <!-- RaspberryPi -->
         <!-- <property name="url" value="jdbc:postgresql://10.0.1.19:5432/sia_pru" />
         <property name="username" value="sia_app" />
         <property name="password" value="agricultura.1" />
         -->
-        <!-- Localhost -->
-        <property name="url" value="jdbc:postgresql://localhost:5432/sia_dev"/>
+        <!-- Read property from environment variable, if not is posible from properties -->
+        <property name="url"
+                  value="jdbc:postgresql://#{systemEnvironment['POSTGRES_PORT_5432_TCP_ADDR']?: '${jdbc.host}' }:#{systemEnvironment['POSTGRES_PORT_5432_TCP_PORT']?: '${jdbc.port}' }/${jdbc.schema}"/>
+        <property name="username" value="#{systemEnvironment['POSTGRES_USER']?: ${jdbc.username}}" />
+        <property name="password" value="#{systemEnvironment['POSTGRES_PASSWORD']?: ${jdbc.password}}" />
         <property name="initialSize" value="1"/>
         <property name="maxActive" value="20"/>
     </bean>
@@ -58,7 +79,7 @@
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 
-    <!-- Inject EntityManager with @PersistentConten -->
+    <!-- Inject EntityManager with @PersistentContent -->
     <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
 
     <!-- Manage SQL Exceptions -->
