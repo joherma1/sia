@@ -23,6 +23,18 @@ About the extensible architecture, it’s an aspect that covers all the system, 
 
 
 ### Alias
+```
 mvn test
 mvn integration-test
 mvn tomcat7:run
+```
+
+### Deploy
+```
+docker pull postgres
+docker build -t joherma1/sia .
+
+docker run -p 5432:5432 -e POSTGRES_PASSWORD=agricultura.1 -e POSTGRES_USER=sia --name postgres-sia -d postgres
+
+docker run -p 8080:8080 -e POSTGRES_PASSWORD=agricultura.1 -e POSTGRES_USER=sia -e POSTGRES_SCHEMA=sia --name sia --link postgres-sia:postgres -d joherma1/sia
+```
