@@ -29,7 +29,6 @@ ENV PG_VERSION 9.4.5-0+deb8u1
 #####################
 RUN apt-get update && \
     apt-get install -y postgresql-$PG_MAJOR && \
-    postgresql-contrib-$PG_MAJOR && \
     rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /var/run/postgresql && chown -R postgres /var/run/postgresql
