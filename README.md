@@ -30,6 +30,26 @@ mvn tomcat7:run
 ```
 
 ### Deploy
+#### RaspberryPi2
+```
+#JDK
+docker build -t joherma1/rpi-java:7-jdk deploy/java/Dockerfile
+#Database
+docker build -t joherma1/rpi-postgres deploy/postgres/Dockerfile
+#SIA
+docker build -t joherma1/rpi-sia .
+
+docker run -p 5432:5432 -e POSTGRES_PASSWORD=agricultura.1 -e POSTGRES_USER=sia --name postgres-sia -d joherma1/rpi-postgres
+
+docker run -p 8888:8080 -e POSTGRES_PASSWORD=agricultura.1 -e POSTGRES_USER=sia -e POSTGRES_SCHEMA=sia --name sia --link postgres-sia:postgres -d joherma1/rpi-sia
+
+
+docker run -p 8888:8080 -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_SCHEMA=postgres --name sia --link postgres-sia:postgres -d joherma1/rpi-sia
+#Remote database
+docker run -p 8888:8080 -e POSTGRES_PORT_5432_TCP_ADDR=10.0.1.34 -e POSTGRES_PORT_5432_TCP_PORT=5432 -e POSTGRES_PASSWORD=agricultura.1 -e POSTGRES_USER=sia -e POSTGRES_SCHEMA=sia --name sia -d joherma1/rpi-sia
+```
+
+#### x86_64
 ```
 docker pull postgres
 docker build -t joherma1/sia .
