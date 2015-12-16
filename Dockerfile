@@ -1,11 +1,10 @@
 FROM java:7-jdk
 
 RUN apt-get update && apt-get install -y \
-    git \
     maven
 
-RUN mkdir -p /opt/sia/src && \
-    git clone --depth=1 https://github.com/joherma1/sia.git /opt/sia/src
+COPY src /opt/sia/src
+COPY pom.xml /opt/sia/
 
 RUN cd /opt/sia/src && \
     mvn dependency:go-offline
