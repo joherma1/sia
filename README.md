@@ -23,6 +23,34 @@ About the extensible architecture, it’s an aspect that covers all the system, 
 
 
 ### Alias
+```
 mvn test
 mvn integration-test
 mvn tomcat7:run
+```
+
+### Deploy
+#### RaspberryPi2
+```
+#JDK
+docker build -t joherma1/rpi-java:7-jdk deploy/java/Dockerfile
+#Database
+cd deploy/postgres/
+docker build -t joherma1/rpi-postgres .
+#SIA
+docker build -t joherma1/rpi-sia .
+
+docker run -p 5432:5432 -e POSTGRES_PASSWORD=agricultura.1 -e POSTGRES_USER=sia --name postgres-sia -d joherma1/rpi-postgres
+
+docker run -p 8888:8080 -e POSTGRES_PASSWORD=agricultura.1 -e POSTGRES_USER=sia -e POSTGRES_SCHEMA=sia --name sia --link postgres-sia:postgres -d joherma1/rpi-sia
+```
+
+#### x86_64
+```
+docker pull postgres
+docker build -t joherma1/sia .
+
+docker run -p 5432:5432 -e POSTGRES_PASSWORD=agricultura.1 -e POSTGRES_USER=sia --name postgres-sia -d postgres
+
+docker run -p 8080:8080 -e POSTGRES_PASSWORD=agricultura.1 -e POSTGRES_USER=sia -e POSTGRES_SCHEMA=sia --name sia --link postgres-sia:postgres -d joherma1/sia
+```
