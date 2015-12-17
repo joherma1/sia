@@ -4,9 +4,32 @@
 	<groupId>org.sysreg</groupId>
 	<artifactId>sia</artifactId>
 	<packaging>war</packaging>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.4.1-SNAPSHOT</version>
+
 	<name>sia Maven Webapp</name>
-	<url>http://maven.apache.org</url>
+	<url>https://github.com/joherma1/sia</url>
+    <licenses>
+        <license>
+            <name>GNU General Public License v3</name>
+            <url>http://www.gnu.org/licenses/gpl-3.0.en.html</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <id>joherma1</id>
+            <name>Jose Antonio Hernandez Martinez</name>
+            <email>joherma1@gmail.com</email>
+            <url>https://github.com/joherma1</url>
+            <organization>sia-sysreg</organization>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+    </developers>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- Spring -->
@@ -14,6 +37,7 @@
         <!--  <org.springframework.version>3.2.4.RELEASE</org.springframework.version>  -->
         <org.springframework.version>3.2.6.RELEASE</org.springframework.version>
     </properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -141,13 +165,15 @@
 			<version>${org.springframework.version}</version>
 		</dependency>
     </dependencies>
-	<build>
+
+    <build>
 		<finalName>sia</finalName>
 		<plugins>
+            <!-- Configure the maven compiler plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
+				<version>2.3.2</version> <!-- TODO update version >3.3 -->
 				<configuration>
 					<source>1.7</source>
 					<target>1.7</target>
