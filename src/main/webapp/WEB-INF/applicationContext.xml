@@ -14,6 +14,7 @@
         <property name="locations">
             <list>
                 <value>classpath:config/application.properties</value>
+                <!-- TODO move test properties to test resources -->
                 <value>classpath:config/test.properties</value>
             </list>
         </property>

@@ -26,23 +26,29 @@ About the extensible architecture, it’s an aspect that covers all the system, 
 ```
 mvn test
 mvn integration-test
+mvn install
 mvn tomcat7:run
+#Initialize
+mvn exec:java -Dexec.mainClass=org.sysreg.sia.model.InitializeDatabase
 ```
 
 ### Deploy
 #### RaspberryPi2
 ```
 #JDK
-docker build -t joherma1/rpi-java:7-jdk deploy/java/Dockerfile
+docker build -t joherma1/rpi-java:7-jdk deploy/java/.
 #Database
-cd deploy/postgres/
-docker build -t joherma1/rpi-postgres .
+docker build -t joherma1/rpi-postgres deploy/postgres/.
 #SIA
 docker build -t joherma1/rpi-sia .
 
 docker run -p 5432:5432 -e POSTGRES_PASSWORD=agricultura.1 -e POSTGRES_USER=sia --name postgres-sia -d joherma1/rpi-postgres
 
 docker run -p 8888:8080 -e POSTGRES_PASSWORD=agricultura.1 -e POSTGRES_USER=sia -e POSTGRES_SCHEMA=sia --name sia --link postgres-sia:postgres -d joherma1/rpi-sia
+
+#Test SIA image
+docker run -i --link postgres_sia_test:postgres --rm -e POSTGRES_PASSWORD=agricultura.1 -e POSTGRES_USER=sia -e POSTGRES_SCHEMA=sia joherma1/rpi-sia /bin/bash -c 'cd /opt/sia; mvn exec:java -Dexec.mainClass=org.sysreg.sia.model.InitializeDatabase'
+docker run -i --link postgres_sia_test:postgres --rm -e POSTGRES_PASSWORD=agricultura.1 -e POSTGRES_USER=sia -e POSTGRES_SCHEMA=sia joherma1/rpi-sia /bin/bash -c 'cd /opt/sia; mvn integration-test'
 ```
 
 #### x86_64
@@ -53,4 +59,7 @@ docker build -t joherma1/sia .
 docker run -p 5432:5432 -e POSTGRES_PASSWORD=agricultura.1 -e POSTGRES_USER=sia --name postgres-sia -d postgres
 
 docker run -p 8080:8080 -e POSTGRES_PASSWORD=agricultura.1 -e POSTGRES_USER=sia -e POSTGRES_SCHEMA=sia --name sia --link postgres-sia:postgres -d joherma1/sia
+#Test SIA image
+docker run -i --link postgres_sia_test:postgres --rm -e POSTGRES_PASSWORD=agricultura.1 -e POSTGRES_USER=sia -e POSTGRES_SCHEMA=sia joherma1/rpi-sia /bin/bash -c 'cd /opt/sia; mvn exec:java -Dexec.mainClass=org.sysreg.sia.model.InitializeDatabase'
+docker run -i --link postgres_sia_test:postgres --rm -e POSTGRES_PASSWORD=agricultura.1 -e POSTGRES_USER=sia -e POSTGRES_SCHEMA=sia joherma1/rpi-sia /bin/bash -c 'cd /opt/sia; mvn integration-test'
 ```
