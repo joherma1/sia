@@ -1,5 +1,8 @@
 # sia
-##Agricultural Information System
+## Agricultural Information System
+
+* [`0.4.1`, `latest` (Dockerfile)](https://github.com/joherma1/sia/blob/master/deploy/Dockerfile)
+
 SIA is an open Agricultural Information System.
 
 Its objective is to bring to the agricultural world 3 main things:
@@ -62,4 +65,18 @@ docker run -p 8080:8080 -e POSTGRES_PASSWORD=agricultura.1 -e POSTGRES_USER=sia 
 #Test SIA image
 docker run -i --link postgres_sia_test:postgres --rm -e POSTGRES_PASSWORD=agricultura.1 -e POSTGRES_USER=sia -e POSTGRES_SCHEMA=sia joherma1/rpi-sia /bin/bash -c 'cd /opt/sia; mvn exec:java -Dexec.mainClass=org.sysreg.sia.model.InitializeDatabase'
 docker run -i --link postgres_sia_test:postgres --rm -e POSTGRES_PASSWORD=agricultura.1 -e POSTGRES_USER=sia -e POSTGRES_SCHEMA=sia joherma1/rpi-sia /bin/bash -c 'cd /opt/sia; mvn integration-test'
+```
+
+
+![PostgreSQL](https://raw.githubusercontent.com/docker-library/docs/master/postgres/logo.png "PostgreSQL")
+How to use this image start a postgres instance
+```
+docker run -p 5432:5432 -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres --name postgres-arm -d postgres
+```
+
+
+
+Usage:
+```
+docker run -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_SCHEMA=postgres --link postgres:postgres -d you_app
 ```
