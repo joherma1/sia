@@ -54,7 +54,9 @@ public class SensorsController {
 
         ServerFacade serverFacade = serverFacadeObjectFactory.getObject();
         if (serverData != null) {
-            serverFacade.initConnection(serverData.getHost(), serverData.getPort());
+            //TODO
+            serverFacade.initConnection(serverData.getHost(), serverData.getPort(),
+                    serverData.getUsername(), serverData.getPassword());
             SensorDTO sensorDTO = serverFacade.getSensorValue(boardId, sensorId);
             logger.debug("getSensor(" + boardId + ", " + sensorId + ") received. New value: " + sensorDTO.getValue());
             return sensorDTO.getValue();

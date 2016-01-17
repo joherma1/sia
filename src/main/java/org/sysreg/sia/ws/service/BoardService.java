@@ -17,6 +17,14 @@ public interface BoardService {
     int getPort();
 
     void setPort(int port);
+    
+    String getUsername();
+    
+    void setUsername(String username);
+    
+    String getPassword();
+    
+    void setPassword(String password);
 
     List<Board> getBoards();
 

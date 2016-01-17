@@ -36,11 +36,19 @@ public class BoardWSTest {
 
     @Value("${test.siarest.port}")
     String siarestPort;
+    
+    @Value("${test.siarest.username}")
+    String siarestUsername;
+
+    @Value("${test.siarest.password}")
+    String siarestPassword;
 
     @Before
     public void setUp() {
         boardWSClient.setHost(siarestHost);
         boardWSClient.setPort(Integer.parseInt(siarestPort));
+        boardWSClient.setUsername(siarestUsername);
+        boardWSClient.setPassword(siarestPassword);
     }
 
     @Test

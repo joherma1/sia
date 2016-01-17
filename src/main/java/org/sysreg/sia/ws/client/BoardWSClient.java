@@ -17,6 +17,15 @@ public interface BoardWSClient {
     String getHost();
 
     void setHost(String host);
+    
+    //TODO define authentication Object-> Type, user, password, ids....
+    String getUsername();
+    
+    void setUsername(String username);
+    
+    String getPassword();
+    
+    void setPassword(String password);
 
     List<AlRegBoardDTO> getBoards();
 

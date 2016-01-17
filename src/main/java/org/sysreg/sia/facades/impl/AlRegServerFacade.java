@@ -28,9 +28,11 @@ public class AlRegServerFacade implements ServerFacade {
     }
 
     @Override
-    public void initConnection(String host, int port) {
+    public void initConnection(String host, int port, String username, String password) {
         boardService.setHost(host);
         boardService.setPort(port);
+        boardService.setUsername(username);
+        boardService.setPassword(password);
     }
 
     @Override

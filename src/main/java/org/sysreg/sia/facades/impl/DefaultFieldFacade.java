@@ -92,6 +92,8 @@ public class DefaultFieldFacade implements FieldFacade {
             ServerInfoDTO serverInfoData = new ServerInfoDTO();
             serverInfoData.setHost(server.getIp());
             serverInfoData.setPort(server.getPort());
+            serverInfoData.setUsername(server.getUsername());
+            serverInfoData.setPassword(server.getPassword());
             serverInfoData.setDescription(server.getDescription());
             serversInfoData.add(serverInfoData);
         }
@@ -105,6 +107,8 @@ public class DefaultFieldFacade implements FieldFacade {
             ServerInfoDTO serverInfoData = new ServerInfoDTO();
             serverInfoData.setHost(server.getIp());
             serverInfoData.setPort(server.getPort());
+            serverInfoData.setUsername(server.getUsername());
+            serverInfoData.setPassword(server.getPassword());
             serverInfoData.setDescription(server.getDescription());
             return serverInfoData;
         }catch (Exception e){

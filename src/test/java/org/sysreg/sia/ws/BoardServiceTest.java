@@ -38,10 +38,19 @@ public class BoardServiceTest {
     @Value("${test.siarest.port}")
     String siarestPort;
 
+    @Value("${test.siarest.username}")
+    String siarestUsername;
+
+    @Value("${test.siarest.password}")
+    String siarestPassword;
+
+
     @Before
     public void setUp() {
         boardService.setHost(siarestHost);
         boardService.setPort(Integer.parseInt(siarestPort));
+        boardService.setUsername(siarestUsername);
+        boardService.setPassword(siarestPassword);
     }
 
     @Test

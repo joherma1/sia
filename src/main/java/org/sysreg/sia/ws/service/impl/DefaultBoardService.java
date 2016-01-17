@@ -14,6 +14,7 @@ import java.util.*;
  */
 public class DefaultBoardService implements BoardService {
 
+    //TODO Should it call the Interface   private boardWSClient boardWSClient;??
     private AlRegBoardWSClient boardWSClient;
 
     public String getHost() {
@@ -32,6 +33,26 @@ public class DefaultBoardService implements BoardService {
         this.boardWSClient.setPort(port);
     }
 
+    @Override
+    public String getUsername() {
+        return boardWSClient.getUsername();
+    }
+
+    @Override
+    public void setUsername(String username) {
+        boardWSClient.setUsername(username);
+    }
+
+    @Override
+    public String getPassword() {
+        return boardWSClient.getPassword();
+    }
+
+    @Override
+    public void setPassword(String password) {
+        boardWSClient.setPassword(password);
+    }
+
     public AlRegBoardWSClient getBoardWSClient() {
         return boardWSClient;
     }
@@ -43,9 +64,11 @@ public class DefaultBoardService implements BoardService {
     public DefaultBoardService() {
     }
 
-    public DefaultBoardService(String host, int port) {
+    public DefaultBoardService(String host, int port, String username, String password) {
         this.setHost(host);
         this.setPort(port);
+        this.setUsername(username);
+        this.setPassword(password);
     }
 
     @Override

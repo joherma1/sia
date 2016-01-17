@@ -51,7 +51,13 @@ public class DefaultActuatorDAOIntegrationTest {
 
     @Value("${test.siarest.port}")
     String siarestPort;
-
+    
+    @Value("${test.siarest.username}")
+    String siarestUsername;
+    
+    @Value("${test.siarest.password}")
+    String siarestPassword;
+    
     @Test
     public void testCreation() {
         ArrayList<Actuator> actuators = new ArrayList<Actuator>();
@@ -95,7 +101,7 @@ public class DefaultActuatorDAOIntegrationTest {
         e1.setIrrigationCoef(100);
         e1.setSlope(0F);
         //Server
-        Server s1 = new Server(siarestHost, Integer.parseInt(siarestPort));
+        Server s1 = new Server(siarestHost, Integer.parseInt(siarestPort), siarestUsername, siarestPassword);
         //Board
         Board b1 = new Board(2222, "USB", "/dev/cu.usbmodem1411", "Test board");
         //Set relations

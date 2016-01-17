@@ -44,13 +44,17 @@ public class DashboardController {
                 ServerDTO serverData = new ServerDTO();
                 serverData.setHost(server.getHost());
                 serverData.setPort(server.getPort());
+                serverData.setUsername(server.getUsername());
+                serverData.setPassword(server.getPassword());
                 serverData.setDescription(server.getDescription());
                 // The boards are created as prototype, we could have n boards
                 // Every time we invoque the request, a new Facade is created
                 //TODO
                 // Is this accomplished simply with scope="request"? is this necessary?
                 ServerFacade serverFacade = serverFacadeObjectFactory.getObject();
-                serverFacade.initConnection(serverData.getHost(), serverData.getPort());
+                //TODO
+                serverFacade.initConnection(serverData.getHost(), serverData.getPort(), 
+                        serverData.getUsername(), serverData.getPassword());
                 serverData.setBoards(serverFacade.getBoards());
                 serversData.add(serverData);
             }

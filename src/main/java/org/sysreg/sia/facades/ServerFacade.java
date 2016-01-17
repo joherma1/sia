@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface ServerFacade {
 
-    void initConnection(String host, int port);
+    void initConnection(String host, int port, String username, String password);
 
     String getHost();
 

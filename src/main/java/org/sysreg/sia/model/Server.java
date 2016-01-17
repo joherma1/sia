@@ -23,6 +23,12 @@ public class Server {
     private int port;
 
     @Column
+    private String username;
+
+    @Column
+    private String password;
+    
+    @Column
     private String description;
 
     @ManyToOne
@@ -79,17 +85,37 @@ public class Server {
         this.boards = boards;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public Server() {
     }
 
-    public Server(String ip, int port) {
+    public Server(String ip, int port, String username, String password) {
         this.ip = ip;
         this.port = port;
+        this.username = username;
+        this.password = password;
     }
 
-    public Server(String ip, int port, String description) {
+    public Server(String ip, int port, String username, String password, String description) {
         this.ip = ip;
         this.port = port;
+        this.username = username;
+        this.password = password;
         this.description = description;
     }
 }

@@ -35,10 +35,17 @@ public class RaspberryFacadeTest {
 
     @Value("${test.siarest.port}")
     String siarestPort;
+    
+    @Value("${test.siarest.username}")
+    String siarestUsername;
+
+    @Value("${test.siarest.password}")
+    String siarestPassword;
 
     @Before
     public void setUp() {
-        raspberryFacade.initConnection(siarestHost, Integer.parseInt(siarestPort));
+        raspberryFacade.initConnection(siarestHost, Integer.parseInt(siarestPort),
+                siarestUsername, siarestPassword);
     }
 
     @Test

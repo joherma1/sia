@@ -840,8 +840,12 @@ public class AdminController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        servers.add(new Server(props.getProperty("default.siarest.host"),Integer.parseInt(props.getProperty("default.siarest.port"))));
-        servers.add(new Server(props.getProperty("default.siarest.host"),Integer.parseInt(props.getProperty("default.siarest.port"))));
+        servers.add(new Server(props.getProperty("default.siarest.host"),
+                Integer.parseInt(props.getProperty("default.siarest.port")),
+                props.getProperty("default.siarest.username"), props.getProperty("default.siarest.password")));
+        servers.add(new Server(props.getProperty("default.siarest.host"),
+                Integer.parseInt(props.getProperty("default.siarest.port")),
+                props.getProperty("default.siarest.username"), props.getProperty("default.siarest.password")));
 
         //Boards
         ArrayList<Board> boards =  new ArrayList<>();
