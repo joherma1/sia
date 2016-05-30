@@ -47,7 +47,6 @@ public class DefaultAuthorityDAOIntegrationTest {
         Authority a2 = new Authority();
         a2.setName(nameRole);
         AuthorityDAO.persist(a2);
-
         entityManager.flush();
     }
 
