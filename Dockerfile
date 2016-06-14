@@ -1,1 +1,1 @@
-deploy/x86/Dockerfile
+deploy/Dockerfile
