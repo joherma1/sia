@@ -1,0 +1,19 @@
+db:
+  image: 'postgres:latest'
+  environment:
+    - POSTGRES_PASSWORD=agricultura.1
+    - POSTGRES_USER=sia
+  ports:
+    - '5432:5432'
+sia:
+  image: 'joherma1/sia:0.5'
+  environment:
+    - POSTGRES_PASSWORD=agricultura.1
+    - POSTGRES_SCHEMA=sia
+    - POSTGRES_USER=sia
+  links:
+    - 'db:postgres'
+  ports:
+    - '8080:8080'
+  roles:
+    - global

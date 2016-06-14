@@ -1,5 +1,6 @@
 # vim:set ft=dockerfile:
 FROM resin/raspberrypi2-debian
+#FROM resin/armv7hf-debian
 
 # explicitly set user/group IDs
 RUN groupadd -r postgres --gid=999 && useradd -r -g postgres --uid=999 postgres
